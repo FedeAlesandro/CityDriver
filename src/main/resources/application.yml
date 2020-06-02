@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/car_drive
+    username: root
+    password:
+  jpa:
+    hibernate:
+      format_sql: true
+    show-sql: true
+
