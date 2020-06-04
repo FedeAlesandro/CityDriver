@@ -36,7 +36,6 @@ public class Categories_vehicles {
     private String name;
 
     private Double commission;
-    private Boolean available=true;
 
     @OneToMany(mappedBy = "category_vehicles")
     private List<Vehicle> vehicles = new ArrayList<>();

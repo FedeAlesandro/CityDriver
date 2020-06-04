@@ -39,8 +39,8 @@ public class Vehicle {
     @Column(name="cant_place")
     private Integer cantPlace;
 
-    @Column(columnDefinition = "boolean default true")
-    private Boolean available = Boolean.TRUE;
+
+    private Boolean available;
 
     @Enumerated(EnumType.STRING)
     private Colors color;
