@@ -33,7 +33,7 @@ public class BrandController {
     }
     @PostMapping("/")
     public ResponseEntity<Brand> save(@RequestBody Brand brand){
-        return ResponseEntity.status(HttpStatus.CREATED).body(brandService.save(brand));
+        return ResponseEntity.ok(brandService.save(brand));
     }
 
     @PutMapping("/{id}")
