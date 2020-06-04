@@ -1,7 +1,7 @@
 package net.avalith.carDriver.controllers;
 
-import net.avalith.carDriver.models.Provider;
-import net.avalith.carDriver.services.ProviderService;
+import net.avalith.carDriver.models.Brand;
+import net.avalith.carDriver.services.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,39 +14,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/providers")
-public class ProviderController {
+@RequestMapping("/brands")
+public class BrandController {
 
     @Autowired
-    private ProviderService pr;
+    private BrandService brandService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Provider>>getAll(){
-        List<Provider> listProviders = pr.getAll();
-        if (listProviders.isEmpty()){
+    public ResponseEntity<List<Brand>> getAll(){
+        List<Brand> listBrands = brandService.getAll();
+        if (listBrands.isEmpty()){
             return ResponseEntity.noContent().build();
         }else
-            return ResponseEntity.ok(listProviders);
+            return ResponseEntity.ok(listBrands);
     }
-
     @PostMapping("/")
-    public ResponseEntity<Provider> save(@RequestBody Provider provider){
-        return ResponseEntity.status(HttpStatus.CREATED).body(pr.save(provider));
+    public ResponseEntity<Brand> save(@RequestBody Brand brand){
+        return ResponseEntity.ok(brandService.save(brand));
     }
 
     @PutMapping("/{id}")
-    public Provider update(@PathVariable("id") Long id, @RequestBody Provider provider){
-        return pr.update(id, provider);
+    public ResponseEntity<Brand> update(@PathVariable("id") Long id, @RequestBody Brand brand){
+        return ResponseEntity.status(HttpStatus.CREATED).body(brandService.update(id,brand));
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
-       pr.deleteProvider(id);
-       return new ResponseEntity<Void>(HttpStatus.OK);
+        brandService.deleteBrand(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
-
 }
