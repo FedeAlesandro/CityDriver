@@ -6,7 +6,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +36,11 @@ public class Vehicle {
     @Column(unique = true)
     private String domain;
 
-    private Integer cant_place;
+    @Column(name="cant_place")
+    private Integer cantPlace;
 
     @Column(columnDefinition = "boolean default true")
-    private Boolean available=true;
+    private Boolean available = Boolean.TRUE;
 
     @Enumerated(EnumType.STRING)
     private Colors color;
@@ -42,8 +55,12 @@ public class Vehicle {
     @JsonIgnore
     private Providers provider;
 
-    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
-    private List<Categories_vehicles> category_vehicles = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "category_vehicles_id")
+    @JsonIgnore
+    private Categories_vehicles category_vehicles;
+
+
 
 
 }

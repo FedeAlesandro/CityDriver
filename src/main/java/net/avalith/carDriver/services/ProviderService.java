@@ -14,37 +14,26 @@ public class ProviderService {
     @Autowired
     ProviderRepository providerRepository;
 
-    public ProviderService(ProviderRepository providerRepository) {
-        this.providerRepository = providerRepository;
+    public void deleteProvider(Long id){
+        providerRepository.findById(id)
+                .orElseThrow(RuntimeException::new);//toDo create exception custom
+        providerRepository.deleteById(id);
     }
 
-    public Providers save(Providers providers){
-       return providerRepository.save(providers);
+    public Providers update(Long id, Providers providers){
+        Providers providers1= providerRepository.findById(id)
+            .orElseThrow(RuntimeException::new);// toDo create exception custom
+        providers1.setName(providers.getName());
+        return  providerRepository.save(providers1);
     }
-
-    public Optional<Providers> findById(Long id){
-        return this.providerRepository.findById(id);
-    }
-    public List<Providers> getall(){
+    public List<Providers> getAll(){
         return providerRepository.findAll();
     }
-
-    public Boolean deleteProvider(Long id){
-        Boolean rpta = false;
-        if(!providerRepository.findById(id).isPresent()){
-            providerRepository.deleteById(id);
-            rpta = true;
-        }
-        return rpta;
+    public Providers save(Providers providers){
+        return providerRepository.save(providers);
     }
 
-    public  Providers update(Providers providers){
-        Providers providers1;
-        providers1 = providerRepository.findByName(providers.getName());
-        if (providers1==null){
-            providers1.setName(providers.getName());
-            providerRepository.save(providers1);
-        }
-        return providers1;
-    }
+
+
+
 }
