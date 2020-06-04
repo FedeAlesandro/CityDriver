@@ -36,6 +36,5 @@ public class User {
 
     @OneToOne
     @JoinColumn(name = "id_license")
-    @Column(name = "id_license")
     private License license;
 }
