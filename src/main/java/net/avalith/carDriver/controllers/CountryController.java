@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ public class CountryController {
     private CountryService countryService;
 
     @PostMapping("/")
-    public ResponseEntity<Country> save(Country country){
+    public ResponseEntity<Country> save(@RequestBody Country country){
         return ResponseEntity.ok(countryService.save(country));
     }
 

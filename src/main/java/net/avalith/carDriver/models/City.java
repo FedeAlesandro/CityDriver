@@ -32,6 +32,5 @@ public class City {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_country", referencedColumnName = "id_country")
-    @JsonIgnore
     private Country country;
 }
