@@ -1,12 +1,11 @@
 package net.avalith.carDriver.services;
 
-import net.avalith.carDriver.models.Providers;
+import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.repositories.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProviderService {
@@ -20,17 +19,17 @@ public class ProviderService {
         providerRepository.deleteById(id);
     }
 
-    public Providers update(Long id, Providers providers){
-        Providers providers1= providerRepository.findById(id)
+    public Provider update(Long id, Provider provider){
+        Provider provider1 = providerRepository.findById(id)
             .orElseThrow(RuntimeException::new);// toDo create exception custom
-        providers1.setName(providers.getName());
-        return  providerRepository.save(providers1);
+        provider1.setName(provider.getName());
+        return  providerRepository.save(provider1);
     }
-    public List<Providers> getAll(){
+    public List<Provider> getAll(){
         return providerRepository.findAll();
     }
-    public Providers save(Providers providers){
-        return providerRepository.save(providers);
+    public Provider save(Provider provider){
+        return providerRepository.save(provider);
     }
 
 
