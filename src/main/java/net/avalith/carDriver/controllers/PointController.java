@@ -1,7 +1,7 @@
 package net.avalith.carDriver.controllers;
 
-import net.avalith.carDriver.models.Parking;
-import net.avalith.carDriver.services.ParkingService;
+import net.avalith.carDriver.models.Point;
+import net.avalith.carDriver.services.PointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,23 +13,23 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/parkings")
-public class ParkingController {
+@RequestMapping("/points")
+public class PointController {
 
     @Autowired
-    private ParkingService parkingService;
+    private PointService pointService;
 
     @PostMapping("/")
-    public ResponseEntity<Parking> save(@RequestBody Parking parking){
-        return ResponseEntity.ok(parkingService.save(parking));
+    public ResponseEntity<Point> save(@RequestBody Point point){
+        return ResponseEntity.ok(pointService.save(point));
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Parking>> getAll(){
-        List<Parking>parkings = parkingService.getAll();
-        if (parkings.isEmpty())
+    public ResponseEntity<List<Point>> getAll(){
+        List<Point> points = pointService.getAll();
+        if (points.isEmpty())
             return ResponseEntity.noContent().build();
         else
-            return ResponseEntity.ok(parkings);
+            return ResponseEntity.ok(points);
     }
 }

@@ -1,9 +1,9 @@
 package net.avalith.carDriver.repositories;
 
-import net.avalith.carDriver.models.Parking;
+import net.avalith.carDriver.models.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ParkingRepository extends JpaRepository<Parking, Long> {
+public interface PointRepository extends JpaRepository<Point, Long> {
 }

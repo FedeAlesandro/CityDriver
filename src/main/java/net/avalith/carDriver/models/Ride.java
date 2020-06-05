@@ -38,14 +38,14 @@ public class Ride {
     private Vehicle vehicle;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_airport", referencedColumnName = "id_airport")
+    @JoinColumn(name = "id_origin_point", referencedColumnName = "id_point")
     @JsonIgnore
-    private Airport airport;
+    private Point originPoint;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_parking", referencedColumnName = "id_parking")
+    @JoinColumn(name = "id_destination_point", referencedColumnName = "id_point")
     @JsonIgnore
-    private Parking parking;
+    private Point destinationPoint;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_tariff", referencedColumnName = "id_tariff")

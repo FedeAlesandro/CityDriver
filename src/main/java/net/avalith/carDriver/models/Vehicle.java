@@ -57,6 +57,4 @@ public class Vehicle {
     private Categories_vehicles category_vehicles;
 
 
-
-
 }
