@@ -35,5 +35,5 @@ public class Tariff {
     @ManyToOne
     @JoinColumn(name = "category_vehicles_id")
     @JsonIgnore
-    private CategoriesVehicles categories_vehicles;
+    private CategoryVehicles categories_vehicles;
 }
