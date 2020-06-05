@@ -28,7 +28,7 @@ public class Tariff {
     private Long id;
 
     @Column(unique = true)
-    private String time_tarif;
+    private String time_tariff;
 
     private Double price;
 
