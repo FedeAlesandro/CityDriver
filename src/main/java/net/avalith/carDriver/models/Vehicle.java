@@ -32,10 +32,6 @@ public class Vehicle {
     @Column(unique = true)
     private String domain;
 
-    @Column(name="cant_place")
-    private Integer cantPlace;
-
-
     private Boolean available;
 
     @Enumerated(EnumType.STRING)
@@ -54,7 +50,7 @@ public class Vehicle {
     @ManyToOne
     @JoinColumn(name = "category_vehicles_id")
     @JsonIgnore
-    private Categories_vehicles category_vehicles;
+    private CategoryVehicles category_vehicles;
 
 
 

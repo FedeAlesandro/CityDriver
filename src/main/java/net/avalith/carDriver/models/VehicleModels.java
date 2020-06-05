@@ -1,13 +1,12 @@
 package net.avalith.carDriver.models;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,19 +14,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Data
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "category_vehicles")
-public class Categories_vehicles {
-
+@Table(name = "vehicle_models")
+public class VehicleModels {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,11 +31,15 @@ public class Categories_vehicles {
     @Column(unique = true)
     private String name;
 
-    private Double commission;
+    @Column(name="cant_place")
+    private Integer cantPlace;
 
-    @OneToMany(mappedBy = "category_vehicles")
-    private List<Vehicle> vehicles = new ArrayList<>();
+    @Column(name="is_automatic")
+    private Boolean isAutomatic=false;
 
-    @OneToMany(mappedBy = "categories_vehicles", cascade = CascadeType.ALL)
-    private List<Tariff> tariffs = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    @JsonIgnore
+    private Brand brand;
+
 }
