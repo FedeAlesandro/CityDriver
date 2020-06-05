@@ -26,7 +26,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "category_vehicles")
-public class Categories_vehicles {
+public class CategoriesVehicles {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -32,5 +32,5 @@ public class Brand {
     private String name;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
-    private List<Vehicle_Models> vehicles_models = new ArrayList<>();
+    private List<VehicleModels> vehicles_models = new ArrayList<>();
 }

@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "vehicle_models")
-public class Vehicle_Models {
+public class VehicleModels {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,8 +31,11 @@ public class Vehicle_Models {
     @Column(unique = true)
     private String name;
 
-    private Integer cant_place;
-    private Boolean is_Automatic=false;
+    @Column(name="cant_place")
+    private Integer cantPlace;
+
+    @Column(name="is_automatic")
+    private Boolean isAutomatic=false;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
