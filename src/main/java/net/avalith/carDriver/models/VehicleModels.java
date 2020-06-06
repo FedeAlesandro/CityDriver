@@ -35,11 +35,10 @@ public class VehicleModels {
     private Integer cantPlace;
 
     @Column(name = "is_automatic")
-    private Boolean isAutomatic=false;
+    private Boolean isAutomatic;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
     @JsonIgnore
     private Brand brand;
-
 }
