@@ -1,7 +1,7 @@
 package net.avalith.carDriver.services;
 
 import net.avalith.carDriver.models.CategoryVehicles;
-import net.avalith.carDriver.models.DTOS.Request.VehicleDTO;
+import net.avalith.carDriver.models.dtos.requests.VehicleDTO;
 import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.models.Vehicle;
 import net.avalith.carDriver.models.VehicleModels;

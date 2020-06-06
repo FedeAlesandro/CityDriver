@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.enums.Colors;
-import net.avalith.carDriver.models.DTOS.Request.VehicleDTO;
+import net.avalith.carDriver.models.dtos.requests.VehicleDTO;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
