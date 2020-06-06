@@ -1,12 +1,12 @@
 package net.avalith.carDriver.repositories;
 
-import net.avalith.carDriver.models.VehicleModels;
+import net.avalith.carDriver.models.CategoryVehicles;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface VehicleModelRepository extends JpaRepository<VehicleModels,Long> {
-    Optional<VehicleModels> findByName(String name);
+public interface CategoryVehicleRepository extends JpaRepository<CategoryVehicles,Long> {
+    Optional<CategoryVehicles> findByName(String name);
 }
