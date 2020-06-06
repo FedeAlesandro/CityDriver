@@ -55,7 +55,7 @@ public class Vehicle {
     @ManyToOne
     @JoinColumn(name = "category_vehicles_id")
     @JsonIgnore
-    private Categories_vehicles category_vehicles;
+    private CategoryVehicles category_vehicles;
 
 
 }
