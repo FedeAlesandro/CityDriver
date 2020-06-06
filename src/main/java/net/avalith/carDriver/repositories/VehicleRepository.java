@@ -4,7 +4,9 @@ import net.avalith.carDriver.models.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.Optional;
+
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
+    Optional<Vehicle>findByDomain(String domain);
 }

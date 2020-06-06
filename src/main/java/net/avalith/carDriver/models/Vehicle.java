@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.avalith.carDriver.models.enums.Colors;
 import net.avalith.carDriver.models.DTOS.Request.VehicleDTO;
-
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,22 +38,21 @@ public class Vehicle {
     @Enumerated(EnumType.STRING)
     private Colors color;
 
-
     @ManyToOne
     @JoinColumn(name = "provider_id")
     @JsonIgnore
     private Provider provider;
-
+  
     @ManyToOne
     @JoinColumn(name = "vehicle_model_id")
     @JsonIgnore
     private VehicleModels vehicleModels;
 
     @ManyToOne
-    @JoinColumn(name = "category_vehicles_id")
+    @JoinColumn(name = "vehicle_model_id")
     @JsonIgnore
     private CategoryVehicles category_vehicles;
-
+    
     public static Vehicle vehicleFromVehicleDTO(VehicleDTO vehicleDTO, Provider provider, VehicleModels vehicleModels, CategoryVehicles category_vehicles){
         Vehicle vehicle = new Vehicle();
         vehicle.setDomain(vehicleDTO.getDomain());
@@ -64,6 +63,4 @@ public class Vehicle {
         vehicle.setVehicleModels(vehicleModels);
         return vehicle;
     }
-
-
 }

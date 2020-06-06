@@ -1,8 +1,11 @@
 package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.User;
+import net.avalith.carDriver.models.dtos.requests.UserDtoRequest;
+import net.avalith.carDriver.models.dtos.responses.UserDtoResponse;
 import net.avalith.carDriver.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -20,16 +24,22 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/")
-    public ResponseEntity<User> save(@RequestBody User user){
-        return ResponseEntity.ok(userService.save(user));
+    public ResponseEntity<UserDtoRequest> save(@RequestBody UserDtoRequest user){
+        User userAux = userService.save(user);
+        UserDtoRequest userDto = new UserDtoRequest(userAux);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> getAll(){
+    public ResponseEntity<List<UserDtoResponse>> getAll(){
         List<User> users = userService.getAll();
         if(users.isEmpty())
             return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.ok(users);
+        else{
+            List<UserDtoResponse>userResponses = users.stream()
+                    .map(UserDtoResponse::new)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(userResponses);
+        }
     }
 }

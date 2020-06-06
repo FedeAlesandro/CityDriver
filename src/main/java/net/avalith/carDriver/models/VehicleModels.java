@@ -31,15 +31,14 @@ public class VehicleModels {
     @Column(unique = true)
     private String name;
 
-    @Column(name="cant_place")
+    @Column(name = "cant_place")
     private Integer cantPlace;
 
-    @Column(name="is_automatic")
-    private Boolean isAutomatic=false;
+    @Column(name = "is_automatic")
+    private Boolean isAutomatic;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
     @JsonIgnore
     private Brand brand;
-
 }

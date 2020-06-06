@@ -2,8 +2,10 @@ package net.avalith.carDriver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.avalith.carDriver.models.dtos.CityDto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +19,7 @@ import javax.persistence.Table;
 
 @Data
 @Entity
+@Builder
 @Table(name = "cities")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,4 +36,11 @@ public class City {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_country", referencedColumnName = "id_country")
     private Country country;
+
+    public static City fromCityDto(CityDto cityDto, Country country){
+        return City.builder()
+                .name(cityDto.getName())
+                .country(country)
+                .build();
+    }
 }

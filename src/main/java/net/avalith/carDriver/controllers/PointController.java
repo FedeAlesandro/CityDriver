@@ -1,8 +1,8 @@
 package net.avalith.carDriver.controllers;
 
-import net.avalith.carDriver.models.City;
-import net.avalith.carDriver.models.dtos.CityDto;
-import net.avalith.carDriver.services.CityService;
+import net.avalith.carDriver.models.Point;
+import net.avalith.carDriver.models.dtos.PointDto;
+import net.avalith.carDriver.services.PointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,28 +16,29 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/cities")
-public class CityController {
+@RequestMapping("/points")
+public class PointController {
 
     @Autowired
-    private CityService cityService;
+    private PointService pointService;
 
     @PostMapping("/")
-    public ResponseEntity<CityDto> save(@RequestBody CityDto city){
-        City cityAux = cityService.save(city);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CityDto(cityAux));
+    public ResponseEntity<PointDto> save(@RequestBody PointDto point){
+        Point pointAux = pointService.save(point);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new PointDto(pointAux));
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<CityDto>> getAll(){
-        List<City> citiesAux = cityService.getAll();
-        if(citiesAux.isEmpty())
+    public ResponseEntity<List<PointDto>> getAll(){
+        List<Point> pointsAux = pointService.getAll();
+        if (pointsAux.isEmpty())
             return ResponseEntity.noContent().build();
-        else{
-            List<CityDto> cities = citiesAux.stream()
-                    .map(CityDto::new)
+        else
+        {
+            List<PointDto> points = pointsAux.stream()
+                    .map(PointDto::new)
                     .collect(Collectors.toList());
-            return ResponseEntity.ok(cities);
+            return ResponseEntity.ok(points);
         }
     }
 }
