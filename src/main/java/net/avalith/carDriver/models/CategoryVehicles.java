@@ -7,14 +7,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -40,6 +37,4 @@ public class CategoryVehicles {
     @OneToMany(mappedBy = "category_vehicles")
     private List<Vehicle> vehicles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "categories_vehicles", cascade = CascadeType.ALL)
-    private List<Tariff> tariffs = new ArrayList<>();
 }
