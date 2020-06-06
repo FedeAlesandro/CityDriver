@@ -32,6 +32,7 @@ public class Vehicle_Models {
     private String name;
 
     private Integer cant_place;
+
     private Boolean is_Automatic=false;
 
     @ManyToOne

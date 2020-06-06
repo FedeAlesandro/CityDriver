@@ -33,10 +33,6 @@ public class Vehicle {
     @Column(unique = true)
     private String domain;
 
-    @Column(name="cant_place")
-    private Integer cantPlace;
-
-
     private Boolean available;
 
     @Enumerated(EnumType.STRING)
