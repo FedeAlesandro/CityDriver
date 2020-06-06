@@ -1,6 +1,8 @@
 package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.Ride;
+import net.avalith.carDriver.models.dtos.requests.RideDtoRequest;
+import net.avalith.carDriver.models.dtos.responses.RideDtoResponse;
 import net.avalith.carDriver.services.RideService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rides")
@@ -21,17 +24,21 @@ public class RideController {
     private RideService rideService;
 
     @PostMapping("/")
-    public ResponseEntity<Ride> save(@RequestBody Ride ride){
-        return ResponseEntity.status(HttpStatus.CREATED).body(rideService.save(ride));
+    public ResponseEntity<RideDtoRequest> save(@RequestBody RideDtoRequest ride){
+        Ride rideAux = rideService.save(ride);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new RideDtoRequest(rideAux));
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Ride>> getAll(){
+    public ResponseEntity<List<RideDtoResponse>> getAll(){
         List<Ride>rides = rideService.getAll();
         if (rides.isEmpty())
             return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.ok(rides);
+        else{
+            List<RideDtoResponse>rideResponses = rides.stream()
+                    .map(RideDtoResponse::new)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(rideResponses);
+        }
     }
-
 }

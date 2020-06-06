@@ -25,4 +25,13 @@ public class RideDtoRequest {
 
     private String userDni;
 
+    public RideDtoRequest(Ride ride) {
+        this.startDate = ride.getStartDate();
+        this.state = ride.getState();
+        this.vehicleDomain = ride.getVehicle().getDomain();
+        this.tariffType = ride.getTariffType();
+        this.price = ride.getPrice();
+        this.originPoint = new RidePointDto(ride.getOriginPoint());
+        this.userDni = ride.getUser().getDni();
+    }
 }

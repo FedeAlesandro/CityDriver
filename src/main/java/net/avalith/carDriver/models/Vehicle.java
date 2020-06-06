@@ -39,19 +39,19 @@ public class Vehicle {
     private Colors color;
 
     @ManyToOne
-    @JoinColumn(name = "brand_id")
-    @JsonIgnore
-    private Brand brand;
-
-    @ManyToOne
     @JoinColumn(name = "provider_id")
     @JsonIgnore
     private Provider provider;
 
     @ManyToOne
+    @JoinColumn(name = "vehicle_model_id")
+    @JsonIgnore
+    private VehicleModels vehicleModels;
+
+    @ManyToOne
     @JoinColumn(name = "category_vehicles_id")
     @JsonIgnore
     private CategoryVehicles category_vehicles;
-
+    
 
 }

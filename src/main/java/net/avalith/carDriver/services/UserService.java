@@ -1,6 +1,9 @@
 package net.avalith.carDriver.services;
 
+import net.avalith.carDriver.models.License;
 import net.avalith.carDriver.models.User;
+import net.avalith.carDriver.models.dtos.requests.UserDtoRequest;
+import net.avalith.carDriver.repositories.LicenseRepository;
 import net.avalith.carDriver.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +16,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User save(User user){
-        return userRepository.save(user);
+    @Autowired
+    private LicenseRepository licenseRepository;
+
+    public User save(UserDtoRequest user){
+        License license = licenseRepository.findByNumber(user.getLicenseNumber())
+                .orElseThrow(RuntimeException::new); //todo hacer excepcion custom
+        User userToSave = User.userFromUserDtoRequest(user, license);
+        return userRepository.save(userToSave);
     }
 
     public List<User> getAll(){

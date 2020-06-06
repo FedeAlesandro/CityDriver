@@ -1,8 +1,10 @@
 package net.avalith.carDriver.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.avalith.carDriver.models.dtos.requests.UserDtoRequest;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +17,7 @@ import javax.persistence.Table;
 
 @Data
 @Entity
+@Builder
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,4 +40,13 @@ public class User {
     @OneToOne
     @JoinColumn(name = "id_license")
     private License license;
+
+    public static User userFromUserDtoRequest(UserDtoRequest userDto, License license){
+        return User.builder()
+                .name(userDto.getName())
+                .lastName(userDto.getLastName())
+                .dni(userDto.getDni())
+                .license(license)
+                .build();
+    }
 }
