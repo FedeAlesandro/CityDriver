@@ -3,6 +3,7 @@ package net.avalith.carDriver.controllers;
 import net.avalith.carDriver.models.License;
 import net.avalith.carDriver.services.LicenseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class LicenseController {
 
     @PostMapping("/")
     public ResponseEntity<License> save(@RequestBody License license){
-        return ResponseEntity.ok(licenseService.save(license));
+        return ResponseEntity.status(HttpStatus.CREATED).body(licenseService.save(license));
     }
 
     @GetMapping("/")

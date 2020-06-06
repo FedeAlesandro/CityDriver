@@ -3,6 +3,7 @@ package net.avalith.carDriver.controllers;
 import net.avalith.carDriver.models.Ride;
 import net.avalith.carDriver.services.RideService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class RideController {
 
     @PostMapping("/")
     public ResponseEntity<Ride> save(@RequestBody Ride ride){
-        return ResponseEntity.ok(rideService.save(ride));
+        return ResponseEntity.status(HttpStatus.CREATED).body(rideService.save(ride));
     }
 
     @GetMapping("/")
