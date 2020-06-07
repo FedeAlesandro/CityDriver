@@ -26,8 +26,10 @@ import java.util.List;
 public class Brand {
 
     @Id
+    @Column(name = "id_brand")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true)
     private String name;
 

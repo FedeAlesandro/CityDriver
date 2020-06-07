@@ -35,7 +35,7 @@ public class RideService {
         RidePointDto ridePoint = ride.getOriginPoint();
         Vehicle vehicle = vehicleRepository.findByDomain(ride.getVehicleDomain())
                 .orElseThrow(RuntimeException::new); //todo hacer excepcion custom
-        Point point = pointRepository.findByCoordinateLatitudeAndCoordinateLongitude(ridePoint.getCoordinateLatitude(), ridePoint.getCoordinateLogitude())
+        Point point = pointRepository.findByCoordinateLatitudeAndCoordinateLongitude(ridePoint.getCoordinateLatitude(), ridePoint.getCoordinateLongitude())
                 .orElseThrow(RuntimeException::new); //todo hacer excepcion custom
         User user = userRepository.findByDni(ride.getUserDni())
                 .orElseThrow(RuntimeException::new); //todo hacer excepcion custom

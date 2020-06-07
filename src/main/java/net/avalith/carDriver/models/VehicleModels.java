@@ -24,7 +24,9 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Table(name = "vehicle_models")
 public class VehicleModels {
+
     @Id
+    @Column(name = "id_vehicle_model")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -38,7 +40,7 @@ public class VehicleModels {
     private Boolean isAutomatic;
 
     @ManyToOne
-    @JoinColumn(name = "brand_id")
+    @JoinColumn(name = "id_brand", referencedColumnName = "id_brand")
     @JsonIgnore
     private Brand brand;
 }
