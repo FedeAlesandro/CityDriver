@@ -7,10 +7,10 @@ import net.avalith.carDriver.models.Point;
 public class RidePointDto {
 
     private String coordinateLatitude;
-    private String coordinateLogitude;
+    private String coordinateLongitude;
 
     public RidePointDto(Point point) {
         this.coordinateLatitude = point.getCoordinateLatitude();
-        this.coordinateLogitude = point.getCoordinateLogitude();
+        this.coordinateLongitude = point.getCoordinateLongitude();
     }
 }

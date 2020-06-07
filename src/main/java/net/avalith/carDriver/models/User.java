@@ -38,7 +38,7 @@ public class User {
     private String dni;
 
     @OneToOne
-    @JoinColumn(name = "id_license")
+    @JoinColumn(name = "id_license", referencedColumnName = "id_license")
     private License license;
 
     public static User userFromUserDtoRequest(UserDtoRequest userDto, License license){

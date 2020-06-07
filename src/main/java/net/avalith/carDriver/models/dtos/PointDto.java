@@ -12,7 +12,7 @@ public class PointDto {
 
     private String coordinateLatitude;
 
-    private String coordinateLogitude;
+    private String coordinateLongitude;
 
     private Integer capacity;
 
@@ -24,7 +24,7 @@ public class PointDto {
         isOrigin = point.getIsOrigin();
         isDestination = point.getIsDestination();
         coordinateLatitude = point.getCoordinateLatitude();
-        coordinateLogitude = point.getCoordinateLogitude();
+        coordinateLongitude = point.getCoordinateLongitude();
         capacity = point.getCapacity();
         stock = point.getStock();
         cityName = point.getCity().getName();

@@ -25,6 +25,7 @@ import java.util.List;
 public class Provider {
 
     @Id
+    @Column(name = "id_provider")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

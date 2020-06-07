@@ -25,7 +25,7 @@ import javax.persistence.Table;
 public class Point {
 
     @Id
-    @Column(name = "id_checkout_points")
+    @Column(name = "id_point")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -38,8 +38,8 @@ public class Point {
     @Column(name = "coordinate_latitude")
     private String coordinateLatitude;
 
-    @Column(name = "coordinate_logitude")
-    private String coordinateLogitude;
+    @Column(name = "coordinate_longitude")
+    private String coordinateLongitude;
 
     @Column(name = "capacity")
     private Integer capacity;
@@ -56,7 +56,7 @@ public class Point {
                 .isOrigin(pointDto.getIsOrigin())
                 .isDestination(pointDto.getIsDestination())
                 .coordinateLatitude(pointDto.getCoordinateLatitude())
-                .coordinateLogitude(pointDto.getCoordinateLogitude())
+                .coordinateLongitude(pointDto.getCoordinateLongitude())
                 .capacity(pointDto.getCapacity())
                 .stock(pointDto.getStock())
                 .city(city)

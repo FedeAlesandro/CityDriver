@@ -26,7 +26,9 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Table(name = "vehicles")
 public class Vehicle {
+
     @Id
+    @Column(name = "id_vehicle")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -39,17 +41,17 @@ public class Vehicle {
     private Colors color;
 
     @ManyToOne
-    @JoinColumn(name = "provider_id")
+    @JoinColumn(name = "id_provider", referencedColumnName = "id_provider")
     @JsonIgnore
     private Provider provider;
   
     @ManyToOne
-    @JoinColumn(name = "vehicle_model_id")
+    @JoinColumn(name = "id_vehicle_model", referencedColumnName = "id_vehicle_model")
     @JsonIgnore
     private VehicleModels vehicleModels;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_model_id")
+    @JoinColumn(name = "id_category_vehicle", referencedColumnName = "id_category_vehicle")
     @JsonIgnore
     private CategoryVehicles category_vehicles;
     
