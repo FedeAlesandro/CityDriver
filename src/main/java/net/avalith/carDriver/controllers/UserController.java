@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/")
-    public ResponseEntity<UserDtoRequest> save(@RequestBody UserDtoRequest user){
+    public ResponseEntity<UserDtoRequest> save(@RequestBody @Valid UserDtoRequest user){
         User userAux = userService.save(user);
         UserDtoRequest userDto = new UserDtoRequest(userAux);
         return ResponseEntity.status(HttpStatus.CREATED).body(userDto);

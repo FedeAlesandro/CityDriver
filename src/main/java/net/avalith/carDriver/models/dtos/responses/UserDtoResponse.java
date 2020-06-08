@@ -1,9 +1,11 @@
 package net.avalith.carDriver.models.dtos.responses;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.User;
 
 @Data
+@NoArgsConstructor
 public class UserDtoResponse {
 
     private String name;
@@ -20,7 +22,9 @@ public class UserDtoResponse {
         this.name = user.getName();
         this.lastName = user.getLastName();
         this.dni = user.getDni();
-        this.licenseNumber = user.getLicense().getNumber();
-        this.validated = user.getLicense().getValidated();
+        if(user.getLicense()!=null){
+            this.licenseNumber = user.getLicense().getNumber();
+            this.validated = user.getLicense().getValidated();
+        }
     }
 }

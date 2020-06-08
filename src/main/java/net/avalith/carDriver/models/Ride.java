@@ -1,6 +1,8 @@
 package net.avalith.carDriver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Data;
 import net.avalith.carDriver.models.dtos.RidePointDto;
@@ -26,6 +28,7 @@ import java.util.Date;
 @Entity
 @Builder
 @Table(name = "rides")
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Ride {
 
     @Id
@@ -73,7 +76,7 @@ public class Ride {
     public static Ride fromRideDtoRequest(RideDtoRequest rideDto, Vehicle vehicle, Point point, User user){
         return Ride.builder()
                 .startDate(rideDto.getStartDate())
-                .state(rideDto.getState())
+                .state(RideState.reserved)
                 .tariffType(rideDto.getTariffType())
                 .price(rideDto.getPrice())
                 .vehicle(vehicle)
