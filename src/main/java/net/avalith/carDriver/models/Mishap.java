@@ -1,0 +1,40 @@
+package net.avalith.carDriver.models;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Data
+@Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "mishaps")
+public class Mishap {
+
+    @Id
+    @Column(name = "id_mishap")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Lob
+    private String title;
+
+    private String description;
+
+    @OneToOne
+    @JoinColumn(name = "id_ride", referencedColumnName = "id_ride")
+    private Ride ride;
+
+}
