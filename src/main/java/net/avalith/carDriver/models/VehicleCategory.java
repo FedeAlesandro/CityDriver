@@ -22,7 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "category_vehicles")
-public class CategoryVehicles {
+public class VehicleCategory {
 
     @Id
     @Column(name = "id_category_vehicle")

@@ -1,9 +1,8 @@
 package net.avalith.carDriver.services;
 
-import net.avalith.carDriver.models.CategoryVehicles;
+import net.avalith.carDriver.models.VehicleCategory;
 import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.models.Vehicle;
-import net.avalith.carDriver.models.Vehicle.VehicleBuilder;
 import net.avalith.carDriver.models.VehicleModels;
 import net.avalith.carDriver.repositories.VehicleCategoryRepository;
 import net.avalith.carDriver.repositories.ProviderRepository;
@@ -40,7 +39,7 @@ public class VehicleService {
                 .orElseThrow(RuntimeException::new);//todo
         VehicleModels modelSearch = vehicleModelRepository.findByName(vehicleDtoRequest.getNameModel())
                 .orElseThrow(RuntimeException::new);//todo
-        CategoryVehicles categorySearch = vehicleCategoryRepository.findByName(vehicleDtoRequest.getNameCategory())
+        VehicleCategory categorySearch = vehicleCategoryRepository.findByName(vehicleDtoRequest.getNameCategory())
                 .orElseThrow(RuntimeException::new);
         return vehicleRepository.save(new Vehicle(vehicleDtoRequest, providerSearch, modelSearch, categorySearch));
     }

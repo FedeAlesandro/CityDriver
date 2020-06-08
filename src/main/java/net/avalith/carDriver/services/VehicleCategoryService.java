@@ -1,6 +1,6 @@
 package net.avalith.carDriver.services;
 
-import net.avalith.carDriver.models.CategoryVehicles;
+import net.avalith.carDriver.models.VehicleCategory;
 import net.avalith.carDriver.repositories.VehicleCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,11 +13,11 @@ public class VehicleCategoryService {
     @Autowired
     private VehicleCategoryRepository vehicleCategoryRepository;
 
-    public List<CategoryVehicles> getAll(){
+    public List<VehicleCategory> getAll(){
         return vehicleCategoryRepository.findAll();
     }
 
-    public CategoryVehicles save(CategoryVehicles categoryVehicles){
-        return vehicleCategoryRepository.save(categoryVehicles);
+    public VehicleCategory save(VehicleCategory vehicleCategory){
+        return vehicleCategoryRepository.save(vehicleCategory);
     }
 }

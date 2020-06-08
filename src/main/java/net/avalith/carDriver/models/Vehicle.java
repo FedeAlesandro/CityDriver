@@ -53,9 +53,9 @@ public class Vehicle {
     @ManyToOne
     @JoinColumn(name = "id_category_vehicle", referencedColumnName = "id_category_vehicle")
     @JsonIgnore
-    private CategoryVehicles category_vehicles;
+    private VehicleCategory category_vehicles;
     
-    public Vehicle (VehicleDtoRequest vehicleDtoRequest, Provider provider, VehicleModels vehicleModels, CategoryVehicles category_vehicles){
+    public Vehicle (VehicleDtoRequest vehicleDtoRequest, Provider provider, VehicleModels vehicleModels, VehicleCategory category_vehicles){
         Vehicle vehicle = new Vehicle();
         vehicle.setDomain(vehicleDtoRequest.getDomain());
         vehicle.setAvailable(Boolean.TRUE);
