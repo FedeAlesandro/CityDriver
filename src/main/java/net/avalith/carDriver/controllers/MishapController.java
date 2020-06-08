@@ -1,6 +1,6 @@
 package net.avalith.carDriver.controllers;
 
-import net.avalith.carDriver.models.Brand;
+
 import net.avalith.carDriver.models.Mishap;
 import net.avalith.carDriver.services.MishapService;
 import org.springframework.beans.factory.annotation.Autowired;
