@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.enums.Colors;
-import net.avalith.carDriver.models.dtos.requests.VehicleDTO;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,11 +54,11 @@ public class Vehicle {
     @JsonIgnore
     private CategoryVehicles category_vehicles;
     
-    public static Vehicle vehicleFromVehicleDTO(VehicleDTO vehicleDTO, Provider provider, VehicleModels vehicleModels, CategoryVehicles category_vehicles){
+    public static Vehicle vehicleFromVehicleDTO(net.avalith.carDriver.models.dtos.requests.VehicleDtoRequest vehicleDtoRequest, Provider provider, VehicleModels vehicleModels, CategoryVehicles category_vehicles){
         Vehicle vehicle = new Vehicle();
-        vehicle.setDomain(vehicleDTO.getDomain());
-        vehicle.setAvailable(vehicleDTO.getAvailable());
-        vehicle.setColor(vehicleDTO.getColor());
+        vehicle.setDomain(vehicleDtoRequest.getDomain());
+        vehicle.setAvailable(Boolean.TRUE);
+        vehicle.setColor(vehicleDtoRequest.getColor());
         vehicle.setProvider(provider);
         vehicle.setCategory_vehicles(category_vehicles);
         vehicle.setVehicleModels(vehicleModels);

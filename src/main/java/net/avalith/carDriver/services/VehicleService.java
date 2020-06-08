@@ -1,7 +1,6 @@
 package net.avalith.carDriver.services;
 
 import net.avalith.carDriver.models.CategoryVehicles;
-import net.avalith.carDriver.models.dtos.requests.VehicleDTO;
 import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.models.Vehicle;
 import net.avalith.carDriver.models.VehicleModels;
@@ -34,15 +33,15 @@ public class VehicleService {
         return vehicleRepository.findAll();
     }
 
-    public Vehicle save(VehicleDTO vehicleDTO){
+    public Vehicle save(net.avalith.carDriver.models.dtos.requests.VehicleDtoRequest vehicleDtoRequest){
 
-        Provider providerSearch = providerRepository.findByName(vehicleDTO.getNameProvider())
+        Provider providerSearch = providerRepository.findByName(vehicleDtoRequest.getNameProvider())
                 .orElseThrow(RuntimeException::new);//todo
-        VehicleModels modelSearch = vehicleModelRepository.findByName(vehicleDTO.getNameModel())
+        VehicleModels modelSearch = vehicleModelRepository.findByName(vehicleDtoRequest.getNameModel())
                 .orElseThrow(RuntimeException::new);//todo
-        CategoryVehicles categorySearch = categoryVehicleRepository.findByName(vehicleDTO.getNameCategory())
+        CategoryVehicles categorySearch = categoryVehicleRepository.findByName(vehicleDtoRequest.getNameCategory())
                 .orElseThrow(RuntimeException::new);
-        Vehicle vehicle = Vehicle.vehicleFromVehicleDTO(vehicleDTO, providerSearch, modelSearch, categorySearch);
+        Vehicle vehicle = Vehicle.vehicleFromVehicleDTO(vehicleDtoRequest, providerSearch, modelSearch, categorySearch);
 
          return  vehicleRepository.save(vehicle);
     }
