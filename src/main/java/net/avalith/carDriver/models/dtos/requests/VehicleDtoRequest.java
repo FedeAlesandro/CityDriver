@@ -8,11 +8,9 @@ import net.avalith.carDriver.models.enums.Colors;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VehicleDTO {
+public class VehicleDtoRequest {
 
     private String domain;
-
-    private Boolean available;
 
     private Colors color;
 
