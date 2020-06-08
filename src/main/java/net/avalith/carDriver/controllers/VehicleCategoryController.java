@@ -1,7 +1,7 @@
 package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.CategoryVehicles;
-import net.avalith.carDriver.services.CategoryVehicleService;
+import net.avalith.carDriver.services.VehicleCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +15,14 @@ import java.util.List;
 
 @RequestMapping("/category-vehicles")
 @RestController
-public class CategoryVehicleController {
+public class VehicleCategoryController {
 
     @Autowired
-    private CategoryVehicleService categoryVehicleService;
+    private VehicleCategoryService vehicleCategoryService;
 
     @GetMapping("/")
     public ResponseEntity<List<CategoryVehicles>> getAll(){
-        List<CategoryVehicles> listCategoryVehicles = categoryVehicleService.getAll();
+        List<CategoryVehicles> listCategoryVehicles = vehicleCategoryService.getAll();
         if (listCategoryVehicles.isEmpty()){
             return ResponseEntity.noContent().build();
         }else
@@ -31,6 +31,6 @@ public class CategoryVehicleController {
 
     @PostMapping("/")
     public ResponseEntity<CategoryVehicles> save(@RequestBody CategoryVehicles categoryVehicle){
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoryVehicleService.save(categoryVehicle));
+        return ResponseEntity.status(HttpStatus.CREATED).body(vehicleCategoryService.save(categoryVehicle));
     }
 }
