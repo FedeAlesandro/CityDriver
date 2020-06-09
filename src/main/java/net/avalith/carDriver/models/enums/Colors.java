@@ -1,5 +1,5 @@
 package net.avalith.carDriver.models.enums;
 
 public enum Colors {
-    Red, Blue, White, Black, Green, Yellow
+    RED, BLUE, WHITE, BLACK, GREEN, YELLOW
 }

@@ -1,10 +1,12 @@
-package net.avalith.carDriver.models.dtos;
+package net.avalith.carDriver.models.dtos.responses;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.Point;
 
 @Data
-public class PointDto {
+@NoArgsConstructor
+public class PointDtoResponse {
 
     private Boolean isOrigin;
 
@@ -20,7 +22,7 @@ public class PointDto {
 
     private String cityName;
 
-    public PointDto(Point point) {
+    public PointDtoResponse(Point point) {
         isOrigin = point.getIsOrigin();
         isDestination = point.getIsDestination();
         coordinateLatitude = point.getCoordinateLatitude();

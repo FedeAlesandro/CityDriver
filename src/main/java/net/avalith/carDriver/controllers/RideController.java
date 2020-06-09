@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,9 +25,8 @@ public class RideController {
     private RideService rideService;
 
     @PostMapping("/")
-    public ResponseEntity<RideDtoRequest> save(@RequestBody RideDtoRequest ride){
-        Ride rideAux = rideService.save(ride);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new RideDtoRequest(rideAux));
+    public ResponseEntity<RideDtoRequest> save(@RequestBody @Valid RideDtoRequest ride){
+        return ResponseEntity.status(HttpStatus.CREATED).body(new RideDtoRequest(rideService.save(ride)));
     }
 
     @GetMapping("/")

@@ -1,10 +1,13 @@
 package net.avalith.carDriver.models;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.avalith.carDriver.models.dtos.PointDto;
+import net.avalith.carDriver.models.dtos.requests.PointDtoRequest;
+import net.avalith.carDriver.models.dtos.responses.PointDtoResponse;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Data
 @Entity
@@ -22,6 +26,7 @@ import javax.persistence.Table;
 @Table(name = "points")
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Point {
 
     @Id
@@ -47,19 +52,19 @@ public class Point {
     @Column(name = "stock")
     private Integer stock;
 
+    @Column(name = "deleted_at")
+    private Date deletedAt;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_city", referencedColumnName = "id_city")
     private City city;
 
-    public static Point fromPointDto(PointDto pointDto, City city){
-        return Point.builder()
-                .isOrigin(pointDto.getIsOrigin())
-                .isDestination(pointDto.getIsDestination())
-                .coordinateLatitude(pointDto.getCoordinateLatitude())
-                .coordinateLongitude(pointDto.getCoordinateLongitude())
-                .capacity(pointDto.getCapacity())
-                .stock(pointDto.getStock())
-                .city(city)
-                .build();
+    public Point (PointDtoRequest pointDtoRequest, City city){
+        isOrigin = pointDtoRequest.getIsOrigin();
+        coordinateLatitude = pointDtoRequest.getCoordinateLatitude();
+        coordinateLongitude = pointDtoRequest.getCoordinateLongitude();
+        capacity = pointDtoRequest.getCapacity();
+        stock = pointDtoRequest.getStock();
+        this.city = city;
     }
 }

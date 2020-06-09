@@ -1,5 +1,5 @@
 package net.avalith.carDriver.models.enums;
 
 public enum RideState {
-    reserved, cancelled, inRide, inCrash
+    RESERVED, CANCELLED, IN_RIDE, IN_CRASH
 }

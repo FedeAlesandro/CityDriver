@@ -1,8 +1,12 @@
 package net.avalith.carDriver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.dtos.RidePointDto;
 import net.avalith.carDriver.models.dtos.requests.RideDtoRequest;
 import net.avalith.carDriver.models.enums.RideState;
@@ -26,6 +30,9 @@ import java.util.Date;
 @Entity
 @Builder
 @Table(name = "rides")
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Ride {
 
     @Id
@@ -70,15 +77,13 @@ public class Ride {
     @JoinColumn(name = "id_user")
     private User user;
 
-    public static Ride fromRideDtoRequest(RideDtoRequest rideDto, Vehicle vehicle, Point point, User user){
-        return Ride.builder()
-                .startDate(rideDto.getStartDate())
-                .state(rideDto.getState())
-                .tariffType(rideDto.getTariffType())
-                .price(rideDto.getPrice())
-                .vehicle(vehicle)
-                .originPoint(point)
-                .user(user)
-                .build();
+    public Ride (RideDtoRequest rideDto, Vehicle vehicle, Point point, User user){
+        startDate = rideDto.getStartDate();
+        state = RideState.RESERVED;
+        tariffType = rideDto.getTariffType();
+        price = rideDto.getPrice();
+        this.vehicle = vehicle;
+        this.originPoint = point;
+        this.user = user;
     }
 }

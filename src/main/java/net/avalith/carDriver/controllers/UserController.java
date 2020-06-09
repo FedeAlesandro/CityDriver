@@ -1,6 +1,7 @@
 package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.User;
+import net.avalith.carDriver.models.dtos.UserDtoNoLicense;
 import net.avalith.carDriver.models.dtos.requests.UserDtoRequest;
 import net.avalith.carDriver.models.dtos.responses.UserDtoResponse;
 import net.avalith.carDriver.services.UserService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,10 +26,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/")
-    public ResponseEntity<UserDtoRequest> save(@RequestBody UserDtoRequest user){
-        User userAux = userService.save(user);
-        UserDtoRequest userDto = new UserDtoRequest(userAux);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
+    public ResponseEntity<UserDtoNoLicense> save(@RequestBody @Valid UserDtoRequest user){
+        return ResponseEntity.status(HttpStatus.CREATED).body(new UserDtoNoLicense(userService.save(user)));
     }
 
     @GetMapping("/")

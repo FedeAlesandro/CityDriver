@@ -16,14 +16,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private LicenseRepository licenseRepository;
-
     public User save(UserDtoRequest user){
-        License license = licenseRepository.findByNumber(user.getLicenseNumber())
-                .orElseThrow(RuntimeException::new); //todo hacer excepcion custom
-        User userToSave = User.userFromUserDtoRequest(user, license);
-        return userRepository.save(userToSave);
+        return userRepository.save(new User(user));
     }
 
     public List<User> getAll(){

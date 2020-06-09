@@ -1,5 +1,7 @@
 package net.avalith.carDriver.models.dtos.responses;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.Ride;
 import net.avalith.carDriver.models.dtos.RidePointDto;
 import net.avalith.carDriver.models.enums.RideState;
@@ -7,6 +9,8 @@ import net.avalith.carDriver.models.enums.TariffType;
 
 import java.util.Date;
 
+@Data
+@NoArgsConstructor
 public class RideDtoResponse {
 
     private Date startDate;

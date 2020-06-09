@@ -1,5 +1,7 @@
 package net.avalith.carDriver.models;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Data
 @Entity
@@ -21,6 +24,7 @@ import javax.persistence.Table;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class User {
 
     @Id
@@ -34,19 +38,19 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "dni")
+    @Column(name = "dni", unique = true)
     private String dni;
+
+    @Column(name = "deleted_at")
+    private Date deletedAt;
 
     @OneToOne
     @JoinColumn(name = "id_license", referencedColumnName = "id_license")
     private License license;
 
-    public static User userFromUserDtoRequest(UserDtoRequest userDto, License license){
-        return User.builder()
-                .name(userDto.getName())
-                .lastName(userDto.getLastName())
-                .dni(userDto.getDni())
-                .license(license)
-                .build();
+    public User (UserDtoRequest userDtoRequest){
+        name = userDtoRequest.getName();
+        lastName = userDtoRequest.getLastName();
+        dni = userDtoRequest.getDni();
     }
 }

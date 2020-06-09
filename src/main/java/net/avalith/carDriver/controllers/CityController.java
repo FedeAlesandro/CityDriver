@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,9 +24,8 @@ public class CityController {
     private CityService cityService;
 
     @PostMapping("/")
-    public ResponseEntity<CityDto> save(@RequestBody CityDto city){
-        City cityAux = cityService.save(city);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CityDto(cityAux));
+    public ResponseEntity<CityDto> save(@RequestBody @Valid CityDto city){
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CityDto(cityService.save(city)));
     }
 
     @GetMapping("/")
