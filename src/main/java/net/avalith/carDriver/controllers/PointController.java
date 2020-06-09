@@ -26,8 +26,7 @@ public class PointController {
 
     @PostMapping("/")
     public ResponseEntity<PointDtoRequest> save(@RequestBody @Valid PointDtoRequest point){
-        Point pointAux = pointService.save(point);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new PointDtoRequest(pointAux));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new PointDtoRequest(pointService.save(point)));
     }
 
     @GetMapping("/")

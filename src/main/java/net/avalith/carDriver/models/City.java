@@ -40,10 +40,8 @@ public class City {
     @JoinColumn(name = "id_country", referencedColumnName = "id_country")
     private Country country;
 
-    public static City fromCityDto(CityDto cityDto, Country country){
-        return City.builder()
-                .name(cityDto.getName())
-                .country(country)
-                .build();
+    public City (CityDto cityDto, Country country){
+        name = cityDto.getName();
+        this.country = country;
     }
 }

@@ -25,7 +25,7 @@ public class CityService {
     public City save(CityDto city){
         Country country = countryRepository.findByName(city.getCountryName())
             .orElseThrow(() -> new NotFoundException(NOT_FOUND_COUNTRY));
-        return cityRepository.save(City.fromCityDto(city, country));
+        return cityRepository.save(new City(city, country));
     }
 
     public List<City> getAll(){

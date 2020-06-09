@@ -48,11 +48,9 @@ public class User {
     @JoinColumn(name = "id_license", referencedColumnName = "id_license")
     private License license;
 
-    public static User userFromUserDtoRequest(UserDtoRequest userDto){
-        return User.builder()
-                .name(userDto.getName())
-                .lastName(userDto.getLastName())
-                .dni(userDto.getDni())
-                .build();
+    public User (UserDtoRequest userDtoRequest){
+        name = userDtoRequest.getName();
+        lastName = userDtoRequest.getLastName();
+        dni = userDtoRequest.getDni();
     }
 }

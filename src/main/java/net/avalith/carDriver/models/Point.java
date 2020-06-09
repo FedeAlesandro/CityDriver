@@ -59,14 +59,12 @@ public class Point {
     @JoinColumn(name = "id_city", referencedColumnName = "id_city")
     private City city;
 
-    public static Point fromPointDtoRequest(PointDtoRequest pointDtoRequest, City city){
-        return Point.builder()
-                .isOrigin(pointDtoRequest.getIsOrigin())
-                .coordinateLatitude(pointDtoRequest.getCoordinateLatitude())
-                .coordinateLongitude(pointDtoRequest.getCoordinateLongitude())
-                .capacity(pointDtoRequest.getCapacity())
-                .stock(pointDtoRequest.getStock())
-                .city(city)
-                .build();
+    public Point (PointDtoRequest pointDtoRequest, City city){
+        isOrigin = pointDtoRequest.getIsOrigin();
+        coordinateLatitude = pointDtoRequest.getCoordinateLatitude();
+        coordinateLongitude = pointDtoRequest.getCoordinateLongitude();
+        capacity = pointDtoRequest.getCapacity();
+        stock = pointDtoRequest.getStock();
+        this.city = city;
     }
 }

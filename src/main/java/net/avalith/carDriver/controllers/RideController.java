@@ -26,8 +26,7 @@ public class RideController {
 
     @PostMapping("/")
     public ResponseEntity<RideDtoRequest> save(@RequestBody @Valid RideDtoRequest ride){
-        Ride rideAux = rideService.save(ride);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new RideDtoRequest(rideAux));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new RideDtoRequest(rideService.save(ride)));
     }
 
     @GetMapping("/")

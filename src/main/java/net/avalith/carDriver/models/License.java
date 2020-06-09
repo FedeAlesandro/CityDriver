@@ -42,9 +42,7 @@ public class License {
     @Column(name = "validated")
     private Boolean validated;
 
-    public static License fromLicenseDtoRequest(LicenseDtoRequest license){
-        return License.builder()
-                .number(license.getNumber())
-                .build();
+    public License (LicenseDtoRequest license){
+        this.number = license.getNumber();
     }
 }

@@ -35,7 +35,7 @@ public class PointService {
                 .isPresent())
             throw new AlreadyExistsException(POINT_ALREADY_EXISTS);
 
-        return pointRepository.save(Point.fromPointDtoRequest(point, city));
+        return pointRepository.save(new Point(point, city));
     }
 
     public List<Point> getAll(){

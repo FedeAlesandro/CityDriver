@@ -48,9 +48,7 @@ public class RideService {
         User user = userRepository.findByDni(ride.getUserDni())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER));
 
-        Ride rideToSave = Ride.fromRideDtoRequest(ride, vehicle, point, user);
-
-        return rideRepository.save(rideToSave);
+        return rideRepository.save(new Ride(ride, vehicle, point, user));
     }
 
     public List<Ride> getAll(){

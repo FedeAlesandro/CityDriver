@@ -1,7 +1,5 @@
 package net.avalith.carDriver.models.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.City;

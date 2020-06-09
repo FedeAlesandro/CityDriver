@@ -25,8 +25,7 @@ public class CityController {
 
     @PostMapping("/")
     public ResponseEntity<CityDto> save(@RequestBody @Valid CityDto city){
-        City cityAux = cityService.save(city);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CityDto(cityAux));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CityDto(cityService.save(city)));
     }
 
     @GetMapping("/")

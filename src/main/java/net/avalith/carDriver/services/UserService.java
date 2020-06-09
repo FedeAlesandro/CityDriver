@@ -17,8 +17,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public User save(UserDtoRequest user){
-        User userToSave = User.userFromUserDtoRequest(user);
-        return userRepository.save(userToSave);
+        return userRepository.save(new User(user));
     }
 
     public List<User> getAll(){

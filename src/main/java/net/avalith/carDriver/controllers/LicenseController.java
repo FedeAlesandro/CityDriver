@@ -24,8 +24,7 @@ public class LicenseController {
 
     @PostMapping("/")
     public ResponseEntity<LicenseDtoRequest> save(@RequestBody @Valid LicenseDtoRequest license){
-        License licenseAux = licenseService.save(license);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new LicenseDtoRequest(licenseAux));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new LicenseDtoRequest(licenseService.save(license)));
     }
 
     @GetMapping("/")

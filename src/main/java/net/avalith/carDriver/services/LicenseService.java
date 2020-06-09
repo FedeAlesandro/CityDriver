@@ -24,7 +24,7 @@ public class LicenseService {
     public License save(LicenseDtoRequest license){
         userRepository.findByDni(license.getNumber())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_LICENSE_USER));
-        return licenseRepository.save(License.fromLicenseDtoRequest(license));
+        return licenseRepository.save(new License(license));
     }
 
     public List<License> getAll(){
