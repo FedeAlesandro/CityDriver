@@ -2,10 +2,12 @@ package net.avalith.carDriver.services;
 
 import net.avalith.carDriver.models.Brand;
 import net.avalith.carDriver.models.Provider;
+import net.avalith.carDriver.models.dtos.requests.BrandDtoRequest;
 import net.avalith.carDriver.repositories.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -14,17 +16,19 @@ public class BrandService {
     @Autowired
     private BrandRepository brandRepository;
 
-    public Brand save(Brand brand){
-        return brandRepository.save(brand);
+    public Brand save(BrandDtoRequest brand){
+        return brandRepository.save(new Brand(brand));
     }
+
     public List<Brand> getAll(){
-        return brandRepository.findAll();
+        return brandRepository.getAllActive();
     }
 
     public void deleteBrand(Long id){
-        brandRepository.findById(id)
+        Brand auxBrand = brandRepository.findById(id)
                 .orElseThrow(RuntimeException::new);//toDo create exception custom
-        brandRepository.deleteById(id);
+        auxBrand.setIsActive(Boolean.FALSE);
+        brandRepository.save(auxBrand);
     }
     public Brand getById(Long id){
          return brandRepository.findById(id)
