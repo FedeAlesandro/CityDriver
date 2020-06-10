@@ -24,8 +24,8 @@ public class BrandService {
         return brandRepository.getAllActive();
     }
 
-    public void deleteBrand(Long id){
-        Brand auxBrand = brandRepository.findById(id)
+    public void deleteBrand(String name){
+        Brand auxBrand = brandRepository.findByName(name)
                 .orElseThrow(RuntimeException::new);//toDo create exception custom
         auxBrand.setIsActive(Boolean.FALSE);
         brandRepository.save(auxBrand);
