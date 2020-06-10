@@ -40,8 +40,9 @@ public class BrandController {
         }
     }
     @PostMapping("/")
-    public ResponseEntity<Brand> save(@RequestBody BrandDtoRequest brand){
-        return ResponseEntity.ok(brandService.save(brand));
+    public ResponseEntity<BrandDtoResponse> save(@RequestBody BrandDtoRequest brand){
+
+        return ResponseEntity.ok(new BrandDtoResponse(brandService.save(brand)));
     }
 
     @PutMapping("/{id}")
