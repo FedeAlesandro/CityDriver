@@ -7,6 +7,7 @@ import net.avalith.carDriver.models.User;
 import net.avalith.carDriver.models.Vehicle;
 import net.avalith.carDriver.models.dtos.RidePointDto;
 import net.avalith.carDriver.models.dtos.requests.RideDtoRequest;
+import net.avalith.carDriver.models.dtos.requests.RideDtoUpdateRequest;
 import net.avalith.carDriver.repositories.PointRepository;
 import net.avalith.carDriver.repositories.RideRepository;
 import net.avalith.carDriver.repositories.UserRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_POINT;
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_RIDE;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_USER;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE;
 
@@ -53,5 +55,31 @@ public class RideService {
 
     public List<Ride> getAll(){
         return rideRepository.findAll();
+    }
+
+    public Ride update(Long id, RideDtoUpdateRequest ride) {
+
+        rideRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_RIDE));
+
+        RidePointDto originRidePoint = ride.getOriginPoint();
+        RidePointDto destinationRidePoint = ride.getDestinationPoint();
+
+        Vehicle vehicle = vehicleRepository.findByDomain(ride.getVehicleDomain())
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE));
+
+        Point originPoint = pointRepository.findByCoordinateLatitudeAndCoordinateLongitude(originRidePoint.getCoordinateLatitude(), originRidePoint.getCoordinateLongitude())
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_POINT));
+
+        Point destinationPoint = pointRepository.findByCoordinateLatitudeAndCoordinateLongitude(destinationRidePoint.getCoordinateLatitude(), destinationRidePoint.getCoordinateLongitude())
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_POINT));
+
+        User user = userRepository.findByDni(ride.getUserDni())
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER));
+
+        Ride rideUpdate = new Ride(ride, vehicle, originPoint, destinationPoint, user);
+        rideUpdate.setId(id);
+
+        return rideRepository.save(rideUpdate);
     }
 }

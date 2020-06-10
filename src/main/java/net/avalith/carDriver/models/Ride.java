@@ -9,8 +9,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.dtos.RidePointDto;
 import net.avalith.carDriver.models.dtos.requests.RideDtoRequest;
+import net.avalith.carDriver.models.dtos.requests.RideDtoUpdateRequest;
 import net.avalith.carDriver.models.enums.RideState;
 import net.avalith.carDriver.models.enums.TariffType;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +27,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
@@ -58,6 +62,14 @@ public class Ride {
     @Column(name = "price")
     private Double price;
 
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private Timestamp updatedAt;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_vehicle", referencedColumnName = "id_vehicle")
     @JsonIgnore
@@ -84,6 +96,18 @@ public class Ride {
         price = rideDto.getPrice();
         this.vehicle = vehicle;
         this.originPoint = point;
+        this.user = user;
+    }
+
+    public Ride (RideDtoUpdateRequest rideDto, Vehicle vehicle, Point originPoint, Point destinationPoint, User user){
+        startDate = rideDto.getStartDate();
+        endDate = rideDto.getEndDate();
+        state = rideDto.getState();
+        tariffType = rideDto.getTariffType();
+        price = rideDto.getPrice();
+        this.vehicle = vehicle;
+        this.originPoint = originPoint;
+        this.destinationPoint = destinationPoint;
         this.user = user;
     }
 }

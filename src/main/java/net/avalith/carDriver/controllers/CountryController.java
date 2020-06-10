@@ -1,12 +1,15 @@
 package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.Country;
+import net.avalith.carDriver.models.dtos.CityDto;
 import net.avalith.carDriver.services.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,5 +36,10 @@ public class CountryController {
             return ResponseEntity.noContent().build();
         else
             return ResponseEntity.ok(countries);
+    }
+
+    @PutMapping("/{name}/")
+    public ResponseEntity<Country> update(@PathVariable(value = "name") String name, @RequestBody @Valid Country country){
+        return ResponseEntity.ok(countryService.update(name, country));
     }
 }

@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.dtos.requests.UserDtoRequest;
+import net.avalith.carDriver.models.dtos.requests.UserDtoUpdateRequest;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
@@ -41,8 +45,16 @@ public class User {
     @Column(name = "dni", unique = true)
     private String dni;
 
-    @Column(name = "deleted_at")
-    private Date deletedAt;
+    @Column(name = "is_active")
+    private Boolean isActive;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 
     @OneToOne
     @JoinColumn(name = "id_license", referencedColumnName = "id_license")
@@ -52,5 +64,11 @@ public class User {
         name = userDtoRequest.getName();
         lastName = userDtoRequest.getLastName();
         dni = userDtoRequest.getDni();
+        isActive = Boolean.TRUE;
+    }
+
+    public User (UserDtoUpdateRequest userDtoUpdateRequest){
+        name = userDtoUpdateRequest.getName();
+        lastName = userDtoUpdateRequest.getLastName();
     }
 }
