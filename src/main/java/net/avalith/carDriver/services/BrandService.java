@@ -34,8 +34,8 @@ public class BrandService {
          return brandRepository.findById(id)
                 .orElseThrow(RuntimeException::new);
     }
-    public Brand update(Long id, Brand brand){
-        Brand brand1 = brandRepository.findById(id)
+    public Brand update(String name, Brand brand){
+        Brand brand1 = brandRepository.findByName(name)
                 .orElseThrow(RuntimeException::new);// toDo create exception custom
         brand1.setName(brand.getName());
         return  brandRepository.save(brand1);

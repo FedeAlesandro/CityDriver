@@ -45,9 +45,9 @@ public class BrandController {
         return ResponseEntity.ok(new BrandDtoResponse(brandService.save(brand)));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Brand> update(@PathVariable("id") Long id, @RequestBody Brand brand){
-        return ResponseEntity.status(HttpStatus.CREATED).body(brandService.update(id,brand));
+    @PutMapping("/{name}")
+    public ResponseEntity<Brand> update(@PathVariable("name") String name, @RequestBody Brand brand){
+        return ResponseEntity.status(HttpStatus.CREATED).body(brandService.update(name, brand));
 
     }
 
