@@ -4,6 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.avalith.carDriver.models.dtos.requests.BrandDtoRequest;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 
 import javax.persistence.CascadeType;
@@ -14,7 +19,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -34,5 +41,23 @@ public class Brand {
     private String name;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
-    private List<VehicleModels> vehicles_models = new ArrayList<>();
+    private List<VehicleModels> vehicleModels = new ArrayList<>();
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private  Timestamp updatedAt;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
+
+    public Brand(BrandDtoRequest brandDtoRequest) {
+        Brand.builder()
+                .name(brandDtoRequest.getName())
+                .isActive(brandDtoRequest.getIsActive())
+                .build();
+    }
 }
