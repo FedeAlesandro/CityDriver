@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,13 +40,13 @@ public class VehicleController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<VehicleDtoResponse> save(@RequestBody VehicleDtoRequest vehicle){
+    public ResponseEntity<VehicleDtoResponse> save(@RequestBody @Valid VehicleDtoRequest vehicle){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleDtoResponse(vehicleService.save(vehicle)));
     }
 
     @PutMapping("/{domain}")
-    public ResponseEntity<VehicleDtoResponse> update (@RequestBody VehicleDtoRequest vehicleDtoRequest, @PathVariable String domain){
+    public ResponseEntity<VehicleDtoResponse> update (@RequestBody @Valid VehicleDtoRequest vehicleDtoRequest, @PathVariable String domain){
 
         return ResponseEntity.ok(new VehicleDtoResponse(vehicleService.update(vehicleDtoRequest,domain)));
     }
