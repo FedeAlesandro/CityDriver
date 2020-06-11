@@ -32,28 +32,32 @@ public class VehicleModelController {
     public ResponseEntity<List<VehicleModelDtoResponse>> getAll(){
         List<VehicleModels> listVehicleModels = vehicleModelService.getAll();
         if (listVehicleModels.isEmpty()){
+
             return ResponseEntity.noContent().build();
-        }else {
-            List<VehicleModelDtoResponse> listVehicleModelsResponse = listVehicleModels.stream()
-                    .map(VehicleModelDtoResponse::new)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(listVehicleModelsResponse);
         }
+
+        return ResponseEntity.ok(listVehicleModels.stream()
+                .map(VehicleModelDtoResponse::new)
+                .collect(Collectors.toList()));
+
     }
 
     @PostMapping("/")
     public ResponseEntity<VehicleModelDtoResponse> save(@RequestBody @Valid VehicleModelDtoRequest vehicle){
+
         return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleModelDtoResponse(vehicleModelService.save(vehicle)));
     }
 
     @PutMapping("/{name}")
     public ResponseEntity<VehicleModelDtoResponse> update(@PathVariable("name") String name, @RequestBody @Valid VehicleModelDtoRequest vehicleModel){
+
         return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleModelDtoResponse(vehicleModelService.update(vehicleModel,name)));
     }
 
     @DeleteMapping("/{nameModel}")
     ResponseEntity<Void> delete(@PathVariable(value = "nameModel") String nameModel){
         vehicleModelService.delete(nameModel);
+
         return ResponseEntity.ok().build();
     }
 

@@ -9,6 +9,8 @@ public class Constants {
 
     public static final String NOT_FOUND_VEHICLE = "Vehicle not found";
 
+    public static final String NOT_FOUND_VEHICLE_MODEL = "Vehicle model not found";
+
     public static final String NOT_FOUND_POINT = "Point not found";
 
     public static final String NOT_FOUND_USER= "User not found";

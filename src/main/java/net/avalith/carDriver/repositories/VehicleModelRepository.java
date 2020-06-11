@@ -19,6 +19,6 @@ public interface VehicleModelRepository extends JpaRepository<VehicleModels,Long
 
     @Modifying
     @Transactional
-    @Query(value = "update vehicle_models set is_active = false where name = ?1 ", nativeQuery = true)
+    @Query(value = "update vehicle_models set is_active = false where name = ?1 and is_active = true ", nativeQuery = true)
     Integer delete(String nameModel);
 }

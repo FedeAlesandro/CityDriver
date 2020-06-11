@@ -48,6 +48,6 @@ public class VehicleModelService {
 
     public void delete(String nameModel){
         if(vehicleModelRepository.delete(nameModel) < 1)
-            throw new NotFoundException(NOT_FOUND_POINT);
+            throw new NotFoundException(NOT_FOUND_VEHICLE);
     }
 }
