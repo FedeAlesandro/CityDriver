@@ -26,4 +26,8 @@ public class Constants {
     public static final String LICENSE_ALREADY_EXISTS = "This license already exists";
 
     public static final String USER_ALREADY_EXISTS = "This user already exists";
+
+    public static final String DELETED_POINT = "Deleted point with lat = %s and lng = %s";
+    public static final String DELETED_USER = "Deleted user with dni = %s";
+
 }

@@ -27,10 +27,9 @@ public class CityController {
 
     @PostMapping("/")
     public ResponseEntity<CityDto> save(@RequestBody @Valid CityDto city){
-        CityDto response = new CityDto(cityService.save(city));
-        response.setName(response.getName().replace("-", " "));
+        city.setName(city.getName().replace("-", " "));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CityDto(cityService.save(city)));
     }
 
     @GetMapping("/")
@@ -40,20 +39,15 @@ public class CityController {
         if(citiesAux.isEmpty())
             return ResponseEntity.noContent().build();
 
-        List<CityDto> cities = citiesAux.stream()
+        return ResponseEntity.ok(citiesAux.stream()
                 .map(CityDto::new)
-                .collect(Collectors.toList());
-
-        cities.forEach(city -> city.setName(city.getName().replace("-", " ")));
-
-        return ResponseEntity.ok(cities);
+                .collect(Collectors.toList()));
     }
 
     @PutMapping("/{name}/")
     public ResponseEntity<CityDto> update(@PathVariable(value = "name") String name, @RequestBody @Valid CityDto city){
-        CityDto response = new CityDto(cityService.update(name, city));
-        response.setName(response.getName().replace("-", " "));
+        city.setName(city.getName().replace("-", " "));
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new CityDto(cityService.update(name, city)));
     }
 }

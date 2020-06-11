@@ -29,8 +29,6 @@ public class CityService {
         Country country = countryRepository.findByName(city.getCountryName())
             .orElseThrow(() -> new NotFoundException(NOT_FOUND_COUNTRY));
 
-        city.setName(city.getName().replace(" ", "-"));
-
         if(cityRepository.findByName(city.getName()).isPresent())
             throw new AlreadyExistsException(CITY_ALREADY_EXISTS);
         
@@ -45,8 +43,6 @@ public class CityService {
     public City update(String name, CityDto city) {
         City oldCity = cityRepository.findByName(name)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_CITY));
-
-        city.setName(city.getName().replace(" ", "-"));
 
         if(!city.getName().equals(oldCity.getName()))
             if(cityRepository.findByName(city.getName()).isPresent())

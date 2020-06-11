@@ -25,6 +25,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static net.avalith.carDriver.utils.Constants.DELETED_POINT;
+
 @RestController
 @RequestMapping("/points")
 public class PointController {
@@ -57,7 +59,7 @@ public class PointController {
                                        @RequestParam(value = "longitude") String lng){
         pointService.delete(lat, lng);
 
-        return ResponseEntity.ok(new DeleteResponseDto("Deleted point with lat = " + lat + " and lng = " + lng));
+        return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_POINT, lat, lng)));
     }
 
     @PutMapping("/")

@@ -26,6 +26,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static net.avalith.carDriver.utils.Constants.DELETED_USER;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -57,7 +59,7 @@ public class UserController {
     public ResponseEntity<DeleteResponseDto> delete(@PathVariable(value = "dni") String dni){
         userService.delete(dni);
 
-        return ResponseEntity.ok(new DeleteResponseDto("Deleted user with dni = " + dni));
+        return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_USER, dni)));
     }
 
     @PutMapping("/{dni}/")
