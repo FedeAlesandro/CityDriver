@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -40,14 +41,14 @@ public class BrandController {
         }
     }
     @PostMapping("/")
-    public ResponseEntity<BrandDtoResponse> save(@RequestBody BrandDtoRequest brand){
+    public ResponseEntity<BrandDtoResponse> save(@RequestBody @Valid BrandDtoRequest brand){
 
         return ResponseEntity.ok(new BrandDtoResponse(brandService.save(brand)));
     }
 
     @PutMapping("/{name}")
-    public ResponseEntity<Brand> update(@PathVariable("name") String name, @RequestBody Brand brand){
-        return ResponseEntity.status(HttpStatus.CREATED).body(brandService.update(name, brand));
+    public ResponseEntity<BrandDtoResponse> update(@PathVariable("name") String name, @RequestBody @Valid Brand brand){
+        return ResponseEntity.status(HttpStatus.CREATED).body(new BrandDtoResponse(brandService.update(name, brand)));
 
     }
 

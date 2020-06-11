@@ -55,9 +55,7 @@ public class Brand {
     private Boolean isActive;
 
     public Brand(BrandDtoRequest brandDtoRequest) {
-        Brand.builder()
-                .name(brandDtoRequest.getName())
-                .isActive(brandDtoRequest.getIsActive())
-                .build();
+        this.name = brandDtoRequest.getName();
+        this.isActive = Boolean.TRUE;
     }
 }

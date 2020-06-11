@@ -21,11 +21,9 @@ public class VehicleModelDtoResponse {
     private String nameBrand;
 
     public VehicleModelDtoResponse(VehicleModels vehicleModels) {
-        VehicleModelDtoResponse.builder()
-                .name(vehicleModels.getName())
-                .cantPlace(vehicleModels.getCantPlace())
-                .isAutomatic(vehicleModels.getIsAutomatic())
-                .nameBrand(vehicleModels.getBrand().getName())
-                .build();
+        this.name = vehicleModels.getName();
+        this.cantPlace = vehicleModels.getCantPlace();
+        this.isAutomatic = vehicleModels.getIsAutomatic();
+        this.nameBrand = vehicleModels.getBrand().getName();
     }
 }

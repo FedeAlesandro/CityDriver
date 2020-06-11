@@ -49,8 +49,7 @@ public class VehicleCategory {
     @UpdateTimestamp
     private  Timestamp updatedAt;
 
-    @OneToMany(mappedBy = "category_vehicles")
-    private List<Vehicle> vehicles = new ArrayList<>();
+
 
     public VehicleCategory(VehicleCategoryDtoRequest vehicleCategoryDtoRequest) {
         this.name = vehicleCategoryDtoRequest.getName();

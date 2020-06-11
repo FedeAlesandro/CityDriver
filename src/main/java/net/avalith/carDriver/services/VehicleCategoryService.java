@@ -30,4 +30,12 @@ public class VehicleCategoryService {
             throw new NotFoundException(NOT_FOUND_VEHICLE_CATEGORY);
         }
     }
+
+    public VehicleCategory update(VehicleCategoryDtoRequest vehicleCategoryDtoRequest){
+        VehicleCategory auxVehi = vehicleCategoryRepository.findByName(vehicleCategoryDtoRequest.getName())
+                .orElseThrow(()-> new NotFoundException(NOT_FOUND_VEHICLE_CATEGORY));
+        auxVehi.setCommission(vehicleCategoryDtoRequest.getCommission());
+        auxVehi.setName(vehicleCategoryDtoRequest.getName());
+        return vehicleCategoryRepository.save(auxVehi);
+    }
 }

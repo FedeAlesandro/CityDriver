@@ -18,7 +18,7 @@ public class VehicleModelDtoRequest {
     private Integer cantPlace;
     @NotNull
     private Boolean isAutomatic;
-    @NotBlank
+    @NotBlank(message = "The name brand is required")
     private String nameBrand;
 
 }

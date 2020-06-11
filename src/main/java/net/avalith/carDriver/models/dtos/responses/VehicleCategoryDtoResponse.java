@@ -15,11 +15,9 @@ public class VehicleCategoryDtoResponse {
 
     private Double commission;
 
-    private List<Vehicle> vehicles;
 
     public VehicleCategoryDtoResponse(VehicleCategory vehicleCategory) {
         this.name = vehicleCategory.getName();
         this.commission = vehicleCategory.getCommission();
-        this.vehicles = vehicleCategory.getVehicles();
     }
 }

@@ -42,15 +42,15 @@ public class VehicleCategoryController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<VehicleCategoryDtoResponse> save(@RequestBody VehicleCategoryDtoRequest categoryVehicle) {
+    public ResponseEntity<VehicleCategoryDtoResponse> save(@RequestBody @Valid VehicleCategoryDtoRequest categoryVehicle) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleCategoryDtoResponse(vehicleCategoryService.save(categoryVehicle)));
     }
 
-    @PutMapping("/{name")
+    @PutMapping("/{name}")
     public ResponseEntity<VehicleCategoryDtoResponse> update(@PathVariable String name, @RequestBody @Valid VehicleCategoryDtoRequest vehicleCategoryDtoRequest){
 
-        return ResponseEntity.ok( new VehicleCategoryDtoResponse(vehicleCategoryService.save(vehicleCategoryDtoRequest)));
+        return ResponseEntity.ok( new VehicleCategoryDtoResponse(vehicleCategoryService.update(vehicleCategoryDtoRequest)));
     }
 
     @DeleteMapping("/{name}")

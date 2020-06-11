@@ -13,6 +13,7 @@ public class Constants {
 
     public static final String NOT_FOUND_VEHICLE_CATEGORY = "Vehicle not found";
 
+    public static final String NOT_FOUND_PROVIDER = "Provider not found";
 
     public static final String NOT_FOUND_POINT = "Point not found";
 
