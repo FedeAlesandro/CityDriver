@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static net.avalith.carDriver.utils.Constants.LICENSE_ALREADY_EXISTS;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_CITY;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_POINT;
 import static net.avalith.carDriver.utils.Constants.POINT_ALREADY_EXISTS;
@@ -33,7 +32,7 @@ public class PointService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_CITY));
 
         if(pointRepository
-                .findByCoordinateLatitudeAndCoordinateLongitude(point.getCoordinateLatitude(), point.getCoordinateLongitude())
+                .getByLatAndLng(point.getLat(), point.getLng())
                 .isPresent())
             throw new AlreadyExistsException(POINT_ALREADY_EXISTS);
 
@@ -41,20 +40,22 @@ public class PointService {
     }
 
     public List<Point> getAll(){
+
         return pointRepository.getAll();
     }
 
-    public void delete(String coordinateLatitude, String coordinateLongitude){
-        if(pointRepository.delete(coordinateLatitude, coordinateLongitude) < 1)
+    public void delete(String lat, String lng){
+
+        if(pointRepository.delete(lat, lng) < 1)
             throw new NotFoundException(NOT_FOUND_POINT);
     }
 
-    public Point update(String coordinateLatitude, String coordinateLongitude, PointDtoUpdateRequest point) {
-        Point oldPoint = pointRepository.findByCoordinateLatitudeAndCoordinateLongitude(coordinateLatitude, coordinateLongitude)
+    public Point update(String lat, String lng, PointDtoUpdateRequest point) {
+        Point oldPoint = pointRepository.getByLatAndLng(lat, lng)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_POINT));
 
-        if(!point.getCoordinateLatitude().equals(oldPoint.getCoordinateLatitude()) && !point.getCoordinateLongitude().equals(oldPoint.getCoordinateLongitude()))
-            if(pointRepository.findByCoordinateLatitudeAndCoordinateLongitude(point.getCoordinateLatitude(), point.getCoordinateLongitude()).isPresent())
+        if(!point.getLat().equals(oldPoint.getLat()) && !point.getLng().equals(oldPoint.getLng()))
+            if(pointRepository.getByLatAndLng(point.getLat(), point.getLng()).isPresent())
                 throw new AlreadyExistsException(POINT_ALREADY_EXISTS);
 
         City city = cityRepository.findByName(point.getCityName())
@@ -62,6 +63,7 @@ public class PointService {
 
         Point pointUpdate = new Point(point, city);
         pointUpdate.setId(oldPoint.getId());
+        pointUpdate.setIsActive(oldPoint.getIsActive());
 
         return pointRepository.save(pointUpdate);
     }

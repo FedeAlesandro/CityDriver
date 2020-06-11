@@ -19,10 +19,15 @@ public class CountryService {
     private CountryRepository countryRepository;
 
     public Country save(Country country){
+
+        if(countryRepository.findByName(country.getName()).isPresent())
+            throw new AlreadyExistsException(COUNTRY_ALREADY_EXISTS);
+
         return countryRepository.save(country);
     }
 
     public List<Country> getAll(){
+
         return countryRepository.findAll();
     }
 

@@ -13,7 +13,8 @@ import java.util.Optional;
 @Repository
 public interface PointRepository extends JpaRepository<Point, Long> {
 
-    Optional<Point> findByCoordinateLatitudeAndCoordinateLongitude(String coordinateLatitude, String coordinateLongitude);
+    @Query(value = "select * from points where is_active = true and lat = ?1 and lng = ?2 ;", nativeQuery = true)
+    Optional<Point> getByLatAndLng(String lat, String lng);
 
     @Query(value = "select * from points where is_active = true ", nativeQuery = true)
     List<Point> getAll();

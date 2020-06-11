@@ -29,24 +29,27 @@ public class LicenseController {
 
     @PostMapping("/")
     public ResponseEntity<LicenseDtoResponse> save(@RequestBody @Valid LicenseDtoRequest license){
+
         return ResponseEntity.status(HttpStatus.CREATED).body(new LicenseDtoResponse(licenseService.save(license)));
     }
 
     @GetMapping("/")
     public ResponseEntity<List<LicenseDtoResponse>> getAll(){
         List<License> licenses = licenseService.getAll();
+
         if (licenses.isEmpty())
             return ResponseEntity.noContent().build();
-        else{
-            List<LicenseDtoResponse> licenseResponses = licenses.stream()
-                    .map(LicenseDtoResponse::new)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(licenseResponses);
-        }
+
+        List<LicenseDtoResponse> licenseResponses = licenses.stream()
+                .map(LicenseDtoResponse::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(licenseResponses);
     }
 
     @PutMapping("/{number}/")
     public ResponseEntity<LicenseDtoResponse> update(@PathVariable(value = "number") String number, @RequestBody @Valid LicenseDtoRequest license){
+
         return ResponseEntity.ok(new LicenseDtoResponse(licenseService.update(number, license)));
     }
 }

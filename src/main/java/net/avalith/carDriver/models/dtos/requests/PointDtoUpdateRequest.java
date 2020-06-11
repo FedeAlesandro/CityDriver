@@ -18,10 +18,10 @@ public class PointDtoUpdateRequest {
     private Boolean isDestination;
 
     @NotBlank(message = "The latitude coordinate is required")
-    private String coordinateLatitude;
+    private String lat;
 
     @NotBlank(message = "The longitude coordinate is required")
-    private String coordinateLongitude;
+    private String lng;
 
     @NotNull(message = "The capacity is required")
     private Integer capacity;
@@ -35,8 +35,8 @@ public class PointDtoUpdateRequest {
     public PointDtoUpdateRequest(Point point) {
         isOrigin = point.getIsOrigin();
         isDestination = point.getIsDestination();
-        coordinateLatitude = point.getCoordinateLatitude();
-        coordinateLongitude = point.getCoordinateLongitude();
+        lat = point.getLat();
+        lng = point.getLng();
         capacity = point.getCapacity();
         stock = point.getStock();
         cityName = point.getCity().getName();

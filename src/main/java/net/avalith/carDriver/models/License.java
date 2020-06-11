@@ -38,10 +38,10 @@ public class License {
     @Column(name = "number", unique = true)
     private String number;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "expiration_date")
     private Date expirationDate;
 
-    @JsonFormat(timezone = "GMT-03:00", shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "validated")
     private Boolean validated;
 

@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -15,4 +17,6 @@ public class UserDtoUpdateRequest {
     @NotBlank(message = "The last name is required")
     private String lastName;
 
+    @NotNull(message = "The birth date is required")
+    private Date birthDate;
 }

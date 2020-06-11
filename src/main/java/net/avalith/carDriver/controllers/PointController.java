@@ -4,6 +4,7 @@ import net.avalith.carDriver.models.Point;
 import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.PointDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.PointDtoUpdateRequest;
+import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
 import net.avalith.carDriver.models.dtos.responses.LicenseDtoResponse;
 import net.avalith.carDriver.models.dtos.responses.PointDtoResponse;
 import net.avalith.carDriver.services.PointService;
@@ -33,34 +34,37 @@ public class PointController {
 
     @PostMapping("/")
     public ResponseEntity<PointDtoResponse> save(@RequestBody @Valid PointDtoRequest point){
+
         return ResponseEntity.status(HttpStatus.CREATED).body(new PointDtoResponse(pointService.save(point)));
     }
 
     @GetMapping("/")
     public ResponseEntity<List<PointDtoResponse>> getAll(){
         List<Point> pointsAux = pointService.getAll();
+
         if (pointsAux.isEmpty())
             return ResponseEntity.noContent().build();
-        else
-        {
-            List<PointDtoResponse> points = pointsAux.stream()
-                    .map(PointDtoResponse::new)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(points);
-        }
+
+        List<PointDtoResponse> points = pointsAux.stream()
+                .map(PointDtoResponse::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(points);
     }
 
     @DeleteMapping("/")
-    public ResponseEntity<Void> delete(@RequestParam(value = "latitude") String coordinateLatitude,
-                                       @RequestParam(value = "longitude") String coordinateLongitude){
-        pointService.delete(coordinateLatitude, coordinateLongitude);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<DeleteResponseDto> delete(@RequestParam(value = "latitude") String lat,
+                                       @RequestParam(value = "longitude") String lng){
+        pointService.delete(lat, lng);
+
+        return ResponseEntity.ok(new DeleteResponseDto("Deleted point with lat = " + lat + " and lng = " + lng));
     }
 
     @PutMapping("/")
-    public ResponseEntity<PointDtoResponse> update(@RequestParam(value = "latitude") String coordinateLatitude,
-                                                   @RequestParam(value = "longitude") String coordinateLongitude,
+    public ResponseEntity<PointDtoResponse> update(@RequestParam(value = "latitude") String lat,
+                                                   @RequestParam(value = "longitude") String lng,
                                                    @RequestBody @Valid PointDtoUpdateRequest point){
-        return ResponseEntity.ok(new PointDtoResponse(pointService.update(coordinateLatitude, coordinateLongitude, point)));
+
+        return ResponseEntity.ok(new PointDtoResponse(pointService.update(lat, lng, point)));
     }
 }

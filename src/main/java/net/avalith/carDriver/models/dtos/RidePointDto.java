@@ -17,7 +17,7 @@ public class RidePointDto {
     private String coordinateLongitude;
 
     public RidePointDto(Point point) {
-        this.coordinateLatitude = point.getCoordinateLatitude();
-        this.coordinateLongitude = point.getCoordinateLongitude();
+        this.coordinateLatitude = point.getLat();
+        this.coordinateLongitude = point.getLng();
     }
 }

@@ -28,10 +28,15 @@ public class CityService {
     public City save(CityDto city){
         Country country = countryRepository.findByName(city.getCountryName())
             .orElseThrow(() -> new NotFoundException(NOT_FOUND_COUNTRY));
+
+        if(cityRepository.findByName(city.getName()).isPresent())
+            throw new AlreadyExistsException(CITY_ALREADY_EXISTS);
+        
         return cityRepository.save(new City(city, country));
     }
 
     public List<City> getAll(){
+
         return cityRepository.findAll();
     }
 

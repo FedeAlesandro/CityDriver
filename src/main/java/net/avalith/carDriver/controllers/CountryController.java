@@ -26,20 +26,23 @@ public class CountryController {
 
     @PostMapping("/")
     public ResponseEntity<Country> save(@RequestBody @Valid Country country){
+
         return ResponseEntity.status(HttpStatus.CREATED).body(countryService.save(country));
     }
 
     @GetMapping("/")
     public ResponseEntity<List<Country>> getAll(){
         List<Country> countries = countryService.getAll();
+
         if (countries.isEmpty())
             return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.ok(countries);
+
+        return ResponseEntity.ok(countries);
     }
 
     @PutMapping("/{name}/")
     public ResponseEntity<Country> update(@PathVariable(value = "name") String name, @RequestBody @Valid Country country){
+
         return ResponseEntity.ok(countryService.update(name, country));
     }
 }

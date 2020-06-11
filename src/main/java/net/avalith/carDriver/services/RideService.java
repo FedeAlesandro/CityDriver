@@ -44,22 +44,23 @@ public class RideService {
         Vehicle vehicle = vehicleRepository.findByDomain(ride.getVehicleDomain())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE));
 
-        Point point = pointRepository.findByCoordinateLatitudeAndCoordinateLongitude(ridePoint.getCoordinateLatitude(), ridePoint.getCoordinateLongitude())
+        Point point = pointRepository.getByLatAndLng(ridePoint.getCoordinateLatitude(), ridePoint.getCoordinateLongitude())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_POINT));
 
-        User user = userRepository.findByDni(ride.getUserDni())
+        User user = userRepository.getByDni(ride.getUserDni())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER));
 
         return rideRepository.save(new Ride(ride, vehicle, point, user));
     }
 
     public List<Ride> getAll(){
+
         return rideRepository.findAll();
     }
 
     public Ride update(Long id, RideDtoUpdateRequest ride) {
 
-        rideRepository.findById(id)
+        Ride oldRide = rideRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_RIDE));
 
         RidePointDto originRidePoint = ride.getOriginPoint();
@@ -68,17 +69,18 @@ public class RideService {
         Vehicle vehicle = vehicleRepository.findByDomain(ride.getVehicleDomain())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE));
 
-        Point originPoint = pointRepository.findByCoordinateLatitudeAndCoordinateLongitude(originRidePoint.getCoordinateLatitude(), originRidePoint.getCoordinateLongitude())
+        Point originPoint = pointRepository.getByLatAndLng(originRidePoint.getCoordinateLatitude(), originRidePoint.getCoordinateLongitude())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_POINT));
 
-        Point destinationPoint = pointRepository.findByCoordinateLatitudeAndCoordinateLongitude(destinationRidePoint.getCoordinateLatitude(), destinationRidePoint.getCoordinateLongitude())
+        Point destinationPoint = pointRepository.getByLatAndLng(destinationRidePoint.getCoordinateLatitude(), destinationRidePoint.getCoordinateLongitude())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_POINT));
 
-        User user = userRepository.findByDni(ride.getUserDni())
+        User user = userRepository.getByDni(ride.getUserDni())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER));
 
         Ride rideUpdate = new Ride(ride, vehicle, originPoint, destinationPoint, user);
         rideUpdate.setId(id);
+        rideUpdate.setCode(oldRide.getCode());
 
         return rideRepository.save(rideUpdate);
     }

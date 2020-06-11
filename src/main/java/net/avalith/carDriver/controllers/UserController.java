@@ -5,6 +5,7 @@ import net.avalith.carDriver.models.dtos.UserDtoNoLicense;
 import net.avalith.carDriver.models.dtos.requests.RideDtoUpdateRequest;
 import net.avalith.carDriver.models.dtos.requests.UserDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.UserDtoUpdateRequest;
+import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
 import net.avalith.carDriver.models.dtos.responses.RideDtoResponse;
 import net.avalith.carDriver.models.dtos.responses.UserDtoResponse;
 import net.avalith.carDriver.services.UserService;
@@ -34,31 +35,35 @@ public class UserController {
 
     @PostMapping("/")
     public ResponseEntity<UserDtoNoLicense> save(@RequestBody @Valid UserDtoRequest user){
+
         return ResponseEntity.status(HttpStatus.CREATED).body(new UserDtoNoLicense(userService.save(user)));
     }
 
     @GetMapping("/")
     public ResponseEntity<List<UserDtoResponse>> getAll(){
         List<User> users = userService.getAll();
+
         if(users.isEmpty())
             return ResponseEntity.noContent().build();
-        else{
-            List<UserDtoResponse>userResponses = users.stream()
-                    .map(UserDtoResponse::new)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(userResponses);
-        }
+
+        List<UserDtoResponse>userResponses = users.stream()
+                .map(UserDtoResponse::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(userResponses);
     }
 
     @DeleteMapping("/{dni}/")
-    public ResponseEntity<Void> delete(@PathVariable(value = "dni") String dni){
+    public ResponseEntity<DeleteResponseDto> delete(@PathVariable(value = "dni") String dni){
         userService.delete(dni);
-        return ResponseEntity.ok().build();
+
+        return ResponseEntity.ok(new DeleteResponseDto("Deleted user with dni = " + dni));
     }
 
     @PutMapping("/{dni}/")
-    public ResponseEntity<UserDtoResponse> update(@RequestParam(value = "dni") String dni,
+    public ResponseEntity<UserDtoResponse> update(@PathVariable(value = "dni") String dni,
                                                   @RequestBody @Valid UserDtoUpdateRequest user){
+
         return ResponseEntity.ok(new UserDtoResponse(userService.update(dni, user)));
     }
 }

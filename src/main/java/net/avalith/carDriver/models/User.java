@@ -1,5 +1,6 @@
 package net.avalith.carDriver.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,10 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "birth_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date birthDate;
+
     @Column(name = "dni", unique = true)
     private String dni;
 
@@ -63,6 +68,7 @@ public class User {
     public User (UserDtoRequest userDtoRequest){
         name = userDtoRequest.getName();
         lastName = userDtoRequest.getLastName();
+        birthDate = userDtoRequest.getBirthDate();
         dni = userDtoRequest.getDni();
         isActive = Boolean.TRUE;
     }
@@ -70,5 +76,6 @@ public class User {
     public User (UserDtoUpdateRequest userDtoUpdateRequest){
         name = userDtoUpdateRequest.getName();
         lastName = userDtoUpdateRequest.getLastName();
+        birthDate = userDtoUpdateRequest.getBirthDate();
     }
 }

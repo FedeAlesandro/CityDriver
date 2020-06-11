@@ -25,4 +25,5 @@ public class Constants {
 
     public static final String LICENSE_ALREADY_EXISTS = "This license already exists";
 
+    public static final String USER_ALREADY_EXISTS = "This user already exists";
 }

@@ -12,9 +12,9 @@ public class PointDtoResponse {
 
     private Boolean isDestination;
 
-    private String coordinateLatitude;
+    private String lat;
 
-    private String coordinateLongitude;
+    private String lng;
 
     private Integer capacity;
 
@@ -25,8 +25,8 @@ public class PointDtoResponse {
     public PointDtoResponse(Point point) {
         isOrigin = point.getIsOrigin();
         isDestination = point.getIsDestination();
-        coordinateLatitude = point.getCoordinateLatitude();
-        coordinateLongitude = point.getCoordinateLongitude();
+        lat = point.getLat();
+        lng = point.getLng();
         capacity = point.getCapacity();
         stock = point.getStock();
         cityName = point.getCity().getName();

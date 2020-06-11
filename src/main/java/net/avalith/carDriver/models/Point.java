@@ -21,7 +21,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Data
 @Entity
@@ -43,11 +42,11 @@ public class Point {
     @Column(name = "is_destination")
     private Boolean isDestination;
 
-    @Column(name = "coordinate_latitude")
-    private String coordinateLatitude;
+    @Column(name = "lat")
+    private String lat;
 
-    @Column(name = "coordinate_longitude")
-    private String coordinateLongitude;
+    @Column(name = "lng")
+    private String lng;
 
     @Column(name = "capacity")
     private Integer capacity;
@@ -72,8 +71,8 @@ public class Point {
 
     public Point (PointDtoRequest pointDtoRequest, City city){
         isOrigin = pointDtoRequest.getIsOrigin();
-        coordinateLatitude = pointDtoRequest.getCoordinateLatitude();
-        coordinateLongitude = pointDtoRequest.getCoordinateLongitude();
+        lat = pointDtoRequest.getLat();
+        lng = pointDtoRequest.getLng();
         capacity = pointDtoRequest.getCapacity();
         stock = pointDtoRequest.getStock();
         this.city = city;
@@ -83,8 +82,8 @@ public class Point {
     public Point (PointDtoUpdateRequest pointDtoUpdateRequest, City city){
         isOrigin = pointDtoUpdateRequest.getIsOrigin();
         isDestination = pointDtoUpdateRequest.getIsDestination();
-        coordinateLatitude = pointDtoUpdateRequest.getCoordinateLatitude();
-        coordinateLongitude = pointDtoUpdateRequest.getCoordinateLongitude();
+        lat = pointDtoUpdateRequest.getLat();
+        lng = pointDtoUpdateRequest.getLng();
         capacity = pointDtoUpdateRequest.getCapacity();
         stock = pointDtoUpdateRequest.getStock();
         this.city = city;
