@@ -1,11 +1,14 @@
 package net.avalith.carDriver.models.dtos.responses;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.Point;
 
 @Data
 @NoArgsConstructor
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class PointDtoResponse {
 
     private Boolean isOrigin;

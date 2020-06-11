@@ -1,5 +1,7 @@
 package net.avalith.carDriver.models.dtos.requests;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.Point;
@@ -9,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class PointDtoRequest {
 
     @NotNull(message = "Is origin is required")

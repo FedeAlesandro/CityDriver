@@ -1,6 +1,7 @@
 package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.Country;
+import net.avalith.carDriver.models.CountryDto;
 import net.avalith.carDriver.models.dtos.CityDto;
 import net.avalith.carDriver.services.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/countries")
@@ -25,24 +27,34 @@ public class CountryController {
     private CountryService countryService;
 
     @PostMapping("/")
-    public ResponseEntity<Country> save(@RequestBody @Valid Country country){
+    public ResponseEntity<CountryDto> save(@RequestBody @Valid Country country){
+        CountryDto response = new CountryDto(countryService.save(country));
+        response.setName(response.getName().replace("-", " "));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(countryService.save(country));
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Country>> getAll(){
+    public ResponseEntity<List<CountryDto>> getAll(){
         List<Country> countries = countryService.getAll();
 
         if (countries.isEmpty())
             return ResponseEntity.noContent().build();
 
-        return ResponseEntity.ok(countries);
+        List<CountryDto> response = countries.stream()
+                .map(CountryDto::new)
+                .collect(Collectors.toList());
+
+        response.forEach(country -> country.setName(country.getName().replace("-", " ")));
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{name}/")
-    public ResponseEntity<Country> update(@PathVariable(value = "name") String name, @RequestBody @Valid Country country){
+    public ResponseEntity<CountryDto> update(@PathVariable(value = "name") String name, @RequestBody @Valid Country country){
+        CountryDto response = new CountryDto(countryService.update(name, country));
+        response.setName(response.getName().replace("-", " "));
 
-        return ResponseEntity.ok(countryService.update(name, country));
+        return ResponseEntity.ok(response);
     }
 }

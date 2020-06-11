@@ -29,7 +29,6 @@ import java.util.Date;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class User {
 
     @Id

@@ -1,6 +1,8 @@
 package net.avalith.carDriver.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.User;
@@ -9,6 +11,7 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserDtoNoLicense {
 
     private String name;

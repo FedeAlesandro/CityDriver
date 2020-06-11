@@ -28,7 +28,6 @@ import java.sql.Timestamp;
 @Table(name = "points")
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Point {
 
     @Id

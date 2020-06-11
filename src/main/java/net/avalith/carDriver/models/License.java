@@ -27,7 +27,6 @@ import java.util.Date;
 @Table(name = "licenses")
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class License {
 
     @Id

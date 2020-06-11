@@ -22,7 +22,6 @@ import java.sql.Timestamp;
 @Table(name = "countries")
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Country {
 
     @Id
