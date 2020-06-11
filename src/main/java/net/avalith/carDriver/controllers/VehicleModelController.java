@@ -42,13 +42,13 @@ public class VehicleModelController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<VehicleModelDtoResponse> save(@RequestBody VehicleModelDtoRequest vehicle){
+    public ResponseEntity<VehicleModelDtoResponse> save(@RequestBody @Valid VehicleModelDtoRequest vehicle){
         return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleModelDtoResponse(vehicleModelService.save(vehicle)));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<VehicleModelDtoResponse> update(@PathVariable("id") Long id, @RequestBody @Valid VehicleModelDtoRequest vehicleModel){
-        return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleModelDtoResponse(vehicleModelService.update(vehicleModel,id)));
+    @PutMapping("/{name}")
+    public ResponseEntity<VehicleModelDtoResponse> update(@PathVariable("name") String name, @RequestBody @Valid VehicleModelDtoRequest vehicleModel){
+        return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleModelDtoResponse(vehicleModelService.update(vehicleModel,name)));
     }
 
     @DeleteMapping("/{nameModel}")

@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_BRAND;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_POINT;
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE;
 
 @Service
 public class VehicleModelService {
@@ -25,18 +27,18 @@ public class VehicleModelService {
 
     public VehicleModels save(VehicleModelDtoRequest models){
         Brand brandSearch = brandRepository.findByName(models.getNameBrand())
-                .orElseThrow(RuntimeException::new);//todo crear la excepcion
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));//todo crear la excepcion
         return  vehicleModelRepository.save(new VehicleModels(models,brandSearch));
     }
     public List<VehicleModels> getAll(){
         return vehicleModelRepository.getAllActive();
     }
 
-    public VehicleModels update (VehicleModelDtoRequest model, Long idModel){
-        VehicleModels auxM = vehicleModelRepository.findById(idModel)
-                .orElseThrow(RuntimeException::new);
+    public VehicleModels update (VehicleModelDtoRequest model, String name){
+        VehicleModels auxM = vehicleModelRepository.findByName(name)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE));
         Brand brandSearch = brandRepository.findByName(model.getNameBrand())
-                .orElseThrow(RuntimeException::new);//todo crear la excepcion
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));//todo crear la excepcion
         auxM.setBrand(brandSearch);
         auxM.setCantPlace(model.getCantPlace());
         auxM.setIsAutomatic(model.getIsAutomatic());

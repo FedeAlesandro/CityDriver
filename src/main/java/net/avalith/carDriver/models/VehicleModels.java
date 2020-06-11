@@ -67,17 +67,4 @@ public class VehicleModels {
         this.brand = brand;
         this.isActive = Boolean.TRUE;
     }
-
-    public VehicleModels (VehicleModelDtoRequest vehicleModelDtoRequest){
-        this.id = id;
-        this.name = name;
-        this.cantPlace = cantPlace;
-        this.isAutomatic = isAutomatic;
-        this.brand = brand;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.isActive = isActive;
-    }
-
-
 }
