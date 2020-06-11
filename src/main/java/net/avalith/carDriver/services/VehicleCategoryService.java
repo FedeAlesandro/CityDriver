@@ -18,7 +18,7 @@ public class VehicleCategoryService {
     private VehicleCategoryRepository vehicleCategoryRepository;
 
     public List<VehicleCategory> getAll(){
-        return vehicleCategoryRepository.findAll();
+        return vehicleCategoryRepository.getAllActive();
     }
 
     public VehicleCategory save(VehicleCategoryDtoRequest vehicleCategory){

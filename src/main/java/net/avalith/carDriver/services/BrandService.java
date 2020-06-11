@@ -1,14 +1,15 @@
 package net.avalith.carDriver.services;
 
+import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.Brand;
-import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.models.dtos.requests.BrandDtoRequest;
 import net.avalith.carDriver.repositories.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
+
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_BRAND;
 
 @Service
 public class BrandService {
@@ -26,17 +27,17 @@ public class BrandService {
 
     public void deleteBrand(String name){
         Brand auxBrand = brandRepository.findByName(name)
-                .orElseThrow(RuntimeException::new);//toDo create exception custom
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));
         auxBrand.setIsActive(Boolean.FALSE);
         brandRepository.save(auxBrand);
     }
     public Brand getById(Long id){
          return brandRepository.findById(id)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));
     }
     public Brand update(String name, Brand brand){
         Brand brand1 = brandRepository.findByName(name)
-                .orElseThrow(RuntimeException::new);// toDo create exception custom
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));
         brand1.setName(brand.getName());
         return  brandRepository.save(brand1);
     }
