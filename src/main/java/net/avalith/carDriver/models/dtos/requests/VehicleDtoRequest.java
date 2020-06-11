@@ -11,11 +11,9 @@ import net.avalith.carDriver.models.enums.Colors;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class VehicleDTO {
+public class VehicleDtoRequest {
 
     private String domain;
-
-    private Boolean available;
 
     private Colors color;
 

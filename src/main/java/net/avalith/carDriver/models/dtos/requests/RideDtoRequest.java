@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.avalith.carDriver.models.Ride;
 import net.avalith.carDriver.models.dtos.RidePointDto;
 import net.avalith.carDriver.models.enums.TariffType;
 
