@@ -20,7 +20,7 @@ public class VehicleDtoRequest {
     @NotBlank(message = "The domain is required")
     private String domain;
 
-    @NotBlank(message = "The colo is required")
+    @NotBlank(message = "The color is required")
     private Colors color;
 
     @NotBlank(message = "The name model is required")

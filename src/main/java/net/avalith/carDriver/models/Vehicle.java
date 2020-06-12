@@ -64,4 +64,13 @@ public class Vehicle {
         this.vehicleModels = vehicleModels;
         this.categoryVehicles = category_vehicles;
     }
+
+    public Vehicle VehicleFromDtoRequest(Vehicle vehicle,VehicleDtoRequest vehicleDtoRequest, Provider provider, VehicleModels vehicleModels, VehicleCategory category_vehicles){
+        vehicle.setDomain(vehicleDtoRequest.getDomain());
+        vehicle.setColor(vehicleDtoRequest.getColor());
+        vehicle.setProvider(provider);
+        vehicle.setVehicleModels(vehicleModels);
+        vehicle.setCategoryVehicles(category_vehicles);
+        return vehicle;
+    }
 }

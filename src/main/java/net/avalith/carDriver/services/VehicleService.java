@@ -60,13 +60,7 @@ public class VehicleService {
         VehicleCategory categorySearch = vehicleCategoryRepository.findByName(vehicleDtoRequest.getNameCategory())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE_CATEGORY));
 
-        aux.setDomain(vehicleDtoRequest.getDomain());
-        aux.setColor(vehicleDtoRequest.getColor());
-        aux.setProvider(providerSearch);
-        aux.setVehicleModels(modelSearch);
-        aux.setCategoryVehicles(categorySearch);
-
-        return vehicleRepository.save(aux);
+        return vehicleRepository.save(aux.VehicleFromDtoRequest(aux,vehicleDtoRequest,providerSearch,modelSearch,categorySearch));
     }
 
     public void delete(String domain){
