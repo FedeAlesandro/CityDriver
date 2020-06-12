@@ -2,16 +2,16 @@ package net.avalith.carDriver.models.dtos.responses;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class NotValidResponse {
+public class DeleteResponseDto {
 
-    private List<NotValidFieldResponse> errors;
+    private String message;
 
 }

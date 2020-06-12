@@ -1,5 +1,7 @@
 package net.avalith.carDriver.models.dtos.requests;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.Point;
@@ -9,16 +11,17 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class PointDtoRequest {
 
     @NotNull(message = "Is origin is required")
     private Boolean isOrigin;
 
     @NotBlank(message = "The latitude coordinate is required")
-    private String coordinateLatitude;
+    private String lat;
 
     @NotBlank(message = "The longitude coordinate is required")
-    private String coordinateLongitude;
+    private String lng;
 
     @NotNull(message = "The capacity is required")
     private Integer capacity;
@@ -31,8 +34,8 @@ public class PointDtoRequest {
 
     public PointDtoRequest(Point point) {
         isOrigin = point.getIsOrigin();
-        coordinateLatitude = point.getCoordinateLatitude();
-        coordinateLongitude = point.getCoordinateLongitude();
+        lat = point.getLat();
+        lng = point.getLng();
         capacity = point.getCapacity();
         stock = point.getStock();
         cityName = point.getCity().getName();

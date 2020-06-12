@@ -1,4 +1,4 @@
-package net.avalith.carDriver.models.dtos.requests;
+package net.avalith.carDriver.models.dtos.responses;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -6,17 +6,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.License;
 
-import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class LicenseDtoRequest {
+public class LicenseDtoResponse {
 
-    @NotBlank(message = "The license number is required")
     private String number;
 
-    public LicenseDtoRequest(License license) {
+    private Date expirationDate;
+
+    private Boolean validated;
+
+    public LicenseDtoResponse(License license) {
         number = license.getNumber();
+        expirationDate = license.getExpirationDate();
+        validated = license.getValidated();
     }
 }

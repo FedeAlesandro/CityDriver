@@ -1,26 +1,25 @@
-package net.avalith.carDriver.models.dtos;
+package net.avalith.carDriver.models.dtos.requests;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.avalith.carDriver.models.City;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class CityDto {
+public class UserDtoUpdateRequest {
 
     @NotBlank(message = "The name is required")
     private String name;
 
-    @NotBlank(message = "The country name is required")
-    private String countryName;
+    @NotBlank(message = "The last name is required")
+    private String lastName;
 
-    public CityDto(City city) {
-        name = city.getName();
-        countryName = city.getCountry().getName();
-    }
+    @NotNull(message = "The birth date is required")
+    private Date birthDate;
 }
