@@ -29,7 +29,6 @@ public class CountryController {
     @PostMapping("/")
     public ResponseEntity<CountryDto> save(@RequestBody @Valid Country country){
         CountryDto response = new CountryDto(countryService.save(country));
-        response.setName(response.getName().replace("-", " "));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -45,15 +44,12 @@ public class CountryController {
                 .map(CountryDto::new)
                 .collect(Collectors.toList());
 
-        response.forEach(country -> country.setName(country.getName().replace("-", " ")));
-
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{name}/")
     public ResponseEntity<CountryDto> update(@PathVariable(value = "name") String name, @RequestBody @Valid Country country){
-        CountryDto response = new CountryDto(countryService.update(name, country));
-        response.setName(response.getName().replace("-", " "));
+        CountryDto response = new CountryDto(countryService.update(name.replace("-", " "), country));
 
         return ResponseEntity.ok(response);
     }

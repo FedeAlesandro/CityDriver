@@ -14,13 +14,13 @@ import javax.validation.constraints.NotBlank;
 public class RidePointDto {
 
     @NotBlank(message = "The latitude coordinate is required")
-    private String coordinateLatitude;
+    private String lat;
 
     @NotBlank(message = "The longitude coordinate is required")
-    private String coordinateLongitude;
+    private String lng;
 
     public RidePointDto(Point point) {
-        this.coordinateLatitude = point.getLat();
-        this.coordinateLongitude = point.getLng();
+        this.lat = point.getLat();
+        this.lng = point.getLng();
     }
 }
