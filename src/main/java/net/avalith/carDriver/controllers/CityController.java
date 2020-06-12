@@ -27,7 +27,6 @@ public class CityController {
 
     @PostMapping("/")
     public ResponseEntity<CityDto> save(@RequestBody @Valid CityDto city){
-        city.setName(city.getName().replace("-", " "));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new CityDto(cityService.save(city)));
     }
@@ -46,7 +45,7 @@ public class CityController {
 
     @PutMapping("/{name}/")
     public ResponseEntity<CityDto> update(@PathVariable(value = "name") String name, @RequestBody @Valid CityDto city){
-        city.setName(city.getName().replace("-", " "));
+        name = name.replace("-", " ");
 
         return ResponseEntity.ok(new CityDto(cityService.update(name, city)));
     }
