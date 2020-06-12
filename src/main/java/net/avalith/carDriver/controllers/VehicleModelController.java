@@ -3,6 +3,7 @@ package net.avalith.carDriver.controllers;
 import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.models.VehicleModels;
 import net.avalith.carDriver.models.dtos.requests.VehicleModelDtoRequest;
+import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
 import net.avalith.carDriver.models.dtos.responses.VehicleModelDtoResponse;
 import net.avalith.carDriver.services.VehicleModelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static net.avalith.carDriver.utils.Constants.DELETED_VEHICLE_MODEL;
 
 @RequestMapping("/vehicle-models")
 @RestController
@@ -51,14 +54,14 @@ public class VehicleModelController {
     @PutMapping("/{name}")
     public ResponseEntity<VehicleModelDtoResponse> update(@PathVariable("name") String name, @RequestBody @Valid VehicleModelDtoRequest vehicleModel){
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleModelDtoResponse(vehicleModelService.update(vehicleModel,name)));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleModelDtoResponse(vehicleModelService.update(vehicleModel,name.replace("-"," "))));
     }
 
     @DeleteMapping("/{nameModel}")
-    ResponseEntity<Void> delete(@PathVariable(value = "nameModel") String nameModel){
+    ResponseEntity<DeleteResponseDto> delete(@PathVariable(value = "nameModel") String nameModel){
         vehicleModelService.delete(nameModel);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_VEHICLE_MODEL,nameModel)));
     }
 
 }

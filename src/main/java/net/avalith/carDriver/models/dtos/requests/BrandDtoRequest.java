@@ -4,13 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class BrandDtoRequest {
 
+    @NotBlank(message = "The name is required")
     private String name;
+
     private Boolean isActive;
+
 
     public BrandDtoRequest(String name) {
         this.name = name;

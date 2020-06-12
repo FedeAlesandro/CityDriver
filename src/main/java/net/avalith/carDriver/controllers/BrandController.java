@@ -3,6 +3,7 @@ package net.avalith.carDriver.controllers;
 import net.avalith.carDriver.models.Brand;
 import net.avalith.carDriver.models.dtos.requests.BrandDtoRequest;
 import net.avalith.carDriver.models.dtos.responses.BrandDtoResponse;
+import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
 import net.avalith.carDriver.services.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
+import static net.avalith.carDriver.utils.Constants.DELETED_BRAND;
+import static net.avalith.carDriver.utils.Constants.DELETED_POINT;
 
 @RestController
 @RequestMapping("/brands")
@@ -40,21 +45,22 @@ public class BrandController {
         }
     }
     @PostMapping("/")
-    public ResponseEntity<BrandDtoResponse> save(@RequestBody BrandDtoRequest brand){
+    public ResponseEntity<BrandDtoResponse> save(@RequestBody @Valid BrandDtoRequest brand){
 
         return ResponseEntity.ok(new BrandDtoResponse(brandService.save(brand)));
     }
 
     @PutMapping("/{name}")
-    public ResponseEntity<Brand> update(@PathVariable("name") String name, @RequestBody Brand brand){
-        return ResponseEntity.status(HttpStatus.CREATED).body(brandService.update(name, brand));
+    public ResponseEntity<BrandDtoResponse> update(@PathVariable("name") String name, @RequestBody @Valid Brand brand){
+        String nameBrand = name.replace("-", " ");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new BrandDtoResponse(brandService.update(nameBrand, brand)));
 
     }
 
 
     @DeleteMapping("/{name}")
-    public ResponseEntity<Void> delete(@PathVariable("name") String  name){
+    public ResponseEntity<DeleteResponseDto> delete(@PathVariable("name") String  name){
         brandService.deleteBrand(name);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_BRAND,name)));
     }
 }

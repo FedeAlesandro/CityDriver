@@ -11,6 +11,10 @@ public class Constants {
 
     public static final String NOT_FOUND_VEHICLE_MODEL = "Vehicle model not found";
 
+    public static final String NOT_FOUND_VEHICLE_CATEGORY = "Vehicle not found";
+
+    public static final String NOT_FOUND_PROVIDER = "Provider not found";
+
     public static final String NOT_FOUND_POINT = "Point not found";
 
     public static final String NOT_FOUND_USER= "User not found";
@@ -33,5 +37,10 @@ public class Constants {
 
     public static final String DELETED_POINT = "Deleted point with lat = %s and lng = %s";
     public static final String DELETED_USER = "Deleted user with dni = %s";
+    public static final String DELETED_BRAND = "Deleted BRAND with NAME = %s";
+    public static final String DELETED_VEHICLE_MODEL = "Deleted VECHICLE MODEL with NAME = %s";
+    public static final String DELETED_VEHICLE_CATEGORY = "Deleted VECHICLE MODEL with NAME = %s";
+    public static final String DELETED_VEHICLE = "Deleted VECHICLE with NAME = %s";
+    public static final String DELETED_PROVIDER = "Deleted VECHICLE with NAME = %s";
 
 }

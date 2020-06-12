@@ -1,6 +1,7 @@
 package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.Provider;
+import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
 import net.avalith.carDriver.services.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import java.util.List;
+
+import static net.avalith.carDriver.utils.Constants.DELETED_PROVIDER;
 
 @RestController
 @RequestMapping("/providers")
@@ -38,15 +41,15 @@ public class ProviderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(pr.save(provider));
     }
 
-    @PutMapping("/{id}")
-    public Provider update(@PathVariable("id") Long id, @RequestBody Provider provider){
-        return pr.update(id, provider);
+    @PutMapping("/{name}")
+    public Provider update(@PathVariable("name") String name, @RequestBody Provider provider){
+        return pr.update(name, provider);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id){
-       pr.deleteProvider(id);
-       return new ResponseEntity<Void>(HttpStatus.OK);
+    @DeleteMapping("/{name}")
+    public ResponseEntity<DeleteResponseDto> delete(@PathVariable("name") String name){
+       pr.deleteProvider(name);
+       return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_PROVIDER, name)));
     }
 
 }

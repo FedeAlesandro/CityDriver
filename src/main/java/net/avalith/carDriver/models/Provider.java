@@ -32,6 +32,9 @@ public class Provider {
     @Column(unique = true)
     private String name;
 
+    @Column(name = "is_active")
+    private Boolean isActive;
+
     @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL)
     private List<Vehicle> vehicles = new ArrayList<>();
 }

@@ -53,16 +53,28 @@ public class Vehicle {
     @ManyToOne
     @JoinColumn(name = "id_category_vehicle", referencedColumnName = "id_category_vehicle")
     @JsonIgnore
-    private VehicleCategory category_vehicles;
-    
-    public Vehicle (VehicleDtoRequest vehicleDtoRequest, Provider provider, VehicleModels vehicleModels, VehicleCategory category_vehicles){
-        Vehicle vehicle = new Vehicle();
+    private VehicleCategory categoryVehicles;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
+
+
+    public Vehicle(VehicleDtoRequest vehicleDtoRequest, Provider provider, VehicleModels vehicleModels, VehicleCategory category_vehicles) {
+        this.domain = vehicleDtoRequest.getDomain();
+        this.available = Boolean.TRUE;
+        this.color = vehicleDtoRequest.getColor();
+        this.provider = provider;
+        this.vehicleModels = vehicleModels;
+        this.categoryVehicles = category_vehicles;
+        this.isActive = Boolean.TRUE;
+    }
+
+    public Vehicle VehicleFromDtoRequest(Vehicle vehicle,VehicleDtoRequest vehicleDtoRequest, Provider provider, VehicleModels vehicleModels, VehicleCategory category_vehicles){
         vehicle.setDomain(vehicleDtoRequest.getDomain());
-        vehicle.setAvailable(Boolean.TRUE);
         vehicle.setColor(vehicleDtoRequest.getColor());
         vehicle.setProvider(provider);
-        vehicle.setCategory_vehicles(category_vehicles);
         vehicle.setVehicleModels(vehicleModels);
-
+        vehicle.setCategoryVehicles(category_vehicles);
+        return vehicle;
     }
 }

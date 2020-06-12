@@ -10,15 +10,12 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VehicleModelDtoRequest {
+public class VehicleCategoryDtoRequest {
 
     @NotBlank(message = "The name is required")
     private String name;
-    @NotNull
-    private Integer cantPlace;
-    @NotNull
-    private Boolean isAutomatic;
-    @NotBlank(message = "The name brand is required")
-    private String nameBrand;
+
+    @NotNull(message = "The commission is required")
+    private Double commission;
 
 }
