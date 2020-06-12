@@ -47,6 +47,7 @@ public class VehicleService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE_MODEL));
         VehicleCategory categorySearch = vehicleCategoryRepository.findByName(vehicleDtoRequest.getNameCategory())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE_CATEGORY));
+
         return vehicleRepository.save(new Vehicle(vehicleDtoRequest, providerSearch, modelSearch, categorySearch));
     }
 

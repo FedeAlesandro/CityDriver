@@ -27,9 +27,11 @@ public class VehicleModelService {
     public VehicleModels save(VehicleModelDtoRequest models){
         Brand brandSearch = brandRepository.findByName(models.getNameBrand())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));
-        return  vehicleModelRepository.save(new VehicleModels(models,brandSearch));
+
+        return vehicleModelRepository.save(new VehicleModels(models,brandSearch));
     }
     public List<VehicleModels> getAll(){
+
         return vehicleModelRepository.getAllActive();
     }
 

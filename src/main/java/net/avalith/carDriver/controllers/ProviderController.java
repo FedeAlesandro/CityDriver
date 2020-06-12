@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static net.avalith.carDriver.utils.Constants.DELETED_PROVIDER;
@@ -25,11 +26,11 @@ import static net.avalith.carDriver.utils.Constants.DELETED_PROVIDER;
 public class ProviderController {
 
     @Autowired
-    private ProviderService pr;
+    private ProviderService providerService;
 
     @GetMapping("/")
     public ResponseEntity<List<Provider>>getAll(){
-        List<Provider> listProviders = pr.getAll();
+        List<Provider> listProviders = providerService.getAll();
         if (listProviders.isEmpty()){
             return ResponseEntity.noContent().build();
         }else
@@ -37,18 +38,19 @@ public class ProviderController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Provider> save(@RequestBody Provider provider){
-        return ResponseEntity.status(HttpStatus.CREATED).body(pr.save(provider));
+    public ResponseEntity<Provider> save(@RequestBody @Valid Provider provider){
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(providerService.save(provider));
     }
 
     @PutMapping("/{name}")
     public Provider update(@PathVariable("name") String name, @RequestBody Provider provider){
-        return pr.update(name, provider);
+        return providerService.update(name, provider);
     }
 
     @DeleteMapping("/{name}")
     public ResponseEntity<DeleteResponseDto> delete(@PathVariable("name") String name){
-       pr.deleteProvider(name);
+       providerService.deleteProvider(name);
        return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_PROVIDER, name)));
     }
 

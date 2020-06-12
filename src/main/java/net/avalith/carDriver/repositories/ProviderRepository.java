@@ -11,8 +11,11 @@ import java.util.Optional;
 
 @Repository
 public interface ProviderRepository extends JpaRepository<Provider, Long> {
+
     Optional<Provider> findById(Long id);
+
     Optional<Provider> findByName(String name);
+
     @Modifying
     @Transactional
     @Query(value = "update providers set is_active = false where name = ?1 and is_active = true ", nativeQuery = true)

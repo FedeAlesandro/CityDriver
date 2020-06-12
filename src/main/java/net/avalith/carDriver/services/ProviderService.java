@@ -1,5 +1,6 @@
 package net.avalith.carDriver.services;
 
+import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.repositories.ProviderRepository;
@@ -11,6 +12,7 @@ import java.util.List;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_PROVIDER;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE_CATEGORY;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE_MODEL;
+import static net.avalith.carDriver.utils.Constants.PROVIDER_ALREADY_EXISTS;
 
 @Service
 public class ProviderService {
@@ -33,12 +35,10 @@ public class ProviderService {
         return providerRepository.findAll();
     }
     public Provider save(Provider provider){
-        providerRepository.findByName(provider.getName())
-                .orElseThrow(RuntimeException::new);
+
+        if(providerRepository.findByName(provider.getName()).isPresent())
+            throw new AlreadyExistsException(PROVIDER_ALREADY_EXISTS);
+
         return providerRepository.save(provider);
     }
-
-
-
-
 }

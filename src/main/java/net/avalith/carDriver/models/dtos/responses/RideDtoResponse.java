@@ -42,7 +42,8 @@ public class RideDtoResponse {
         this.tariffType = ride.getTariffType();
         this.price = ride.getPrice();
         this.originPoint = new RidePointDto(ride.getOriginPoint());
-        this.destinationPoint = new RidePointDto(ride.getDestinationPoint());
+        if(ride.getDestinationPoint()!=null)
+            this.destinationPoint = new RidePointDto(ride.getDestinationPoint());
         this.userDni = ride.getUser().getDni();
     }
 }
