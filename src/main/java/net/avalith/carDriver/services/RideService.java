@@ -44,7 +44,7 @@ public class RideService {
         Vehicle vehicle = vehicleRepository.findByDomain(ride.getVehicleDomain())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE));
 
-        Point point = pointRepository.getByLatAndLng(ridePoint.getCoordinateLatitude(), ridePoint.getCoordinateLongitude())
+        Point point = pointRepository.getByLatAndLng(ridePoint.getLat(), ridePoint.getLng())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_POINT));
 
         User user = userRepository.getByDni(ride.getUserDni())
@@ -69,10 +69,10 @@ public class RideService {
         Vehicle vehicle = vehicleRepository.findByDomain(ride.getVehicleDomain())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE));
 
-        Point originPoint = pointRepository.getByLatAndLng(originRidePoint.getCoordinateLatitude(), originRidePoint.getCoordinateLongitude())
+        Point originPoint = pointRepository.getByLatAndLng(originRidePoint.getLat(), originRidePoint.getLng())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_POINT));
 
-        Point destinationPoint = pointRepository.getByLatAndLng(destinationRidePoint.getCoordinateLatitude(), destinationRidePoint.getCoordinateLongitude())
+        Point destinationPoint = pointRepository.getByLatAndLng(destinationRidePoint.getLat(), destinationRidePoint.getLng())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_POINT));
 
         User user = userRepository.getByDni(ride.getUserDni())
