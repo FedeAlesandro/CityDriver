@@ -1,5 +1,6 @@
 package net.avalith.carDriver.services;
 
+import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.repositories.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,21 +8,24 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_PROVIDER;
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE_CATEGORY;
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE_MODEL;
+
 @Service
 public class ProviderService {
 
     @Autowired
     ProviderRepository providerRepository;
 
-    public void deleteProvider(Long id){
-        providerRepository.findById(id)
-                .orElseThrow(RuntimeException::new);//toDo create exception custom
-        providerRepository.deleteById(id);
+    public void deleteProvider(String name){
+        if(providerRepository.delete(name) < 1)
+            throw new NotFoundException(NOT_FOUND_PROVIDER);
     }
 
-    public Provider update(Long id, Provider provider){
-        Provider provider1 = providerRepository.findById(id)
-            .orElseThrow(RuntimeException::new);// toDo create exception custom
+    public Provider update(String name, Provider provider){
+        Provider provider1 = providerRepository.findByName(name)
+            .orElseThrow(()-> new NotFoundException(NOT_FOUND_PROVIDER));
         provider1.setName(provider.getName());
         return  providerRepository.save(provider1);
     }
@@ -29,6 +33,8 @@ public class ProviderService {
         return providerRepository.findAll();
     }
     public Provider save(Provider provider){
+        providerRepository.findByName(provider.getName())
+                .orElseThrow(RuntimeException::new);
         return providerRepository.save(provider);
     }
 

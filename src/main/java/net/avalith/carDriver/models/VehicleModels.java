@@ -67,4 +67,11 @@ public class VehicleModels {
         this.brand = brand;
         this.isActive = Boolean.TRUE;
     }
+    public VehicleModels VehicleFromDto (VehicleModels vehicleModels, VehicleModelDtoRequest vehicleModelDtoRequest, Brand brand){
+        vehicleModels.setName(vehicleModelDtoRequest.getName());
+        vehicleModels.setCantPlace(vehicleModelDtoRequest.getCantPlace());
+        vehicleModels.setIsAutomatic(vehicleModelDtoRequest.getIsAutomatic());
+        vehicleModels.setBrand(brand);
+        return vehicleModels;
+    }
 }

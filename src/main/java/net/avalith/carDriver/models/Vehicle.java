@@ -55,6 +55,9 @@ public class Vehicle {
     @JsonIgnore
     private VehicleCategory categoryVehicles;
 
+    @Column(name = "is_active")
+    private Boolean isActive;
+
 
     public Vehicle(VehicleDtoRequest vehicleDtoRequest, Provider provider, VehicleModels vehicleModels, VehicleCategory category_vehicles) {
         this.domain = vehicleDtoRequest.getDomain();
@@ -63,6 +66,7 @@ public class Vehicle {
         this.provider = provider;
         this.vehicleModels = vehicleModels;
         this.categoryVehicles = category_vehicles;
+        this.isActive = Boolean.TRUE;
     }
 
     public Vehicle VehicleFromDtoRequest(Vehicle vehicle,VehicleDtoRequest vehicleDtoRequest, Provider provider, VehicleModels vehicleModels, VehicleCategory category_vehicles){

@@ -38,11 +38,8 @@ public class VehicleModelService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE));
         Brand brandSearch = brandRepository.findByName(model.getNameBrand())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));
-        auxM.setBrand(brandSearch);
-        auxM.setCantPlace(model.getCantPlace());
-        auxM.setIsAutomatic(model.getIsAutomatic());
-        auxM.setName(model.getName());
-        return vehicleModelRepository.save(auxM);
+
+        return vehicleModelRepository.save(auxM.VehicleFromDto(auxM,model,brandSearch));
     }
 
     public void delete(String nameModel){

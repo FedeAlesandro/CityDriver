@@ -2,6 +2,7 @@ package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.VehicleCategory;
 import net.avalith.carDriver.models.dtos.requests.VehicleCategoryDtoRequest;
+import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
 import net.avalith.carDriver.models.dtos.responses.VehicleCategoryDtoResponse;
 import net.avalith.carDriver.services.VehicleCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static net.avalith.carDriver.utils.Constants.DELETED_VEHICLE_CATEGORY;
 
 @RequestMapping("/category-vehicles")
 @RestController
@@ -50,14 +53,15 @@ public class VehicleCategoryController {
     @PutMapping("/{name}")
     public ResponseEntity<VehicleCategoryDtoResponse> update(@PathVariable String name, @RequestBody @Valid VehicleCategoryDtoRequest vehicleCategoryDtoRequest){
 
-        return ResponseEntity.ok( new VehicleCategoryDtoResponse(vehicleCategoryService.update(vehicleCategoryDtoRequest)));
+        return ResponseEntity.ok( new VehicleCategoryDtoResponse(vehicleCategoryService.update(vehicleCategoryDtoRequest, name.replace("-", " "))));
     }
 
     @DeleteMapping("/{name}")
-    public ResponseEntity<Void>delete(@PathVariable String name){
-        vehicleCategoryService.delete(name);
+    public ResponseEntity<DeleteResponseDto>delete(@PathVariable String name){
 
-        return ResponseEntity.ok().build();
+        vehicleCategoryService.delete(name.replace("-"," "));
+
+        return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_VEHICLE_CATEGORY,name)));
     }
 
 }

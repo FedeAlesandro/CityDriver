@@ -2,6 +2,7 @@ package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.Vehicle;
 import net.avalith.carDriver.models.dtos.requests.VehicleDtoRequest;
+import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
 import net.avalith.carDriver.models.dtos.responses.VehicleDtoResponse;
 import net.avalith.carDriver.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static net.avalith.carDriver.utils.Constants.DELETED_VEHICLE;
 
 @RestController
 @RequestMapping("/vehicles")
@@ -52,10 +55,10 @@ public class VehicleController {
     }
 
     @DeleteMapping("/{domain}")
-    public ResponseEntity<Void>delete(@PathVariable String domain){
+    public ResponseEntity<DeleteResponseDto>delete(@PathVariable String domain){
         vehicleService.delete(domain);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_VEHICLE,domain)));
     }
 
 
