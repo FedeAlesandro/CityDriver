@@ -16,7 +16,6 @@ public class BrandDtoRequest {
 
     private Boolean isActive;
 
-
     public BrandDtoRequest(String name) {
         this.name = name;
         this.isActive = Boolean.TRUE;

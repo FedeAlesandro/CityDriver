@@ -21,6 +21,6 @@ public interface PointRepository extends JpaRepository<Point, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "update points set is_active = false where coordinate_latitude = ?1 and coordinate_longitude = ?2 ", nativeQuery = true)
+    @Query(value = "update points set is_active = false where lat = ?1 and lng = ?2 ", nativeQuery = true)
     Integer delete(String coordinateLatitude, String coordinateLongitude);
 }

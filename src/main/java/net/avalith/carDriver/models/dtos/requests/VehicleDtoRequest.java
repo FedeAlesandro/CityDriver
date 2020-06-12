@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.enums.Colors;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
@@ -20,7 +21,7 @@ public class VehicleDtoRequest {
     @NotBlank(message = "The domain is required")
     private String domain;
 
-    @NotBlank(message = "The color is required")
+    @NotNull(message = "The color is required")
     private Colors color;
 
     @NotBlank(message = "The name model is required")

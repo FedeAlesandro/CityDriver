@@ -1,13 +1,17 @@
 package net.avalith.carDriver.services;
 
+import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.Mishap;
 import net.avalith.carDriver.models.Ride;
 import net.avalith.carDriver.repositories.MishapRepository;
 import net.avalith.carDriver.repositories.RideRepository;
+import net.avalith.carDriver.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_RIDE;
 
 @Service
 public class MishapService {
@@ -22,10 +26,12 @@ public class MishapService {
         return mishapRepository.findAll();
     }
 
-    public Mishap save(Mishap mishap, Long id_ride){
-        Ride rideSerach= rideRepository.findById(id_ride)
-                .orElseThrow(RuntimeException::new);
-        mishap.setRide(rideSerach);
+    public Mishap save(Mishap mishap, Long idRide){
+        Ride rideSearch= rideRepository.findById(idRide)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_RIDE));
+
+        mishap.setRide(rideSearch);
+
         return mishapRepository.save(mishap);
     }
 }
