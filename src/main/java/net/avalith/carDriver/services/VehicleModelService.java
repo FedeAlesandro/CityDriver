@@ -1,5 +1,6 @@
 package net.avalith.carDriver.services;
 
+import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.Brand;
 import net.avalith.carDriver.models.VehicleModels;
@@ -14,6 +15,7 @@ import java.util.List;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_BRAND;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE_MODEL;
+import static net.avalith.carDriver.utils.Constants.VEHICLE_MODEL_ALREADY_EXISTS;
 
 @Service
 public class VehicleModelService {
@@ -28,6 +30,9 @@ public class VehicleModelService {
         Brand brandSearch = brandRepository.findByName(models.getNameBrand())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));
 
+        if(vehicleModelRepository.findByName(models.getName()).isPresent())
+            throw new AlreadyExistsException(VEHICLE_MODEL_ALREADY_EXISTS);
+
         return vehicleModelRepository.save(new VehicleModels(models,brandSearch));
     }
     public List<VehicleModels> getAll(){
@@ -40,6 +45,9 @@ public class VehicleModelService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE));
         Brand brandSearch = brandRepository.findByName(model.getNameBrand())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));
+
+        if(vehicleModelRepository.findByName(model.getName()).isPresent())
+            throw new AlreadyExistsException(VEHICLE_MODEL_ALREADY_EXISTS);
 
         return vehicleModelRepository.save(auxM.VehicleFromDto(auxM,model,brandSearch));
     }

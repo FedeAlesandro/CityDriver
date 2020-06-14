@@ -59,7 +59,7 @@ public class VehicleModelController {
 
     @DeleteMapping("/{nameModel}")
     ResponseEntity<DeleteResponseDto> delete(@PathVariable(value = "nameModel") String nameModel){
-        vehicleModelService.delete(nameModel);
+        vehicleModelService.delete(nameModel.replace("-"," "));
 
         return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_VEHICLE_MODEL,nameModel)));
     }
