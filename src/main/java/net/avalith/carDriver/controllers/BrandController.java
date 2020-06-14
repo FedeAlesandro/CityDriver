@@ -60,7 +60,7 @@ public class BrandController {
 
     @DeleteMapping("/{name}")
     public ResponseEntity<DeleteResponseDto> delete(@PathVariable("name") String  name){
-        brandService.deleteBrand(name);
+        brandService.deleteBrand(name.replace("-"," "));
         return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_BRAND,name)));
     }
 }
