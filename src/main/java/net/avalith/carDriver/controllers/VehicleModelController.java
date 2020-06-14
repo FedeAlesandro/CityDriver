@@ -1,6 +1,5 @@
 package net.avalith.carDriver.controllers;
 
-import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.models.VehicleModels;
 import net.avalith.carDriver.models.dtos.requests.VehicleModelDtoRequest;
 import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
