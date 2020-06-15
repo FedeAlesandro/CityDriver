@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.models.Vehicle;
+import net.avalith.carDriver.models.VehicleModels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +19,20 @@ public class ProviderDtoResponse {
 
     private String name;
 
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private List<VehicleDtoResponse> vehicles = new ArrayList<>();
 
     public ProviderDtoResponse(Provider provider){
         this.name = provider.getName();
-        this.vehicles = provider.getVehicles();
+        this.vehicles = toDto(provider.getVehicles());
     }
+    public List<VehicleDtoResponse> toDto(List<Vehicle> vehicles){
+        List<VehicleDtoResponse> result = new ArrayList<>();
+        for (Vehicle vehicle : vehicles){
+            result.add(new VehicleDtoResponse(vehicle));
+        }
+
+        return result;
+    }
+
+
 }
