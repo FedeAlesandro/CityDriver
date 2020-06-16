@@ -1,26 +1,44 @@
 package net.avalith.carDriver.models.dtos.responses;
 
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.models.Vehicle;
+
+import net.avalith.carDriver.models.VehicleModels;
+
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class ProviderDtoResponse {
 
     private String name;
 
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private String email;
+
+    private String businessName;
+
+    private String phone;
+
+    private List<VehicleDtoResponse> vehicles = new ArrayList<>();
 
     public ProviderDtoResponse(Provider provider){
         this.name = provider.getName();
-        this.vehicles = provider.getVehicles();
+        this.email = provider.getEmail();
+        this.businessName = provider.getBusinessName();
+        this.phone = provider.getPhone();
+        this.vehicles = provider.getVehicles().stream().map(VehicleDtoResponse::new).collect(Collectors.toList());
     }
 }
