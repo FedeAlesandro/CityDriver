@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_BRAND;
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE_MODEL;
 
 @Service
 public class BrandService {
@@ -25,18 +26,12 @@ public class BrandService {
         return brandRepository.getAllActive();
     }
 
-    public void deleteBrand(String name){
-        Brand auxBrand = brandRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));
-        auxBrand.setIsActive(Boolean.FALSE);
-        brandRepository.save(auxBrand);
-    }
     public Brand getById(Long id){
          return brandRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));
     }
     public Brand update(String name, Brand brand){
-        Brand brand1 = brandRepository.findByName(name)
+        Brand brand1 = brandRepository.findByName(name.replace("-", " "))
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));
         brand1.setName(brand.getName());
         return  brandRepository.save(brand1);
