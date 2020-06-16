@@ -54,14 +54,6 @@ public class PointController {
         return ResponseEntity.ok(points);
     }
 
-    @DeleteMapping("/")
-    public ResponseEntity<DeleteResponseDto> delete(@RequestParam(value = "latitude") String lat,
-                                       @RequestParam(value = "longitude") String lng){
-        pointService.delete(lat, lng);
-
-        return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_POINT, lat, lng)));
-    }
-
     @PutMapping("/")
     public ResponseEntity<PointDtoResponse> update(@RequestParam(value = "latitude") String lat,
                                                    @RequestParam(value = "longitude") String lng,

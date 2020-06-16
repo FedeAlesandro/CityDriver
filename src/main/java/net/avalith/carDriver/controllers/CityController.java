@@ -45,7 +45,6 @@ public class CityController {
 
     @PutMapping("/{name}/")
     public ResponseEntity<CityDto> update(@PathVariable(value = "name") String name, @RequestBody @Valid CityDto city){
-        name = name.replace("-", " ");
 
         return ResponseEntity.ok(new CityDto(cityService.update(name, city)));
     }

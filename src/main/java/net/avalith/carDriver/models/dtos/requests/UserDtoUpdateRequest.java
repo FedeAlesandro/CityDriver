@@ -20,6 +20,9 @@ public class UserDtoUpdateRequest {
     @NotBlank(message = "The last name is required")
     private String lastName;
 
+    @NotBlank(message = "The password is required")
+    private String pwd;
+
     @NotNull(message = "The birth date is required")
     private Date birthDate;
 }

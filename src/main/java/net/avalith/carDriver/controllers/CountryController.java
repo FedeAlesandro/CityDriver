@@ -49,7 +49,7 @@ public class CountryController {
 
     @PutMapping("/{name}/")
     public ResponseEntity<CountryDto> update(@PathVariable(value = "name") String name, @RequestBody @Valid Country country){
-        CountryDto response = new CountryDto(countryService.update(name.replace("-", " "), country));
+        CountryDto response = new CountryDto(countryService.update(name, country));
 
         return ResponseEntity.ok(response);
     }
