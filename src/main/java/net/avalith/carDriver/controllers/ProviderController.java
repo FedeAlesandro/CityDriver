@@ -50,6 +50,7 @@ public class ProviderController {
     }
 
     @PutMapping("/{name}")
+
     public ResponseEntity<ProviderDtoResponse> update(@PathVariable("name") String name, @RequestBody ProviderDtoRequest provider){
 
         return ResponseEntity.ok(new ProviderDtoResponse(providerService.update(name, provider)));

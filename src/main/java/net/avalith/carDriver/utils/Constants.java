@@ -37,6 +37,8 @@ public class Constants {
 
     public static final String PROVIDER_ALREADY_EXISTS = "This provider already exists";
 
+    public static final String VEHICLE_MODEL_ALREADY_EXISTS = "This Vehicle Model already exists";
+
     public static final String DELETED_POINT = "Deleted point with lat = %s and lng = %s";
 
     public static final String DELETED_USER = "Deleted user with dni = %s";

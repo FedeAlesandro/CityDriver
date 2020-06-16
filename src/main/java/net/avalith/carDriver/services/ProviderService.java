@@ -33,9 +33,9 @@ public class ProviderService {
         return  providerRepository.save(Provider.fromDtoRequest(provider1, provider));
     }
     public List<Provider> getAll(){
-        return providerRepository.getAllActive();
+        
+      return providerRepository.getAllActive();
     }
-
     public Provider save(ProviderDtoRequest provider){
 
         if(providerRepository.findByName(provider.getName()).isPresent())
@@ -52,7 +52,7 @@ public class ProviderService {
                 return providerRepository.save(auxProvider);
             }
         }
-
+      
         return providerRepository.save(new Provider(provider));
     }
 }

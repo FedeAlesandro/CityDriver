@@ -28,7 +28,4 @@ public class ProviderDtoRequest {
 
     @NotBlank(message = "The password is required")
     private String password;
-
-
-
 }
