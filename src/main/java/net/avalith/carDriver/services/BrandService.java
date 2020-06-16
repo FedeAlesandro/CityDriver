@@ -26,17 +26,12 @@ public class BrandService {
         return brandRepository.getAllActive();
     }
 
-    public void deleteBrand(String name){
-        if(brandRepository.delete(name)<1){
-            throw new NotFoundException(NOT_FOUND_BRAND);
-        }
-    }
     public Brand getById(Long id){
          return brandRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));
     }
     public Brand update(String name, Brand brand){
-        Brand brand1 = brandRepository.findByName(name)
+        Brand brand1 = brandRepository.findByName(name.replace("-", " "))
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));
         brand1.setName(brand.getName());
         return  brandRepository.save(brand1);

@@ -16,10 +16,4 @@ public interface BrandRepository extends JpaRepository<Brand,Long> {
 
    @Query(value = "select * from brands where is_active = true", nativeQuery = true)
    List<Brand> getAllActive();
-
-   @Modifying
-   @Transactional
-   @Query(value = "update brands set is_active = false, name = null  where name = ?1 and is_active = true ", nativeQuery = true)
-   Integer delete(String nameModel);
-
 }
