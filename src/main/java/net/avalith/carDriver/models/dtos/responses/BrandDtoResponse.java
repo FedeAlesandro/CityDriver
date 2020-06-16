@@ -8,6 +8,7 @@ import net.avalith.carDriver.models.Brand;
 import net.avalith.carDriver.models.VehicleModels;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -16,10 +17,10 @@ public class BrandDtoResponse {
 
     private String name;
 
-    private List<VehicleModels> vehicle_models;
+    private List<VehicleModelDtoResponse> vehicle_models;
 
     public BrandDtoResponse(Brand brand) {
         this.name = brand.getName();
-        this.vehicle_models = brand.getVehicleModels();
+        this.vehicle_models = brand.getVehicleModels().stream().map(VehicleModelDtoResponse::new).collect(Collectors.toList());
     }
 }

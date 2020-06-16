@@ -36,11 +36,13 @@ public class BrandController {
     public ResponseEntity<List<BrandDtoResponse>> getAll() {
         List<Brand> listBrands = brandService.getAll();
         if (listBrands.isEmpty()) {
+
             return ResponseEntity.noContent().build();
         } else{
             List<BrandDtoResponse> listBrandsResponse = listBrands.stream()
                     .map(BrandDtoResponse::new)
                     .collect(Collectors.toList());
+
             return ResponseEntity.ok(listBrandsResponse);
         }
     }
@@ -52,15 +54,8 @@ public class BrandController {
 
     @PutMapping("/{name}")
     public ResponseEntity<BrandDtoResponse> update(@PathVariable("name") String name, @RequestBody @Valid Brand brand){
-        String nameBrand = name.replace("-", " ");
-        return ResponseEntity.status(HttpStatus.CREATED).body(new BrandDtoResponse(brandService.update(nameBrand, brand)));
 
-    }
+        return ResponseEntity.ok(new BrandDtoResponse(brandService.update(name, brand)));
 
-
-    @DeleteMapping("/{name}")
-    public ResponseEntity<DeleteResponseDto> delete(@PathVariable("name") String  name){
-        brandService.deleteBrand(name);
-        return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_BRAND,name)));
     }
 }
