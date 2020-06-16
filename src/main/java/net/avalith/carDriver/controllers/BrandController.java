@@ -55,7 +55,7 @@ public class BrandController {
     @PutMapping("/{name}")
     public ResponseEntity<BrandDtoResponse> update(@PathVariable("name") String name, @RequestBody @Valid Brand brand){
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new BrandDtoResponse(brandService.update(name, brand)));
+        return ResponseEntity.ok(new BrandDtoResponse(brandService.update(name, brand)));
 
     }
 }
