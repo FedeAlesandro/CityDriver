@@ -1,6 +1,5 @@
 package net.avalith.carDriver.controllers;
 
-import net.avalith.carDriver.models.Country;
 import net.avalith.carDriver.models.License;
 import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequest;
 import net.avalith.carDriver.models.dtos.responses.LicenseDtoResponse;
@@ -27,13 +26,13 @@ public class LicenseController {
     @Autowired
     private LicenseService licenseService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<LicenseDtoResponse> save(@RequestBody @Valid LicenseDtoRequest license){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new LicenseDtoResponse(licenseService.save(license)));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<LicenseDtoResponse>> getAll(){
         List<License> licenses = licenseService.getAll();
 
@@ -47,7 +46,7 @@ public class LicenseController {
         return ResponseEntity.ok(licenseResponses);
     }
 
-    @PutMapping("/{number}/")
+    @PutMapping("/{number}")
     public ResponseEntity<LicenseDtoResponse> update(@PathVariable(value = "number") String number, @RequestBody @Valid LicenseDtoRequest license){
 
         return ResponseEntity.ok(new LicenseDtoResponse(licenseService.update(number, license)));

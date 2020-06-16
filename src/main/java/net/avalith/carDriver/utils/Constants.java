@@ -50,6 +50,4 @@ public class Constants {
     public static final String DELETED_VEHICLE = "Deleted VECHICLE with NAME = %s";
 
     public static final String DELETED_PROVIDER = "Deleted VECHICLE with NAME = %s";
-
-    public static final String INVALID_PASSWORD_USER = "Wrong password!";
 }

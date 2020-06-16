@@ -32,10 +32,7 @@ public class CountryService {
     }
 
     public Country update(String name, Country country) {
-
-        name = name.replace("-", " ");
-
-        Country oldCountry = countryRepository.findByName(name)
+        Country oldCountry = countryRepository.findByName(name.replace("-", " "))
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_COUNTRY));
 
         if(!country.getName().equals(oldCountry.getName()))

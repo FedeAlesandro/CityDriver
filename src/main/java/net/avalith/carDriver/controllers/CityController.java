@@ -25,13 +25,13 @@ public class CityController {
     @Autowired
     private CityService cityService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<CityDto> save(@RequestBody @Valid CityDto city){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new CityDto(cityService.save(city)));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<CityDto>> getAll(){
         List<City> citiesAux = cityService.getAll();
 
@@ -43,7 +43,7 @@ public class CityController {
                 .collect(Collectors.toList()));
     }
 
-    @PutMapping("/{name}/")
+    @PutMapping("/{name}")
     public ResponseEntity<CityDto> update(@PathVariable(value = "name") String name, @RequestBody @Valid CityDto city){
 
         return ResponseEntity.ok(new CityDto(cityService.update(name, city)));

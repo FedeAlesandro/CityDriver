@@ -2,11 +2,9 @@ package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.User;
 import net.avalith.carDriver.models.dtos.UserDtoNoLicense;
-import net.avalith.carDriver.models.dtos.requests.RideDtoUpdateRequest;
 import net.avalith.carDriver.models.dtos.requests.UserDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.UserDtoUpdateRequest;
 import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
-import net.avalith.carDriver.models.dtos.responses.RideDtoResponse;
 import net.avalith.carDriver.models.dtos.responses.UserDtoResponse;
 import net.avalith.carDriver.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -36,13 +32,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<UserDtoNoLicense> save(@RequestBody @Valid UserDtoRequest user){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new UserDtoNoLicense(userService.save(user)));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<UserDtoResponse>> getAll(){
         List<User> users = userService.getAll();
 
@@ -56,14 +52,14 @@ public class UserController {
         return ResponseEntity.ok(userResponses);
     }
 
-    @DeleteMapping("/{dni}/")
+    @DeleteMapping("/{dni}")
     public ResponseEntity<DeleteResponseDto> delete(@PathVariable(value = "dni") String dni){
         userService.delete(dni);
 
         return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_USER, dni)));
     }
 
-    @PutMapping("/{dni}/")
+    @PutMapping("/{dni}")
     public ResponseEntity<UserDtoResponse> update(@PathVariable(value = "dni") String dni,
                                                   @RequestBody @Valid UserDtoUpdateRequest user){
 

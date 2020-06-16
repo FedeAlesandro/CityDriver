@@ -2,7 +2,6 @@ package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.Country;
 import net.avalith.carDriver.models.CountryDto;
-import net.avalith.carDriver.models.dtos.CityDto;
 import net.avalith.carDriver.services.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,14 +25,14 @@ public class CountryController {
     @Autowired
     private CountryService countryService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<CountryDto> save(@RequestBody @Valid Country country){
         CountryDto response = new CountryDto(countryService.save(country));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<CountryDto>> getAll(){
         List<Country> countries = countryService.getAll();
 
@@ -47,7 +46,7 @@ public class CountryController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{name}/")
+    @PutMapping("/{name}")
     public ResponseEntity<CountryDto> update(@PathVariable(value = "name") String name, @RequestBody @Valid Country country){
         CountryDto response = new CountryDto(countryService.update(name, country));
 

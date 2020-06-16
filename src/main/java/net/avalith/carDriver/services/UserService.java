@@ -1,7 +1,6 @@
 package net.avalith.carDriver.services;
 
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
-import net.avalith.carDriver.exceptions.InvalidPasswordException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.User;
 import net.avalith.carDriver.models.dtos.requests.UserDtoRequest;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static net.avalith.carDriver.utils.Constants.INVALID_PASSWORD_USER;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_USER;
 import static net.avalith.carDriver.utils.Constants.USER_ALREADY_EXISTS;
 
