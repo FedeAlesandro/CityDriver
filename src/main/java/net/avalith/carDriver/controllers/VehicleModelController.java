@@ -41,7 +41,6 @@ public class VehicleModelController {
         return ResponseEntity.ok(listVehicleModels.stream()
                 .map(VehicleModelDtoResponse::new)
                 .collect(Collectors.toList()));
-
     }
 
     @PostMapping("/")
@@ -53,14 +52,6 @@ public class VehicleModelController {
     @PutMapping("/{name}")
     public ResponseEntity<VehicleModelDtoResponse> update(@PathVariable("name") String name, @RequestBody @Valid VehicleModelDtoRequest vehicleModel){
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleModelDtoResponse(vehicleModelService.update(vehicleModel,name.replace("-"," "))));
+        return ResponseEntity.ok(new VehicleModelDtoResponse(vehicleModelService.update(vehicleModel,name)));
     }
-
-    @DeleteMapping("/{nameModel}")
-    ResponseEntity<DeleteResponseDto> delete(@PathVariable(value = "nameModel") String nameModel){
-        vehicleModelService.delete(nameModel.replace("-"," "));
-
-        return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_VEHICLE_MODEL,nameModel)));
-    }
-
 }

@@ -41,19 +41,11 @@ public class VehicleModelService {
     }
 
     public VehicleModels update (VehicleModelDtoRequest model, String name){
-        VehicleModels auxM = vehicleModelRepository.findByName(name)
+        VehicleModels auxM = vehicleModelRepository.findByName(name.replace("-"," "))
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE));
         Brand brandSearch = brandRepository.findByName(model.getNameBrand())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_BRAND));
 
-        if(vehicleModelRepository.findByName(model.getName()).isPresent())
-            throw new AlreadyExistsException(VEHICLE_MODEL_ALREADY_EXISTS);
-
         return vehicleModelRepository.save(auxM.VehicleFromDto(auxM,model,brandSearch));
-    }
-
-    public void delete(String nameModel){
-        if(vehicleModelRepository.delete(nameModel) < 1)
-            throw new NotFoundException(NOT_FOUND_VEHICLE_MODEL);
     }
 }

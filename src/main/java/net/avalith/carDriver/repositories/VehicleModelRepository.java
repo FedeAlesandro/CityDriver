@@ -12,13 +12,10 @@ import java.util.Optional;
 
 @Repository
 public interface VehicleModelRepository extends JpaRepository<VehicleModels,Long> {
+
+    @Query(value = "select * from vehicle_models where is_active = true and name = ?1", nativeQuery = true)
     Optional<VehicleModels> findByName(String name);
 
     @Query(value = "select * from vehicle_models where is_active = true", nativeQuery = true)
     List<VehicleModels> getAllActive();
-
-    @Modifying
-    @Transactional
-    @Query(value = "update vehicle_models set is_active = false, name = null where name = ?1 and is_active = true ", nativeQuery = true)
-    Integer delete(String nameModel);
 }
