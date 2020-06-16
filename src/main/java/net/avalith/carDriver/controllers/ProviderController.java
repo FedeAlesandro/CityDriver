@@ -50,14 +50,13 @@ public class ProviderController {
     }
 
     @PutMapping("/{name}")
-    public ResponseEntity<ProviderDtoResponse> update(@PathVariable("name") String name, @RequestBody Provider provider){
+    public ResponseEntity<ProviderDtoResponse> update(@PathVariable("name") String name, @RequestBody ProviderDtoRequest provider){
 
-        return ResponseEntity.ok(new ProviderDtoResponse(providerService.update(name.replace("-"," "), provider)));
+        return ResponseEntity.ok(new ProviderDtoResponse(providerService.update(name, provider)));
     }
 
     @DeleteMapping("/{name}")
     public ResponseEntity<DeleteResponseDto> delete(@PathVariable("name") String name){
-       providerService.deleteProvider(name.replace("-"," "));
 
        return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_PROVIDER, name)));
     }

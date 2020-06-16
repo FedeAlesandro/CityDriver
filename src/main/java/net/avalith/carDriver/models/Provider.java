@@ -34,9 +34,20 @@ public class Provider {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "The name is required")
     @Column(unique = true)
     private String name;
+
+    @Column(unique = true)
+    private String email;
+
+    @Column(unique = true)
+    private String businessName;
+
+    @Column(unique = true)
+    private String phone;
+
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "is_active")
     private Boolean isActive;
@@ -54,6 +65,17 @@ public class Provider {
 
     public Provider(ProviderDtoRequest providerDtoRequest) {
         this.name = providerDtoRequest.getName();
+        this.businessName= providerDtoRequest.getBusinessName();
+        this.email = providerDtoRequest.getEmail();
+        this.password = providerDtoRequest.getPassword();
+        this.phone = providerDtoRequest.getPhone();
         this.isActive = Boolean.TRUE;
+    }
+    public static Provider fromDtoRequest (Provider provider, ProviderDtoRequest providerDtoRequest){
+        provider.setName(providerDtoRequest.getName());
+        provider.setBusinessName(providerDtoRequest.getBusinessName());
+        provider.setEmail(providerDtoRequest.getEmail());
+        provider.setPhone(providerDtoRequest.getPhone());
+        return provider;
     }
 }
