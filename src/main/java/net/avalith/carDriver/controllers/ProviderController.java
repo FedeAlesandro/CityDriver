@@ -37,6 +37,7 @@ public class ProviderController {
         if (listProviders.isEmpty()){
             return ResponseEntity.noContent().build();
         }
+
         return ResponseEntity.ok(listProviders.stream()
                 .map(ProviderDtoResponse::new)
                 .collect(Collectors.toList()));
@@ -49,13 +50,15 @@ public class ProviderController {
     }
 
     @PutMapping("/{name}")
-    public Provider update(@PathVariable("name") String name, @RequestBody Provider provider){
-        return providerService.update(name.replace("-"," "), provider);
+
+    public ResponseEntity<ProviderDtoResponse> update(@PathVariable("name") String name, @RequestBody ProviderDtoRequest provider){
+
+        return ResponseEntity.ok(new ProviderDtoResponse(providerService.update(name, provider)));
     }
 
     @DeleteMapping("/{name}")
     public ResponseEntity<DeleteResponseDto> delete(@PathVariable("name") String name){
-       providerService.deleteProvider(name.replace("-"," "));
+
        return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_PROVIDER, name)));
     }
 
