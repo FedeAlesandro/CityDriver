@@ -41,7 +41,7 @@ public class CityService {
     }
 
     public City update(String name, CityDto city) {
-        City oldCity = cityRepository.findByName(name)
+        City oldCity = cityRepository.findByName(name.replace("-", " "))
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_CITY));
 
         if(!city.getName().equals(oldCity.getName()))

@@ -18,9 +18,4 @@ public interface PointRepository extends JpaRepository<Point, Long> {
 
     @Query(value = "select * from points where is_active = true ", nativeQuery = true)
     List<Point> getAll();
-
-    @Modifying
-    @Transactional
-    @Query(value = "update points set is_active = false where lat = ?1 and lng = ?2 ", nativeQuery = true)
-    Integer delete(String coordinateLatitude, String coordinateLongitude);
 }

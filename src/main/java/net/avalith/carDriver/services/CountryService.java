@@ -20,8 +20,6 @@ public class CountryService {
 
     public Country save(Country country){
 
-        country.setName(country.getName().replace(" ", "-"));
-
         if(countryRepository.findByName(country.getName()).isPresent())
             throw new AlreadyExistsException(COUNTRY_ALREADY_EXISTS);
 
@@ -34,10 +32,7 @@ public class CountryService {
     }
 
     public Country update(String name, Country country) {
-
-        country.setName(country.getName().replace(" ", "-"));
-
-        Country oldCountry = countryRepository.findByName(name)
+        Country oldCountry = countryRepository.findByName(name.replace("-", " "))
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_COUNTRY));
 
         if(!country.getName().equals(oldCountry.getName()))

@@ -16,11 +16,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "select * from users where is_active = true and dni = ?1 ;", nativeQuery = true)
     Optional<User> getByDni(String dni);
 
+    @Query(value = "select * from users where is_active = false and dni = ?1 ;", nativeQuery = true)
+    Optional<User> getNotActiveByDni(String dni);
+
     @Query(value = "select * from users where is_active = true ", nativeQuery = true)
     List<User> getAll();
 
     @Modifying
     @Transactional
-    @Query(value = "update users set is_active = false, dni = '' where dni = ?1 ;", nativeQuery = true)
+    @Query(value = "update users set is_active = false where dni = ?1 ;", nativeQuery = true)
     Integer delete(String dni);
 }
