@@ -44,12 +44,6 @@ public class PointService {
         return pointRepository.getAll();
     }
 
-    public void delete(String lat, String lng){
-
-        if(pointRepository.delete(lat, lng) < 1)
-            throw new NotFoundException(NOT_FOUND_POINT);
-    }
-
     public Point update(String lat, String lng, PointDtoUpdateRequest point) {
         Point oldPoint = pointRepository.getByLatAndLng(lat, lng)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_POINT));

@@ -42,6 +42,9 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "pwd")
+    private String pwd;
+
     @Column(name = "birth_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date birthDate;
@@ -67,6 +70,7 @@ public class User {
     public User (UserDtoRequest userDtoRequest){
         name = userDtoRequest.getName();
         lastName = userDtoRequest.getLastName();
+        pwd = userDtoRequest.getPwd();
         birthDate = userDtoRequest.getBirthDate();
         dni = userDtoRequest.getDni();
         isActive = Boolean.TRUE;
@@ -75,6 +79,8 @@ public class User {
     public User (UserDtoUpdateRequest userDtoUpdateRequest){
         name = userDtoUpdateRequest.getName();
         lastName = userDtoUpdateRequest.getLastName();
+        pwd = userDtoUpdateRequest.getPwd();
+        isActive = Boolean.TRUE;
         birthDate = userDtoUpdateRequest.getBirthDate();
     }
 }

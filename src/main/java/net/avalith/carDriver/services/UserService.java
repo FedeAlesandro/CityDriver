@@ -8,6 +8,7 @@ import net.avalith.carDriver.models.dtos.requests.UserDtoUpdateRequest;
 import net.avalith.carDriver.repositories.LicenseRepository;
 import net.avalith.carDriver.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,13 +23,32 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private LicenseRepository licenseRepository;
 
     public User save(UserDtoRequest user){
 
         if(userRepository.getByDni(user.getDni()).isPresent())
             throw new AlreadyExistsException(USER_ALREADY_EXISTS);
-        
+
+        User userAux = userRepository.getNotActiveByDni(user.getDni())
+                .orElse(null);
+
+        if(userAux != null){
+            if(userAux.getDni().equals(user.getDni()) && passwordEncoder.matches(user.getPwd(), userAux.getPwd())){
+                User newUser = new User(user);
+                newUser.setId(userAux.getId());
+                if(userAux.getLicense()!=null)
+                    newUser.setLicense(userAux.getLicense());
+                newUser.setPwd(passwordEncoder.encode(newUser.getPwd()));
+
+                return userRepository.save(newUser);
+            }
+        }
+        user.setPwd(passwordEncoder.encode(user.getPwd()));
+
         return userRepository.save(new User(user));
     }
 
@@ -50,8 +70,8 @@ public class UserService {
         User userUpdate = new User(user);
         userUpdate.setId(oldUser.getId());
         userUpdate.setDni(dni);
-        userUpdate.setIsActive(Boolean.TRUE);
         userUpdate.setLicense(oldUser.getLicense());
+        userUpdate.setPwd(passwordEncoder.encode(userUpdate.getPwd()));
 
         return userRepository.save(userUpdate);
     }
