@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.avalith.carDriver.models.dtos.requests.ProviderDtoRequest;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +34,48 @@ public class Provider {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "The name is required")
     @Column(unique = true)
     private String name;
+
+    @Column(unique = true)
+    private String email;
+
+    @Column(unique = true)
+    private String businessName;
+
+    @Column(unique = true)
+    private String phone;
+
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private  Timestamp updatedAt;
+
     @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL)
     private List<Vehicle> vehicles = new ArrayList<>();
+
+    public Provider(ProviderDtoRequest providerDtoRequest) {
+        this.name = providerDtoRequest.getName();
+        this.businessName= providerDtoRequest.getBusinessName();
+        this.email = providerDtoRequest.getEmail();
+        this.password = providerDtoRequest.getPassword();
+        this.phone = providerDtoRequest.getPhone();
+        this.isActive = Boolean.TRUE;
+    }
+    public static Provider fromDtoRequest (Provider provider, ProviderDtoRequest providerDtoRequest){
+        provider.setName(providerDtoRequest.getName());
+        provider.setBusinessName(providerDtoRequest.getBusinessName());
+        provider.setEmail(providerDtoRequest.getEmail());
+        provider.setPhone(providerDtoRequest.getPhone());
+        return provider;
+    }
 }
