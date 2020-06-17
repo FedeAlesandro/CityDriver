@@ -8,11 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.Provider;
-import net.avalith.carDriver.models.Vehicle;
 
-import net.avalith.carDriver.models.VehicleModels;
-
-import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

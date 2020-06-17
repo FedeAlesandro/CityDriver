@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS brands (
 	id_brand bigserial,
 	created_at timestamp,
-	is_active bit(1),
+	is_active boolean,
 	name varchar(255),
 	updated_at timestamp,
 	PRIMARY KEY (id_brand),
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS licenses (
 	expiration_date timestamp,
 	number varchar(255),
 	updated_at timestamp,
-	validated bit(1),
+	validated boolean,
 	PRIMARY KEY (id_license),
 	CONSTRAINT UK_license_number UNIQUE (number)
 );
@@ -51,9 +51,9 @@ CREATE TABLE IF NOT EXISTS points (
 	id_city bigint,
 	capacity integer,
 	created_at timestamp,
-	is_active bit(1),
-	is_destination bit(1),
-	is_origin bit(1),
+	is_active boolean,
+	is_destination boolean,
+	is_origin boolean,
 	lat varchar(255),
 	lng varchar(255),
 	stock integer,
@@ -62,9 +62,24 @@ CREATE TABLE IF NOT EXISTS points (
 	CONSTRAINT FK_points_cities FOREIGN KEY (id_city) REFERENCES cities (id_city)
 );
 
+CREATE TABLE IF NOT EXISTS users(
+    id_user serial,
+    id_license bigint,
+    birth_date TIMESTAMP,
+    created_at TIMESTAMP,
+    dni varchar(255),
+    is_active boolean,
+    last_name varchar(255),
+    name varchar(255),
+    pwd varchar(255),
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id_user),
+    CONSTRAINT FK_users_licenses FOREIGN KEY (id_license) REFERENCES licenses (id_license)
+);
+
 CREATE TABLE IF NOT EXISTS providers (
 	id_provider bigserial,
-	is_active bit(1),
+	is_active boolean,
 	name varchar(255),
 	business_name varchar(255),
 	created_at timestamp,
@@ -83,7 +98,7 @@ CREATE TABLE IF NOT EXISTS vehicle_categories (
 	id_category_vehicle bigserial,
 	commission double precision,
 	created_at timestamp,
-	is_active bit(1),
+	is_active boolean,
 	name varchar(255),
 	updated_at timestamp,
 	PRIMARY KEY (id_category_vehicle),
@@ -95,8 +110,8 @@ CREATE TABLE IF NOT EXISTS vehicle_models (
 	id_brand bigint,
 	cant_place integer,
 	created_at timestamp,
-	is_active bit(1),
-	is_automatic bit(1),
+	is_active boolean,
+	is_automatic boolean,
 	name varchar(255),
 	updated_at timestamp,
 	PRIMARY KEY (id_vehicle_model),
@@ -109,10 +124,10 @@ CREATE TABLE IF NOT EXISTS vehicles (
 	id_category_vehicle bigint,
 	id_provider bigint,
 	id_vehicle_model bigint,
-	available bit(1),
+	available boolean,
 	color varchar(255),
 	domain varchar(255),
-	is_active bit(1),
+	is_active boolean,
 	PRIMARY KEY (id_vehicle),
 	CONSTRAINT UK_vehicles_domain UNIQUE (domain),
 	CONSTRAINT FK_category_vehicles_vehicles FOREIGN KEY (id_category_vehicle) REFERENCES vehicle_categories (id_category_vehicle),

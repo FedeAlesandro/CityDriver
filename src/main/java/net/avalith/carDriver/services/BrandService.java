@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_BRAND;
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE_MODEL;
 
 @Service
 public class BrandService {
