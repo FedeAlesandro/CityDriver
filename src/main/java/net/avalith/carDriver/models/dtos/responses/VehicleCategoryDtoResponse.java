@@ -2,10 +2,7 @@ package net.avalith.carDriver.models.dtos.responses;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.avalith.carDriver.models.Vehicle;
 import net.avalith.carDriver.models.VehicleCategory;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor

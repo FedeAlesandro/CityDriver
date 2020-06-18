@@ -1,13 +1,10 @@
 package net.avalith.carDriver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.avalith.carDriver.models.dtos.RidePointDto;
 import net.avalith.carDriver.models.dtos.requests.RideDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.RideDtoUpdateRequest;
 import net.avalith.carDriver.models.enums.RideState;
