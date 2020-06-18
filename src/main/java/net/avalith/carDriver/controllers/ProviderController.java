@@ -32,13 +32,13 @@ public class ProviderController {
     @Autowired
     private ProviderService providerService;
 
-    @Value("${api-key}")
-    private String api_key;
+//    @Value("${api.key.name}")
+//    private String keyName;
 
     @GetMapping("/")
-    public ResponseEntity<List<ProviderDtoResponse>>getAll(@RequestHeader(value = "api-key", required = false) String apiKey){
-        if(apiKey == null || !apiKey.equals(api_key))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<List<ProviderDtoResponse>>getAll(@RequestHeader(value = "API_KEY", required = false) String apiKey){
+        /*if(apiKey == null || !apiKey.equals(api_key))
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();*/
 
         List<Provider> listProviders = providerService.getAll();
         if (listProviders.isEmpty()){
@@ -51,25 +51,25 @@ public class ProviderController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<ProviderDtoResponse> save(@RequestHeader(value = "api-key", required = false) String apiKey, @RequestBody @Valid ProviderDtoRequest provider){
-        if(apiKey == null || !apiKey.equals(api_key))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<ProviderDtoResponse> save(@RequestHeader(value = "API_KEY", required = false) String apiKey, @RequestBody @Valid ProviderDtoRequest provider){
+       /* if(apiKey == null || !apiKey.equals(api_key))
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();*/
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProviderDtoResponse(providerService.save(provider)));
     }
 
     @PutMapping("/{name}")
-    public ResponseEntity<ProviderDtoResponse> update(@RequestHeader(value = "api-key", required = false) String apiKey, @PathVariable("name") String name, @RequestBody ProviderDtoRequest provider){
-        if(apiKey == null || !apiKey.equals(api_key))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<ProviderDtoResponse> update(@RequestHeader(value = "API_KEY", required = false) String apiKey, @PathVariable("name") String name, @RequestBody ProviderDtoRequest provider){
+        /*if(apiKey == null || !apiKey.equals(api_key))
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();*/
 
         return ResponseEntity.ok(new ProviderDtoResponse(providerService.update(name, provider)));
     }
 
     @DeleteMapping("/{name}")
-    public ResponseEntity<DeleteResponseDto> delete(@RequestHeader(value = "api-key", required = false) String apiKey, @PathVariable("name") String name){
-        if(apiKey == null || !apiKey.equals(api_key))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<DeleteResponseDto> delete(@RequestHeader(value = "API_KEY", required = false) String apiKey, @PathVariable("name") String name){
+       /* if(apiKey == null || !apiKey.equals(api_key))
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();*/
         providerService.deleteProvider(name);
 
         return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_PROVIDER, name)));
