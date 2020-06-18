@@ -1,11 +1,13 @@
 package net.avalith.carDriver.services;
 
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
+import net.avalith.carDriver.exceptions.InvalidRequestException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.models.dtos.requests.ProviderDtoRequest;
 import net.avalith.carDriver.repositories.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +19,7 @@ import static net.avalith.carDriver.utils.Constants.PROVIDER_ALREADY_EXISTS;
 public class ProviderService {
 
     @Autowired
-    ProviderRepository providerRepository;
+    private ProviderRepository providerRepository;
 
     public void deleteProvider(String name){
         if(providerRepository.delete(name.replace("-"," ")) < 1)
