@@ -26,6 +26,6 @@ public interface ProviderRepository extends JpaRepository<Provider, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "update providers set is_active = false, name = null where name = ?1 and is_active = true ", nativeQuery = true)
+    @Query(value = "update providers set is_active = false where name = ?1 and is_active = true ", nativeQuery = true)
     Integer delete(String name);
 }

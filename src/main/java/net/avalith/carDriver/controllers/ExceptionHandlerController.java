@@ -1,7 +1,7 @@
 package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
-import net.avalith.carDriver.exceptions.InvalidPasswordException;
+import net.avalith.carDriver.exceptions.InvalidRequestException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.dtos.responses.ErrorResponseDto;
 import net.avalith.carDriver.models.dtos.responses.NotValidFieldResponse;
@@ -58,8 +58,8 @@ public class ExceptionHandlerController {
                         .build());
     }
 
-    @ExceptionHandler(InvalidPasswordException.class)
-    public ResponseEntity<ErrorResponseDto> handleInvalidPasswordException(InvalidPasswordException exception){
+    @ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<ErrorResponseDto> handleInvalidRequestException(InvalidRequestException exception){
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

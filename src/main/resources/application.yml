@@ -9,15 +9,6 @@ spring:
       ddl-auto: none
     show-sql: true
 
-#spring:
-#  datasource:
-#    url: postgres://blsiodbbvfykzi:525158f73aa6122f44ccd6bf867dccb0434409f6df9b93149a4c50bd88c5f2ed@ec2-52-202-22-140.compute-1.amazonaws.com:5432/dempfgtbl03vmi
-#    driver-class-name: org.postgresql.Driver
-#  jpa:
-#    hibernate:
-#      ddl-auto: none
-#    show-sql: true
-
 flyway:
   enabled: true
   baseline-version: 1
@@ -26,6 +17,8 @@ flyway:
   sql-migration-suffixes: .sql
   baseline-on-migrate: true
   sql-migration-prefix: V
+
+api-key: api-key
 
 #spring:
 #  datasource:
