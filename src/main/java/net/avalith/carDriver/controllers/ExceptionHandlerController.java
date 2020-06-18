@@ -1,13 +1,14 @@
 package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
-import net.avalith.carDriver.exceptions.InvalidPasswordException;
+import net.avalith.carDriver.exceptions.InvalidRequestException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.dtos.responses.ErrorResponseDto;
 import net.avalith.carDriver.models.dtos.responses.NotValidFieldResponse;
 import net.avalith.carDriver.models.dtos.responses.NotValidResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -58,8 +59,8 @@ public class ExceptionHandlerController {
                         .build());
     }
 
-    @ExceptionHandler(InvalidPasswordException.class)
-    public ResponseEntity<ErrorResponseDto> handleInvalidPasswordException(InvalidPasswordException exception){
+    @ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<ErrorResponseDto> handleInvalidRequestException(InvalidRequestException exception){
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
