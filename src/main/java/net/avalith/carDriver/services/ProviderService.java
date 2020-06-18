@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_PROVIDER;
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE_CATEGORY;
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE_MODEL;
 import static net.avalith.carDriver.utils.Constants.PROVIDER_ALREADY_EXISTS;
 
 @Service

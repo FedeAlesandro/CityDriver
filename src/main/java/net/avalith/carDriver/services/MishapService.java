@@ -5,7 +5,6 @@ import net.avalith.carDriver.models.Mishap;
 import net.avalith.carDriver.models.Ride;
 import net.avalith.carDriver.repositories.MishapRepository;
 import net.avalith.carDriver.repositories.RideRepository;
-import net.avalith.carDriver.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

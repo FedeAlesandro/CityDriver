@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.Vehicle;
 import net.avalith.carDriver.models.enums.Colors;
 
-import javax.validation.constraints.NotBlank;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
