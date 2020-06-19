@@ -51,4 +51,9 @@ public class City {
         name = cityDto.getName();
         this.country = country;
     }
+
+    public City(String name, Country country) {
+        this.name = name;
+        this.country = country;
+    }
 }
