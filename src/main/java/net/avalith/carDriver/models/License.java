@@ -52,4 +52,8 @@ public class License {
     public License (LicenseDtoRequest license){
         this.number = license.getNumber();
     }
+
+    public License (String number){
+        this.number = number;
+    }
 }
