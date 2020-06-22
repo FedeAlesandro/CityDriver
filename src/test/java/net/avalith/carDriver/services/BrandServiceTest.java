@@ -1,6 +1,7 @@
 package net.avalith.carDriver.services;
 
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
+import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.Brand;
 import net.avalith.carDriver.models.dtos.requests.BrandDtoRequest;
 import net.avalith.carDriver.repositories.BrandRepository;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static net.avalith.carDriver.utils.Constants.BRAND_ALREADY_EXISTS;
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_BRAND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
@@ -73,6 +75,17 @@ public class BrandServiceTest {
         when(mockBrandRepository.save(brand)).thenReturn(auxBrand);
 
         assertEquals(auxBrand, brandService.update("toyota", brandDtoRequest));
+    }
+
+    @Test
+    public void updateNotFoundName(){
+        BrandDtoRequest brandDtoRequest = new BrandDtoRequest("toyota", Boolean.TRUE);
+
+        when(mockBrandRepository.findByName("toyota")).thenReturn(Optional.empty());
+
+        NotFoundException ex = Assertions.assertThrows(NotFoundException.class, () -> brandService.update("toyota",brandDtoRequest));
+        Assertions.assertEquals(ex, new NotFoundException(NOT_FOUND_BRAND));
+
     }
 }
 
