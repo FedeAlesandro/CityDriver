@@ -1,5 +1,6 @@
 package net.avalith.carDriver.services;
 
+import lombok.AllArgsConstructor;
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.City;
@@ -18,13 +19,14 @@ import static net.avalith.carDriver.utils.Constants.NOT_FOUND_POINT;
 import static net.avalith.carDriver.utils.Constants.POINT_ALREADY_EXISTS;
 
 @Service
+@AllArgsConstructor
 public class PointService {
 
     @Autowired
-    private PointRepository pointRepository;
+    private final PointRepository pointRepository;
 
     @Autowired
-    private CityRepository cityRepository;
+    private final CityRepository cityRepository;
 
     public Point save(PointDtoRequest point){
 
