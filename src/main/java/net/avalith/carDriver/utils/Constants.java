@@ -35,6 +35,8 @@ public class Constants {
 
     public static final String USER_ALREADY_EXISTS = "This user already exists";
 
+    public static final String BRAND_ALREADY_EXISTS = "This brand already exists";
+
     public static final String PROVIDER_ALREADY_EXISTS = "This provider already exists";
 
     public static final String VEHICLE_MODEL_ALREADY_EXISTS = "This Vehicle Model already exists";

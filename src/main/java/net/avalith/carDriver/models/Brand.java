@@ -54,4 +54,8 @@ public class Brand {
         this.name = brandDtoRequest.getName();
         this.isActive = Boolean.TRUE;
     }
+
+    public Brand(String name) {
+        this.name = name;
+    }
 }
