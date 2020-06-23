@@ -1,5 +1,6 @@
 package net.avalith.carDriver.services;
 
+import lombok.AllArgsConstructor;
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.City;
@@ -17,13 +18,14 @@ import static net.avalith.carDriver.utils.Constants.NOT_FOUND_CITY;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_COUNTRY;
 
 @Service
+@AllArgsConstructor
 public class CityService {
 
     @Autowired
-    private CityRepository cityRepository;
+    private final CityRepository cityRepository;
 
     @Autowired
-    private CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
 
     public City save(CityDto city){
         Country country = countryRepository.findByName(city.getCountryName())

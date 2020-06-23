@@ -19,4 +19,8 @@ public class LicenseDtoRequest {
     public LicenseDtoRequest(License license) {
         number = license.getNumber();
     }
+
+    public LicenseDtoRequest(String number) {
+        this.number = number;
+    }
 }

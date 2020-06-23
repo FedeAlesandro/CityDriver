@@ -1,5 +1,6 @@
 package net.avalith.carDriver.services;
 
+import lombok.AllArgsConstructor;
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.Country;
@@ -13,10 +14,11 @@ import static net.avalith.carDriver.utils.Constants.COUNTRY_ALREADY_EXISTS;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_COUNTRY;
 
 @Service
+@AllArgsConstructor
 public class CountryService {
 
     @Autowired
-    private CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
 
     public Country save(Country country){
 
