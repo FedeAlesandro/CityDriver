@@ -3,6 +3,8 @@ package net.avalith.carDriver.factoryService;
 import net.avalith.carDriver.models.City;
 import net.avalith.carDriver.models.Country;
 import net.avalith.carDriver.models.dtos.CityDto;
+import net.avalith.carDriver.models.dtos.requests.BrandDtoRequest;
+import net.avalith.carDriver.models.dtos.requests.ProviderDtoRequest;
 
 public interface FactoryService {
 
@@ -24,5 +26,15 @@ public interface FactoryService {
 
     default City createCityAnotherName(){
         return new City(createCityDtoAnotherName(), createCountry());
+    }
+
+    default ProviderDtoRequest createProviderDto (){
+       return new ProviderDtoRequest(
+                "Car One", "car@hotmail.com","car S.A.",
+                "457812","123456");
+    }
+
+    default BrandDtoRequest createBrandDto(){
+        return new BrandDtoRequest("name",Boolean.TRUE);
     }
 }
