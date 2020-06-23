@@ -1,5 +1,6 @@
 package net.avalith.carDriver.services;
 
+import lombok.AllArgsConstructor;
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.License;
@@ -16,13 +17,14 @@ import static net.avalith.carDriver.utils.Constants.NOT_FOUND_LICENSE;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_LICENSE_USER;
 
 @Repository
+@AllArgsConstructor
 public class LicenseService {
 
     @Autowired
-    private LicenseRepository licenseRepository;
+    private final LicenseRepository licenseRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public License save(LicenseDtoRequest license){
 
@@ -44,7 +46,7 @@ public class LicenseService {
         License oldLicense = licenseRepository.findByNumber(number)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_LICENSE));
 
-        if(!license.getNumber().equals(oldLicense.getNumber())) //por si no cambia el numero y pone el mismo por x motivo
+        if(!license.getNumber().equals(oldLicense.getNumber()))
             if(licenseRepository.findByNumber(license.getNumber()).isPresent())
                 throw new AlreadyExistsException(LICENSE_ALREADY_EXISTS);
 
