@@ -62,6 +62,10 @@ public class Provider {
     @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL)
     private List<Vehicle> vehicles = new ArrayList<>();
 
+    public Provider(String name) {
+        this.name = name;
+    }
+
     public Provider(ProviderDtoRequest providerDtoRequest) {
         this.name = providerDtoRequest.getName();
         this.businessName= providerDtoRequest.getBusinessName();

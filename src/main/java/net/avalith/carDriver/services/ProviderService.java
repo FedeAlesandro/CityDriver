@@ -1,5 +1,6 @@
 package net.avalith.carDriver.services;
 
+import lombok.AllArgsConstructor;
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.InvalidRequestException;
 import net.avalith.carDriver.exceptions.NotFoundException;
@@ -16,6 +17,7 @@ import static net.avalith.carDriver.utils.Constants.NOT_FOUND_PROVIDER;
 import static net.avalith.carDriver.utils.Constants.PROVIDER_ALREADY_EXISTS;
 
 @Service
+@AllArgsConstructor
 public class ProviderService {
 
     @Autowired
@@ -43,16 +45,14 @@ public class ProviderService {
 
         Provider auxProvider = providerRepository.findNotAvailableByName(provider.getName());
 
-        if(auxProvider != null){
-            if ((auxProvider.getName().equals(provider.getName())) && (auxProvider.getPassword().equals(provider.getPassword()))){
-                auxProvider.setPhone(provider.getPhone());
-                auxProvider.setEmail(provider.getEmail());
-                auxProvider.setBusinessName(provider.getBusinessName());
-                auxProvider.setIsActive(Boolean.TRUE);
-                return providerRepository.save(auxProvider);
-            }
+        if ((auxProvider != null) && (auxProvider.getName().equals(provider.getName())) && (auxProvider.getPassword().equals(provider.getPassword()))){
+            auxProvider.setPhone(provider.getPhone());
+            auxProvider.setEmail(provider.getEmail());
+            auxProvider.setBusinessName(provider.getBusinessName());
+            auxProvider.setIsActive(Boolean.TRUE);
+            return providerRepository.save(auxProvider);
         }
-      
+
         return providerRepository.save(new Provider(provider));
     }
 }

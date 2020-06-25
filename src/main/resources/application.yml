@@ -2,12 +2,23 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/city_driver
     username: postgres
-    password: 211914
+    password: admin
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: none
     show-sql: true
+
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/car_drive?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+#    username: root
+#    password:
+#  jpa:
+#    hibernate:
+#      format_sql: true
+#    show-sql: true
+
 
 flyway:
   enabled: true
