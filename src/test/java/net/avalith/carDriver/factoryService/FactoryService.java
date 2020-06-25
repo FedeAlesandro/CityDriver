@@ -2,6 +2,7 @@ package net.avalith.carDriver.factoryService;
 
 import net.avalith.carDriver.models.City;
 import net.avalith.carDriver.models.Country;
+import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.models.dtos.CityDto;
 import net.avalith.carDriver.models.dtos.requests.BrandDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.ProviderDtoRequest;
@@ -36,5 +37,9 @@ public interface FactoryService {
 
     default BrandDtoRequest createBrandDto(){
         return new BrandDtoRequest("name",Boolean.TRUE);
+    }
+
+    default Provider createProvider(){
+        return new Provider("toyoya");
     }
 }

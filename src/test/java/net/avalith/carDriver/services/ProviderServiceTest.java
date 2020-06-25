@@ -1,6 +1,7 @@
 package net.avalith.carDriver.services;
 
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
+import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.factoryService.FactoryService;
 import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.models.dtos.requests.ProviderDtoRequest;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_BRAND;
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_PROVIDER;
 import static net.avalith.carDriver.utils.Constants.PROVIDER_ALREADY_EXISTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -90,6 +93,54 @@ public class ProviderServiceTest implements FactoryService {
             Assertions.assertEquals(ex, new AlreadyExistsException(PROVIDER_ALREADY_EXISTS));
         }
     }
+
+    @Nested
+    class updateTest{
+        @Test
+        public void update(){
+            ProviderDtoRequest providerDtoRequest = createProviderDto();
+            Provider provider = new Provider(providerDtoRequest);
+
+            when(mockProviderRepository.findByName("toyota")).thenReturn(Optional.of(createProvider()));
+            when(mockProviderRepository.save(Provider.fromDtoRequest(createProvider(),providerDtoRequest))).thenReturn(provider);
+
+            assertEquals(provider,providerService.update("toyota",providerDtoRequest));
+        }
+
+        @Test
+        public void update_not_found_provider(){
+            ProviderDtoRequest providerDtoRequest = createProviderDto();
+
+            when(mockProviderRepository.findByName("toyota")).thenReturn(Optional.empty());
+
+            NotFoundException ex = Assertions.assertThrows(NotFoundException.class, () -> providerService.update("toyota",providerDtoRequest));
+            Assertions.assertEquals(ex, new NotFoundException(NOT_FOUND_PROVIDER));
+        }
+    }
+
+    @Nested
+    class deleteTest{
+        @Test
+        public void delete(){
+            ProviderDtoRequest providerDtoRequest = createProviderDto();
+
+            when(mockProviderRepository.delete(providerDtoRequest.getName())).thenReturn(1);
+
+            providerService.deleteProvider(providerDtoRequest.getName());
+
+        }
+
+        @Test
+        public void delete_not_found_name(){
+            when(mockProviderRepository.delete("toyota")).thenReturn(0);
+
+            NotFoundException ex = Assertions.assertThrows(NotFoundException.class, () -> providerService.deleteProvider("toyota"));
+            Assertions.assertEquals(ex, new NotFoundException(NOT_FOUND_PROVIDER));
+
+        }
+
+    }
+
 
 
 }
