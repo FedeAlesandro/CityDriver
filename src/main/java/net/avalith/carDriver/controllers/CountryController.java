@@ -3,6 +3,7 @@ package net.avalith.carDriver.controllers;
 import net.avalith.carDriver.models.Country;
 import net.avalith.carDriver.models.CountryDto;
 import net.avalith.carDriver.services.CountryService;
+import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,20 +20,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/countries")
+@RequestMapping(value = Routes.COUNTRY, consumes = Routes.MEDIA_TYPE)
 public class CountryController {
 
     @Autowired
     private CountryService countryService;
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<CountryDto> save(@RequestBody @Valid Country country){
         CountryDto response = new CountryDto(countryService.save(country));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("")
+    @GetMapping(produces = Routes.MEDIA_TYPE)
     public ResponseEntity<List<CountryDto>> getAll(){
         List<Country> countries = countryService.getAll();
 
@@ -46,7 +47,7 @@ public class CountryController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{name}")
+    @PutMapping(value = Routes.COUNTRY_UPDATE)
     public ResponseEntity<CountryDto> update(@PathVariable(value = "name") String name, @RequestBody @Valid Country country){
         CountryDto response = new CountryDto(countryService.update(name, country));
 

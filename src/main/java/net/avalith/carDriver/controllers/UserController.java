@@ -7,6 +7,7 @@ import net.avalith.carDriver.models.dtos.requests.UserDtoUpdateRequest;
 import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
 import net.avalith.carDriver.models.dtos.responses.UserDtoResponse;
 import net.avalith.carDriver.services.UserService;
+import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,19 +27,19 @@ import java.util.stream.Collectors;
 import static net.avalith.carDriver.utils.Constants.DELETED_USER;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(value = Routes.USER, consumes = Routes.MEDIA_TYPE)
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<UserDtoNoLicense> save(@RequestBody @Valid UserDtoRequest user){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new UserDtoNoLicense(userService.save(user)));
     }
 
-    @GetMapping("")
+    @GetMapping(produces = Routes.MEDIA_TYPE)
     public ResponseEntity<List<UserDtoResponse>> getAll(){
         List<User> users = userService.getAll();
 
@@ -52,7 +53,7 @@ public class UserController {
         return ResponseEntity.ok(userResponses);
     }
 
-    @DeleteMapping("/{dni}")
+    @DeleteMapping(Routes.USER_UPDATE)
     public ResponseEntity<DeleteResponseDto> delete(@PathVariable(value = "dni") String dni){
         userService.delete(dni);
 
