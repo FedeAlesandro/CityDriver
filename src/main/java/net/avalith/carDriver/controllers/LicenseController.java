@@ -4,6 +4,7 @@ import net.avalith.carDriver.models.License;
 import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequest;
 import net.avalith.carDriver.models.dtos.responses.LicenseDtoResponse;
 import net.avalith.carDriver.services.LicenseService;
+import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +21,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/licenses")
+@RequestMapping(value = Routes.LICENSE, consumes = Routes.MEDIA_TYPE)
 public class LicenseController {
 
     @Autowired
     private LicenseService licenseService;
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<LicenseDtoResponse> save(@RequestBody @Valid LicenseDtoRequest license){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new LicenseDtoResponse(licenseService.save(license)));
     }
 
-    @GetMapping("")
+    @GetMapping(produces = Routes.MEDIA_TYPE)
     public ResponseEntity<List<LicenseDtoResponse>> getAll(){
         List<License> licenses = licenseService.getAll();
 
@@ -46,7 +47,7 @@ public class LicenseController {
         return ResponseEntity.ok(licenseResponses);
     }
 
-    @PutMapping("/{number}")
+    @PutMapping(value = Routes.LICENSE_UPDATE)
     public ResponseEntity<LicenseDtoResponse> update(@PathVariable(value = "number") String number, @RequestBody @Valid LicenseDtoRequest license){
 
         return ResponseEntity.ok(new LicenseDtoResponse(licenseService.update(number, license)));
