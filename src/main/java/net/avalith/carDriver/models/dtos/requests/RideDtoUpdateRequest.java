@@ -32,9 +32,6 @@ public class RideDtoUpdateRequest {
     @NotNull(message = "The tariff type is required")
     private TariffType tariffType;
 
-    @NotNull(message = "The price is required")
-    private Double price;
-
     @NotNull(message = "The origin point is required")
     private RidePointDto originPoint;
 

@@ -19,14 +19,14 @@ public class RideDtoRequest {
     @NotNull(message = "The start date is required")
     private Date startDate;
 
+    @NotNull(message = "The start date is required")
+    private Date endDate;
+
     @NotBlank(message = "The vehicle domain is required")
     private String vehicleDomain;
 
     @NotNull(message = "The tariff type is required")
     private TariffType tariffType;
-
-    @NotNull(message = "The price is required")
-    private Double price;
 
     @NotNull(message = "The origin point is required")
     private RidePointDto originPoint;
