@@ -53,14 +53,14 @@ public class UserController {
         return ResponseEntity.ok(userResponses);
     }
 
-    @DeleteMapping(Routes.USER_UPDATE)
+    @DeleteMapping(Routes.USER_DELETE)
     public ResponseEntity<DeleteResponseDto> delete(@PathVariable(value = "dni") String dni){
         userService.delete(dni);
 
         return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_USER, dni)));
     }
 
-    @PutMapping("/{dni}")
+    @PutMapping(Routes.USER_UPDATE)
     public ResponseEntity<UserDtoResponse> update(@PathVariable(value = "dni") String dni,
                                                   @RequestBody @Valid UserDtoUpdateRequest user){
 

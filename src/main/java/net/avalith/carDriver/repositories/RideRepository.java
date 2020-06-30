@@ -1,7 +1,6 @@
 package net.avalith.carDriver.repositories;
 
 import net.avalith.carDriver.models.Ride;
-import net.avalith.carDriver.models.enums.RideState;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

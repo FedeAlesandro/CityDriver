@@ -6,7 +6,6 @@ import net.avalith.carDriver.factoryService.FactoryService;
 import net.avalith.carDriver.models.City;
 import net.avalith.carDriver.models.Point;
 import net.avalith.carDriver.models.dtos.requests.PointDtoRequest;
-import net.avalith.carDriver.models.dtos.requests.PointDtoUpdateRequest;
 import net.avalith.carDriver.repositories.CityRepository;
 import net.avalith.carDriver.repositories.PointRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
 import java.util.List;

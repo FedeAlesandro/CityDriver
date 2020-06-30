@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_BRAND;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_PROVIDER;
 import static net.avalith.carDriver.utils.Constants.PROVIDER_ALREADY_EXISTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;

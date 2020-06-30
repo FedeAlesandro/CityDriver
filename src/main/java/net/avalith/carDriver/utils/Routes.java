@@ -21,5 +21,6 @@ public class Routes {
 
     public static final String USER = "/users";
     public static final String USER_UPDATE = "/{dni}";
+    public static final String USER_DELETE = "/{dni}";
 
 }

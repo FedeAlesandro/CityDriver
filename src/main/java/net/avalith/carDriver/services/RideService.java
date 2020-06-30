@@ -1,6 +1,5 @@
 package net.avalith.carDriver.services;
 
-import jdk.vm.ci.meta.Local;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.Point;
 import net.avalith.carDriver.models.Ride;
@@ -20,7 +19,6 @@ import net.avalith.carDriver.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -139,32 +137,25 @@ public class RideService {
         Long diff = endDate.getTime() - startDate.getTime();
 
         if(value.equals("priceHour")){
-            Long time = TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS);
+            Long time = TimeUnit.MINUTES.convert(diff, TimeUnit.MILLISECONDS);
+            Double timePrice = Math.ceil(time/60f);
 
-            if(time == 0)
-                time = 1L;
-
-            return time * category.getPriceHour();
+            return timePrice * category.getPriceHour();
         }
 
         if(value.equals("priceDay")){
-            Long time = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            Long time = TimeUnit.MINUTES.convert(diff, TimeUnit.MILLISECONDS);
+            Double timePrice = Math.ceil(time/(60f * 24f));
 
-            if(time == 0)
-                time = 1L;
-
-            return time * category.getPriceDay();
+            return timePrice * category.getPriceDay();
         }
 
         if(value.equals("priceWeek")){
-            Long time = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            Long time = TimeUnit.MINUTES.convert(diff, TimeUnit.MILLISECONDS);
+            Double timePrice = Math.ceil(time/(60f * 24f));
+            timePrice = Math.ceil(timePrice/7);
 
-            if(time == 0)
-                time = 1L;
-
-            time = time/7;
-
-            return time * category.getPriceWeek();
+            return timePrice * category.getPriceWeek();
         }
 
         return 0d;

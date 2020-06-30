@@ -1,7 +1,6 @@
 package net.avalith.carDriver.services;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.Brand;
