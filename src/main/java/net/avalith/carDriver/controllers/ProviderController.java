@@ -5,6 +5,7 @@ import net.avalith.carDriver.models.dtos.requests.ProviderDtoRequest;
 import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
 import net.avalith.carDriver.models.dtos.responses.ProviderDtoResponse;
 import net.avalith.carDriver.services.ProviderService;
+import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -26,19 +27,14 @@ import java.util.stream.Collectors;
 import static net.avalith.carDriver.utils.Constants.DELETED_PROVIDER;
 
 @RestController
-@RequestMapping("/providers")
+@RequestMapping(value = Routes.PROVIDER, consumes = Routes.MEDIA_TYPE)
 public class ProviderController {
 
     @Autowired
     private ProviderService providerService;
 
-//    @Value("${api.key.name}")
-//    private String keyName;
-
-    @GetMapping("/")
+    @GetMapping(produces = Routes.MEDIA_TYPE)
     public ResponseEntity<List<ProviderDtoResponse>>getAll(@RequestHeader(value = "API_KEY", required = false) String apiKey){
-        /*if(apiKey == null || !apiKey.equals(api_key))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();*/
 
         List<Provider> listProviders = providerService.getAll();
         if (listProviders.isEmpty()){
@@ -50,26 +46,20 @@ public class ProviderController {
                 .collect(Collectors.toList()));
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<ProviderDtoResponse> save(@RequestHeader(value = "API_KEY", required = false) String apiKey, @RequestBody @Valid ProviderDtoRequest provider){
-       /* if(apiKey == null || !apiKey.equals(api_key))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();*/
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProviderDtoResponse(providerService.save(provider)));
     }
 
-    @PutMapping("/{name}")
+    @PutMapping(value = Routes.PROVIDER_UPDATE)
     public ResponseEntity<ProviderDtoResponse> update(@RequestHeader(value = "API_KEY", required = false) String apiKey, @PathVariable("name") String name, @RequestBody ProviderDtoRequest provider){
-        /*if(apiKey == null || !apiKey.equals(api_key))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();*/
 
         return ResponseEntity.ok(new ProviderDtoResponse(providerService.update(name, provider)));
     }
 
-    @DeleteMapping("/{name}")
+    @DeleteMapping(value = Routes.PROVIDER_DELETE)
     public ResponseEntity<DeleteResponseDto> delete(@RequestHeader(value = "API_KEY", required = false) String apiKey, @PathVariable("name") String name){
-       /* if(apiKey == null || !apiKey.equals(api_key))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();*/
         providerService.deleteProvider(name);
 
         return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_PROVIDER, name)));

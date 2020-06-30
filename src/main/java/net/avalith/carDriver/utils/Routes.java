@@ -21,4 +21,28 @@ public class Routes {
     public static final String USER = "/users";
     public static final String USER_UPDATE = "/{dni}";
 
+    public static final String BRAND = "/brands";
+    public static final String BRAND_UPDATE = "/{name}";
+
+    public static final String PROVIDER = "/providers";
+    public static final String PROVIDER_UPDATE = "/{name}";
+    public static final String PROVIDER_DELETE = "/{name}";
+
+    public static final String VEHICLE_MODEL = "/vehicle-models";
+    public static final String VEHICLE_MODEL_UPDATE = "/{name}";
+
+    public static final String VEHICLE_CATEGORY = "/category-vehicles";
+    public static final String VEHICLE_CATEGORY_UPDATE = "/{name}";
+    public static final String VEHICLE_CATEGORY_DELETE = "/{name}";
+
+    public static final String VEHICLE = "/vehicles";
+    public static final String VEHICLE_UPDATE = "/{domain}";
+    public static final String VEHICLE_DELETE = "/{domain}";
+
+    public static final String MISHAP = "/mishaps";
+
+
+
+
+
 }

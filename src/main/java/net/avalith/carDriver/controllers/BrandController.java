@@ -4,6 +4,7 @@ import net.avalith.carDriver.models.Brand;
 import net.avalith.carDriver.models.dtos.requests.BrandDtoRequest;
 import net.avalith.carDriver.models.dtos.responses.BrandDtoResponse;
 import net.avalith.carDriver.services.BrandService;
+import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +20,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/brands")
+@RequestMapping(value = Routes.BRAND, consumes = Routes.MEDIA_TYPE)
 public class BrandController {
 
     @Autowired
     private BrandService brandService;
 
-    @GetMapping("/")
+    @GetMapping(produces = Routes.MEDIA_TYPE)
     public ResponseEntity<List<BrandDtoResponse>> getAll() {
         List<Brand> listBrands = brandService.getAll();
         if (listBrands.isEmpty()) {
@@ -39,13 +40,13 @@ public class BrandController {
             return ResponseEntity.ok(listBrandsResponse);
         }
     }
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<BrandDtoResponse> save(@RequestBody @Valid BrandDtoRequest brand){
 
         return ResponseEntity.ok(new BrandDtoResponse(brandService.save(brand)));
     }
 
-    @PutMapping("/{name}")
+    @PutMapping(value = Routes.BRAND_UPDATE)
     public ResponseEntity<BrandDtoResponse> update(@PathVariable("name") String name, @RequestBody @Valid BrandDtoRequest brand){
 
         return ResponseEntity.ok(new BrandDtoResponse(brandService.update(name, brand)));

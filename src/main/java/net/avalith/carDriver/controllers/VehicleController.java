@@ -5,6 +5,7 @@ import net.avalith.carDriver.models.dtos.requests.VehicleDtoRequest;
 import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
 import net.avalith.carDriver.models.dtos.responses.VehicleDtoResponse;
 import net.avalith.carDriver.services.VehicleService;
+import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +25,13 @@ import java.util.stream.Collectors;
 import static net.avalith.carDriver.utils.Constants.DELETED_VEHICLE;
 
 @RestController
-@RequestMapping("/vehicles")
+@RequestMapping(value = Routes.VEHICLE, consumes = Routes.MEDIA_TYPE)
 public class VehicleController {
 
     @Autowired
     private VehicleService vehicleService;
 
-    @GetMapping("/")
+    @GetMapping(produces = Routes.MEDIA_TYPE)
     public ResponseEntity<List<VehicleDtoResponse>> getAll(){
         List<Vehicle> listVehicles = vehicleService.getAll();
         if (listVehicles.isEmpty()){
@@ -42,19 +43,19 @@ public class VehicleController {
                 .collect(Collectors.toList()));
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<VehicleDtoResponse> save(@RequestBody @Valid VehicleDtoRequest vehicle){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleDtoResponse(vehicleService.save(vehicle)));
     }
 
-    @PutMapping("/{domain}")
+    @PutMapping(value = Routes.VEHICLE_UPDATE)
     public ResponseEntity<VehicleDtoResponse> update (@RequestBody @Valid VehicleDtoRequest vehicleDtoRequest, @PathVariable String domain){
 
         return ResponseEntity.ok(new VehicleDtoResponse(vehicleService.update(vehicleDtoRequest,domain)));
     }
 
-    @DeleteMapping("/{domain}")
+    @DeleteMapping(value = Routes.VEHICLE_DELETE)
     public ResponseEntity<DeleteResponseDto>delete(@PathVariable String domain){
         vehicleService.delete(domain);
 
