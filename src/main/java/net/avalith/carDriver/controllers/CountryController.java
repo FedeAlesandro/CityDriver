@@ -6,6 +6,7 @@ import net.avalith.carDriver.services.CountryService;
 import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,20 +21,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = Routes.COUNTRY, consumes = Routes.MEDIA_TYPE)
+@RequestMapping(value = Routes.COUNTRY)
 public class CountryController {
 
     @Autowired
     private CountryService countryService;
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CountryDto> save(@RequestBody @Valid Country country){
         CountryDto response = new CountryDto(countryService.save(country));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping(produces = Routes.MEDIA_TYPE)
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<CountryDto>> getAll(){
         List<Country> countries = countryService.getAll();
 
@@ -47,7 +48,7 @@ public class CountryController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping(value = Routes.COUNTRY_UPDATE)
+    @PutMapping(value = Routes.COUNTRY_UPDATE, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CountryDto> update(@PathVariable(value = "name") String name, @RequestBody @Valid Country country){
         CountryDto response = new CountryDto(countryService.update(name, country));
 

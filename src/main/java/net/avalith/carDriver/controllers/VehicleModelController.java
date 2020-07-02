@@ -7,6 +7,7 @@ import net.avalith.carDriver.services.VehicleModelService;
 import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,14 +21,14 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequestMapping(value = Routes.VEHICLE_MODEL, consumes = Routes.MEDIA_TYPE)
+@RequestMapping(value = Routes.VEHICLE_MODEL)
 @RestController
 public class VehicleModelController {
 
     @Autowired
     private VehicleModelService vehicleModelService;
 
-    @GetMapping(produces = Routes.MEDIA_TYPE)
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<VehicleModelDtoResponse>> getAll(){
         List<VehicleModels> listVehicleModels = vehicleModelService.getAll();
         if (listVehicleModels.isEmpty()){
@@ -40,13 +41,13 @@ public class VehicleModelController {
                 .collect(Collectors.toList()));
     }
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<VehicleModelDtoResponse> save(@RequestBody @Valid VehicleModelDtoRequest vehicle){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleModelDtoResponse(vehicleModelService.save(vehicle)));
     }
 
-    @PutMapping(value = Routes.VEHICLE_MODEL_UPDATE)
+    @PutMapping(value = Routes.VEHICLE_MODEL_UPDATE, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<VehicleModelDtoResponse> update(@PathVariable("name") String name, @RequestBody @Valid VehicleModelDtoRequest vehicleModel){
 
         return ResponseEntity.ok(new VehicleModelDtoResponse(vehicleModelService.update(vehicleModel,name)));

@@ -8,6 +8,7 @@ import net.avalith.carDriver.services.VehicleCategoryService;
 import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,14 +25,14 @@ import java.util.stream.Collectors;
 
 import static net.avalith.carDriver.utils.Constants.DELETED_VEHICLE_CATEGORY;
 
-@RequestMapping(value = Routes.VEHICLE_CATEGORY, consumes = Routes.MEDIA_TYPE)
+@RequestMapping(value = Routes.VEHICLE_CATEGORY)
 @RestController
 public class VehicleCategoryController {
 
     @Autowired
     private VehicleCategoryService vehicleCategoryService;
 
-    @GetMapping(produces = Routes.MEDIA_TYPE)
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<VehicleCategoryDtoResponse>> getAll() {
         List<VehicleCategory> listVehicleCategoryVehicles = vehicleCategoryService.getAll();
         if (listVehicleCategoryVehicles.isEmpty()) {
@@ -45,19 +46,19 @@ public class VehicleCategoryController {
 
     }
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<VehicleCategoryDtoResponse> save(@RequestBody @Valid VehicleCategoryDtoRequest categoryVehicle) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleCategoryDtoResponse(vehicleCategoryService.save(categoryVehicle)));
     }
 
-    @PutMapping(value = Routes.VEHICLE_CATEGORY_UPDATE)
+    @PutMapping(value = Routes.VEHICLE_CATEGORY_UPDATE, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<VehicleCategoryDtoResponse> update(@PathVariable String name, @RequestBody @Valid VehicleCategoryDtoRequest vehicleCategoryDtoRequest){
 
         return ResponseEntity.ok( new VehicleCategoryDtoResponse(vehicleCategoryService.update(vehicleCategoryDtoRequest, name.replace("-", " "))));
     }
 
-    @DeleteMapping(value = Routes.VEHICLE_CATEGORY_DELETE)
+    @DeleteMapping(value = Routes.VEHICLE_CATEGORY_DELETE, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<DeleteResponseDto>delete(@PathVariable String name){
 
         vehicleCategoryService.delete(name.replace("-"," "));

@@ -8,6 +8,7 @@ import net.avalith.carDriver.services.RideService;
 import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,19 +24,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = Routes.RIDE, consumes = Routes.MEDIA_TYPE)
+@RequestMapping(value = Routes.RIDE)
 public class RideController {
 
     @Autowired
     private RideService rideService;
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<RideDtoResponse> save(@RequestBody @Valid RideDtoRequest ride){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new RideDtoResponse(rideService.save(ride)));
     }
 
-    @GetMapping(produces = Routes.MEDIA_TYPE)
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<RideDtoResponse>> getAll(){
         List<Ride>rides = rideService.getAll();
 
@@ -49,14 +50,14 @@ public class RideController {
         return ResponseEntity.ok(rideResponses);
     }
 
-    @PutMapping(value = Routes.RIDE_UPDATE)
+    @PutMapping(value = Routes.RIDE_UPDATE, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<RideDtoResponse> update(@PathVariable(value = "id") Long id,
                                                    @RequestBody @Valid RideDtoUpdateRequest ride){
 
         return ResponseEntity.ok(new RideDtoResponse(rideService.update(id, ride)));
     }
 
-    @DeleteMapping(value = Routes.RIDE_DELETE)
+    @DeleteMapping(value = Routes.RIDE_DELETE, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<RideDtoResponse> deleteRide(@PathVariable(value = "id") Long id){
 
         return ResponseEntity.ok(new RideDtoResponse(rideService.deleteRide(id)));
