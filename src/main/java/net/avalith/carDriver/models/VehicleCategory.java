@@ -54,11 +54,12 @@ public class VehicleCategory {
     @UpdateTimestamp
     private  Timestamp updatedAt;
 
-
-
     public VehicleCategory(VehicleCategoryDtoRequest vehicleCategoryDtoRequest) {
         this.name = vehicleCategoryDtoRequest.getName();
         this.commission = vehicleCategoryDtoRequest.getCommission();
         this.isActive = Boolean.TRUE;
+        this.priceHour = vehicleCategoryDtoRequest.getPriceHour();
+        this.priceDay = vehicleCategoryDtoRequest.getPriceDay();
+        this.priceWeek = vehicleCategoryDtoRequest.getPriceWeek();
     }
 }
