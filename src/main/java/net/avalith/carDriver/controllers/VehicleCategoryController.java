@@ -5,6 +5,7 @@ import net.avalith.carDriver.models.dtos.requests.VehicleCategoryDtoRequest;
 import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
 import net.avalith.carDriver.models.dtos.responses.VehicleCategoryDtoResponse;
 import net.avalith.carDriver.services.VehicleCategoryService;
+import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +24,14 @@ import java.util.stream.Collectors;
 
 import static net.avalith.carDriver.utils.Constants.DELETED_VEHICLE_CATEGORY;
 
-@RequestMapping("/category-vehicles")
+@RequestMapping(value = Routes.VEHICLE_CATEGORY, consumes = Routes.MEDIA_TYPE)
 @RestController
 public class VehicleCategoryController {
 
     @Autowired
     private VehicleCategoryService vehicleCategoryService;
 
-    @GetMapping("/")
+    @GetMapping(produces = Routes.MEDIA_TYPE)
     public ResponseEntity<List<VehicleCategoryDtoResponse>> getAll() {
         List<VehicleCategory> listVehicleCategoryVehicles = vehicleCategoryService.getAll();
         if (listVehicleCategoryVehicles.isEmpty()) {
@@ -44,19 +45,19 @@ public class VehicleCategoryController {
 
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<VehicleCategoryDtoResponse> save(@RequestBody @Valid VehicleCategoryDtoRequest categoryVehicle) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new VehicleCategoryDtoResponse(vehicleCategoryService.save(categoryVehicle)));
     }
 
-    @PutMapping("/{name}")
+    @PutMapping(value = Routes.VEHICLE_CATEGORY_UPDATE)
     public ResponseEntity<VehicleCategoryDtoResponse> update(@PathVariable String name, @RequestBody @Valid VehicleCategoryDtoRequest vehicleCategoryDtoRequest){
 
         return ResponseEntity.ok( new VehicleCategoryDtoResponse(vehicleCategoryService.update(vehicleCategoryDtoRequest, name.replace("-", " "))));
     }
 
-    @DeleteMapping("/{name}")
+    @DeleteMapping(value = Routes.VEHICLE_CATEGORY_DELETE)
     public ResponseEntity<DeleteResponseDto>delete(@PathVariable String name){
 
         vehicleCategoryService.delete(name.replace("-"," "));
