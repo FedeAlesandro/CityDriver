@@ -37,6 +37,15 @@ public class VehicleCategory {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @Column(name = "price_hour")
+    private Double priceHour;
+
+    @Column(name = "price_day")
+    private Double priceDay;
+
+    @Column(name = "price_week")
+    private Double priceWeek;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private Timestamp createdAt;

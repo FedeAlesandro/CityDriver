@@ -2,7 +2,6 @@ package net.avalith.carDriver.factoryService;
 
 import net.avalith.carDriver.models.City;
 import net.avalith.carDriver.models.Country;
-
 import net.avalith.carDriver.models.Point;
 import net.avalith.carDriver.models.Provider;
 import net.avalith.carDriver.models.dtos.CityDto;

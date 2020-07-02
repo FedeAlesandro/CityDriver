@@ -89,7 +89,6 @@ public class Ride {
         startDate = rideDto.getStartDate();
         state = RideState.RESERVED;
         tariffType = rideDto.getTariffType();
-        price = rideDto.getPrice();
         this.vehicle = vehicle;
         this.originPoint = point;
         this.user = user;
@@ -100,7 +99,6 @@ public class Ride {
         endDate = rideDto.getEndDate();
         state = rideDto.getState();
         tariffType = rideDto.getTariffType();
-        price = rideDto.getPrice();
         this.vehicle = vehicle;
         this.originPoint = originPoint;
         this.destinationPoint = destinationPoint;
