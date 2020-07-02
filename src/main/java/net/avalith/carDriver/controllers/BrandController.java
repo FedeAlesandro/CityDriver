@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = Routes.BRAND, consumes = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = Routes.BRAND)
 public class BrandController {
 
     @Autowired
@@ -41,13 +41,13 @@ public class BrandController {
             return ResponseEntity.ok(listBrandsResponse);
         }
     }
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<BrandDtoResponse> save(@RequestBody @Valid BrandDtoRequest brand){
 
         return ResponseEntity.ok(new BrandDtoResponse(brandService.save(brand)));
     }
 
-    @PutMapping(value = Routes.BRAND_UPDATE)
+    @PutMapping(value = Routes.BRAND_UPDATE, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<BrandDtoResponse> update(@PathVariable("name") String name, @RequestBody @Valid BrandDtoRequest brand){
 
         return ResponseEntity.ok(new BrandDtoResponse(brandService.update(name, brand)));

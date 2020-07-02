@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = Routes.CITY, consumes = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = Routes.CITY)
 public class CityController {
 
     @Autowired
