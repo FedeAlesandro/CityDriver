@@ -8,6 +8,7 @@ import net.avalith.carDriver.services.PointService;
 import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,19 +23,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = Routes.POINTS, consumes = Routes.MEDIA_TYPE)
+@RequestMapping(value = Routes.POINTS)
 public class PointController {
 
     @Autowired
     private PointService pointService;
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<PointDtoResponse> save(@RequestBody @Valid PointDtoRequest point){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new PointDtoResponse(pointService.save(point)));
     }
 
-    @GetMapping(produces = Routes.MEDIA_TYPE)
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<PointDtoResponse>> getAll(){
         List<Point> pointsAux = pointService.getAll();
 
@@ -48,7 +49,7 @@ public class PointController {
         return ResponseEntity.ok(points);
     }
 
-    @PutMapping
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<PointDtoResponse> update(@RequestParam(value = "latitude") String lat,
                                                    @RequestParam(value = "longitude") String lng,
                                                    @RequestBody @Valid PointDtoUpdateRequest point){

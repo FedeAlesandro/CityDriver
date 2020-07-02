@@ -6,6 +6,7 @@ import net.avalith.carDriver.models.dtos.responses.BrandDtoResponse;
 import net.avalith.carDriver.services.BrandService;
 import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +21,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = Routes.BRAND, consumes = Routes.MEDIA_TYPE)
+@RequestMapping(value = Routes.BRAND, consumes = {MediaType.APPLICATION_JSON_VALUE})
 public class BrandController {
 
     @Autowired
     private BrandService brandService;
 
-    @GetMapping(produces = Routes.MEDIA_TYPE)
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<BrandDtoResponse>> getAll() {
         List<Brand> listBrands = brandService.getAll();
         if (listBrands.isEmpty()) {

@@ -2,8 +2,6 @@ package net.avalith.carDriver.utils;
 
 public class Routes {
 
-    public static final String MEDIA_TYPE = "application/json";
-
     public static final String CITY = "/cities";
     public static final String CITY_UPDATE = "/{name}";
 

@@ -6,6 +6,7 @@ import net.avalith.carDriver.services.CityService;
 import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,19 +21,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = Routes.CITY, consumes = Routes.MEDIA_TYPE)
+@RequestMapping(value = Routes.CITY, consumes = {MediaType.APPLICATION_JSON_VALUE})
 public class CityController {
 
     @Autowired
     private CityService cityService;
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CityDto> save(@RequestBody @Valid CityDto city){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new CityDto(cityService.save(city)));
     }
 
-    @GetMapping(produces = Routes.MEDIA_TYPE)
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<CityDto>> getAll(){
         List<City> citiesAux = cityService.getAll();
 
@@ -44,7 +45,7 @@ public class CityController {
                 .collect(Collectors.toList()));
     }
 
-    @PutMapping(value = Routes.CITY_UPDATE)
+    @PutMapping(value = Routes.CITY_UPDATE, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CityDto> update(@PathVariable(value = "name") String name, @RequestBody @Valid CityDto city){
 
         return ResponseEntity.ok(new CityDto(cityService.update(name, city)));

@@ -10,6 +10,7 @@ import net.avalith.carDriver.services.UserService;
 import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,19 +28,19 @@ import java.util.stream.Collectors;
 import static net.avalith.carDriver.utils.Constants.DELETED_USER;
 
 @RestController
-@RequestMapping(value = Routes.USER, consumes = Routes.MEDIA_TYPE)
+@RequestMapping(value = Routes.USER)
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<UserDtoNoLicense> save(@RequestBody @Valid UserDtoRequest user){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new UserDtoNoLicense(userService.save(user)));
     }
 
-    @GetMapping(produces = Routes.MEDIA_TYPE)
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<UserDtoResponse>> getAll(){
         List<User> users = userService.getAll();
 
@@ -53,14 +54,14 @@ public class UserController {
         return ResponseEntity.ok(userResponses);
     }
 
-    @DeleteMapping(Routes.USER_DELETE)
+    @DeleteMapping(value = Routes.USER_DELETE, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<DeleteResponseDto> delete(@PathVariable(value = "dni") String dni){
         userService.delete(dni);
 
         return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_USER, dni)));
     }
 
-    @PutMapping(Routes.USER_UPDATE)
+    @PutMapping(value = Routes.USER_UPDATE, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<UserDtoResponse> update(@PathVariable(value = "dni") String dni,
                                                   @RequestBody @Valid UserDtoUpdateRequest user){
 
