@@ -41,7 +41,7 @@ public class LicenseService {
 
         return licenseRepository.findAll();
     }
-
+/*
     public License update(String number, LicenseDtoRequest license) {
         License oldLicense = licenseRepository.findByNumber(number)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_LICENSE));
@@ -59,5 +59,5 @@ public class LicenseService {
         licenseUpdate.setValidated(oldLicense.getValidated());
 
         return licenseRepository.save(licenseUpdate);
-    }
+    }*/
 }

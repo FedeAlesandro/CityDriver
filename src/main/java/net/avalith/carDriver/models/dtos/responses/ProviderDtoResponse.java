@@ -28,6 +28,8 @@ public class ProviderDtoResponse {
 
     private String phone;
 
+    private Double commission;
+
     private List<VehicleDtoResponse> vehicles = new ArrayList<>();
 
     public ProviderDtoResponse(Provider provider){
@@ -35,6 +37,7 @@ public class ProviderDtoResponse {
         this.email = provider.getEmail();
         this.businessName = provider.getBusinessName();
         this.phone = provider.getPhone();
+        this.commission = provider.getCommission();
         this.vehicles = provider.getVehicles().stream().map(VehicleDtoResponse::new).collect(Collectors.toList());
     }
 }

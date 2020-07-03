@@ -32,8 +32,6 @@ public class VehicleCategory {
     @Column(unique = true)
     private String name;
 
-    private Double commission;
-
     @Column(name = "is_active")
     private Boolean isActive;
 
@@ -56,7 +54,6 @@ public class VehicleCategory {
 
     public VehicleCategory(VehicleCategoryDtoRequest vehicleCategoryDtoRequest) {
         this.name = vehicleCategoryDtoRequest.getName();
-        this.commission = vehicleCategoryDtoRequest.getCommission();
         this.isActive = Boolean.TRUE;
         this.priceHour = vehicleCategoryDtoRequest.getPriceHour();
         this.priceDay = vehicleCategoryDtoRequest.getPriceDay();
