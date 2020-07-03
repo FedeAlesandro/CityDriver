@@ -34,7 +34,12 @@ public class VehicleCategoryService {
     public VehicleCategory update(VehicleCategoryDtoRequest vehicleCategoryDtoRequest, String name){
         VehicleCategory auxVehi = vehicleCategoryRepository.findByName(name)
                 .orElseThrow(()-> new NotFoundException(NOT_FOUND_VEHICLE_CATEGORY));
+
         auxVehi.setName(vehicleCategoryDtoRequest.getName());
+        auxVehi.setPriceHour(vehicleCategoryDtoRequest.getPriceHour());
+        auxVehi.setPriceDay(vehicleCategoryDtoRequest.getPriceDay());
+        auxVehi.setPriceWeek(vehicleCategoryDtoRequest.getPriceWeek());
+
         return vehicleCategoryRepository.save(auxVehi);
     }
 }

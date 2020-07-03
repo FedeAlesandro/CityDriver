@@ -15,7 +15,9 @@ public class Routes {
 
     public static final String RIDE = "/rides";
     public static final String RIDE_UPDATE = "/{id}";
-    public static final String RIDE_DELETE = "/{id}";
+    public static final String END_RIDE = "/end/{id}";
+    public static final String START_RIDE = "/start/{id}";
+    public static final String CRASH_RIDE = "/crash/{id}";
 
     public static final String USER = "/users";
     public static final String USER_UPDATE = "/{dni}";

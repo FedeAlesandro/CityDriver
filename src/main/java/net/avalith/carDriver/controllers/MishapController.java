@@ -31,8 +31,8 @@ public class MishapController {
         }else
             return ResponseEntity.ok(listMishaps);
     }
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+/*    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Mishap> save(@RequestBody Mishap mishap, @PathVariable("idRide") Long idRide){
         return ResponseEntity.ok(mishapService.save(mishap, idRide));
-    }
+    }*/
 }

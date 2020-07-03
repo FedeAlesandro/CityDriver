@@ -1,6 +1,7 @@
 package net.avalith.carDriver.services;
 
 import net.avalith.carDriver.exceptions.NotFoundException;
+import net.avalith.carDriver.models.Mishap;
 import net.avalith.carDriver.models.Point;
 import net.avalith.carDriver.models.Ride;
 import net.avalith.carDriver.models.RideLog;
@@ -8,9 +9,12 @@ import net.avalith.carDriver.models.User;
 import net.avalith.carDriver.models.Vehicle;
 import net.avalith.carDriver.models.VehicleCategory;
 import net.avalith.carDriver.models.dtos.RidePointDto;
+import net.avalith.carDriver.models.dtos.requests.MishapDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.RideDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.RideDtoUpdateRequest;
 import net.avalith.carDriver.models.enums.RideState;
+import net.avalith.carDriver.models.enums.TariffType;
+import net.avalith.carDriver.repositories.MishapRepository;
 import net.avalith.carDriver.repositories.PointRepository;
 import net.avalith.carDriver.repositories.RideLogRepository;
 import net.avalith.carDriver.repositories.RideRepository;
@@ -19,6 +23,7 @@ import net.avalith.carDriver.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -44,6 +49,9 @@ public class RideService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MishapRepository mishapRepository;
 
     @Autowired
     private RideLogRepository rideLogRepository;
@@ -100,6 +108,7 @@ public class RideService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER));
 
         Ride rideUpdate = new Ride(ride, vehicle, originPoint, destinationPoint, user);
+        rideUpdate.setState(oldRide.getState());
 
         String value = ride.getTariffType().getValue(ride.getTariffType());
 
@@ -112,7 +121,7 @@ public class RideService {
         return rideRepository.save(rideUpdate);
     }
 
-    public Ride deleteRide(Long id){
+    public Ride endRide(Long id){
         Ride ride = rideRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_RIDE));
 
@@ -123,13 +132,49 @@ public class RideService {
         LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
 
         if (now.isBefore(noPayTime) || now.isEqual(noPayTime))
+        {
             ride.setPrice(0d);
+            ride.setState(RideState.CANCELLED);
+        } else{
+            if(ride.getState().equals(RideState.RESERVED)){
+                Instant endDate = ride.getStartDate()
+                        .toInstant()
+                        .plusSeconds(3600);
 
-        ride.setState(RideState.CANCELLED);
-        rideLogRepository.save(new RideLog(id, RideState.CANCELLED));
-        rideRepository.save(ride);
+                ride.setPrice(getPrice(TariffType.HOUR.getValue(TariffType.HOUR), ride.getVehicle().getCategoryVehicles(), ride.getStartDate(), Date.from(endDate)));
+            }
 
-        return rideRepository.cancelRide(id);
+            ride.setState(RideState.FINISHED);
+        }
+        rideLogRepository.save(new RideLog(id, ride.getState()));
+
+        return rideRepository.save(ride);
+    }
+
+    public Ride startRide(Long id){
+        Ride ride = rideRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_RIDE));
+
+        ride.setState(RideState.IN_RIDE);
+        rideLogRepository.save(new RideLog(ride.getId(), ride.getState()));
+
+        return rideRepository.save(ride);
+    }
+
+    public Ride inCrashRide(Long id, MishapDtoRequest mishapRequest){
+        Ride ride = rideRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_RIDE));
+
+        Mishap mishap = new Mishap(mishapRequest);
+        mishap.setRide(ride);
+
+        ride.setState(RideState.IN_CRASH);
+
+        rideLogRepository.save(new RideLog(ride.getId(), ride.getState()));
+
+        mishapRepository.save(mishap);
+
+        return rideRepository.save(ride);
     }
 
     private Double getPrice(String value, VehicleCategory category, Date startDate, Date endDate){

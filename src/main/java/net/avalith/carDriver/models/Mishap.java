@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.avalith.carDriver.models.dtos.requests.MishapDtoRequest;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,4 +38,8 @@ public class Mishap {
     @JoinColumn(name = "id_ride", referencedColumnName = "id_ride")
     private Ride ride;
 
+    public Mishap (MishapDtoRequest mishap){
+        this.title = mishap.getTitle();
+        this.description = mishap.getDescription();
+    }
 }

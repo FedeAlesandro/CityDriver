@@ -16,7 +16,6 @@ public class VehicleCategoryDtoResponse {
 
     private Double priceWeek;
 
-
     public VehicleCategoryDtoResponse(VehicleCategory vehicleCategory) {
         this.name = vehicleCategory.getName();
         this.priceHour = vehicleCategory.getPriceHour();
