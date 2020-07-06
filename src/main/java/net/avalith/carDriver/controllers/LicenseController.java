@@ -48,9 +48,9 @@ public class LicenseController {
         return ResponseEntity.ok(licenseResponses);
     }
 
-    @PutMapping(value = Routes.LICENSE_UPDATE, consumes = {MediaType.APPLICATION_JSON_VALUE})
+/*    @PutMapping(value = Routes.LICENSE_UPDATE, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<LicenseDtoResponse> update(@PathVariable(value = "number") String number, @RequestBody @Valid LicenseDtoRequest license){
 
         return ResponseEntity.ok(new LicenseDtoResponse(licenseService.update(number, license)));
-    }
+    }*/
 }

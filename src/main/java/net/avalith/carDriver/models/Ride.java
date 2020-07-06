@@ -97,7 +97,6 @@ public class Ride {
     public Ride (RideDtoUpdateRequest rideDto, Vehicle vehicle, Point originPoint, Point destinationPoint, User user){
         startDate = rideDto.getStartDate();
         endDate = rideDto.getEndDate();
-        state = rideDto.getState();
         tariffType = rideDto.getTariffType();
         this.vehicle = vehicle;
         this.originPoint = originPoint;

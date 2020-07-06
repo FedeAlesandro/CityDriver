@@ -45,6 +45,9 @@ public class Provider {
     @Column(unique = true)
     private String phone;
 
+    @Column(name = "commission")
+    private Double commission;
+
     @Column(name = "password")
     private String password;
 
@@ -72,6 +75,7 @@ public class Provider {
         this.email = providerDtoRequest.getEmail();
         this.password = providerDtoRequest.getPassword();
         this.phone = providerDtoRequest.getPhone();
+        this.commission = providerDtoRequest.getCommission();
         this.isActive = Boolean.TRUE;
     }
     public static Provider fromDtoRequest (Provider provider, ProviderDtoRequest providerDtoRequest){
@@ -79,6 +83,7 @@ public class Provider {
         provider.setBusinessName(providerDtoRequest.getBusinessName());
         provider.setEmail(providerDtoRequest.getEmail());
         provider.setPhone(providerDtoRequest.getPhone());
+        provider.setCommission(providerDtoRequest.getCommission());
         return provider;
     }
 }

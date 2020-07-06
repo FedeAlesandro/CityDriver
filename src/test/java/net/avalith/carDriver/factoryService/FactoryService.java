@@ -36,7 +36,7 @@ public interface FactoryService {
     default ProviderDtoRequest createProviderDto (){
        return new ProviderDtoRequest(
                 "Car One", "car@hotmail.com","car S.A.",
-                "457812","123456");
+                "457812","123456", 0.20);
     }
 
     default BrandDtoRequest createBrandDto(){

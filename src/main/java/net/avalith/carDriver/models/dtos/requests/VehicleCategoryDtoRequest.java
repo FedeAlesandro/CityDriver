@@ -18,9 +18,6 @@ public class VehicleCategoryDtoRequest {
     @NotBlank(message = "The name is required")
     private String name;
 
-    @NotNull(message = "The commission is required")
-    private Double commission;
-
     @NotNull(message = "The price for hour is required")
     private Double priceHour;
 
@@ -29,5 +26,4 @@ public class VehicleCategoryDtoRequest {
 
     @NotNull(message = "The price for week is required")
     private Double priceWeek;
-
 }

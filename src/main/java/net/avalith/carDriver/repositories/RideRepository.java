@@ -12,6 +12,6 @@ public interface RideRepository extends JpaRepository<Ride, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE rides SET state = 'CANCELLED' WHERE id_ride = ?1 ;", nativeQuery = true)
-    Ride cancelRide(Long id);
+    @Query(value = "UPDATE rides SET state = 'IN_RIDE' WHERE id_ride = ?1 ;", nativeQuery = true)
+    Ride startRide(Long id);
 }

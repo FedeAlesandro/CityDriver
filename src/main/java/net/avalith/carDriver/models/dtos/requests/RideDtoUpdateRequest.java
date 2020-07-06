@@ -23,9 +23,6 @@ public class RideDtoUpdateRequest {
     @NotNull(message = "The end date is required")
     private Date endDate;
 
-    @NotNull(message = "The state is required")
-    private RideState state;
-
     @NotBlank(message = "The vehicle domain is required")
     private String vehicleDomain;
 

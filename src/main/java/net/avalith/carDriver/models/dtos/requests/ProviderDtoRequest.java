@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 
 @Data
@@ -28,4 +29,7 @@ public class ProviderDtoRequest {
 
     @NotBlank(message = "The password is required")
     private String password;
+
+    @Column(name = "commission")
+    private Double commission;
 }

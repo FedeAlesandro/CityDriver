@@ -1,6 +1,7 @@
 package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.Ride;
+import net.avalith.carDriver.models.dtos.requests.MishapDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.RideDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.RideDtoUpdateRequest;
 import net.avalith.carDriver.models.dtos.responses.RideDtoResponse;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -57,9 +59,22 @@ public class RideController {
         return ResponseEntity.ok(new RideDtoResponse(rideService.update(id, ride)));
     }
 
-    @DeleteMapping(value = Routes.RIDE_DELETE, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<RideDtoResponse> deleteRide(@PathVariable(value = "id") Long id){
+    @PatchMapping(value = Routes.END_RIDE, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<RideDtoResponse> endRide(@PathVariable(value = "id") Long id){
 
-        return ResponseEntity.ok(new RideDtoResponse(rideService.deleteRide(id)));
+        return ResponseEntity.ok(new RideDtoResponse(rideService.endRide(id)));
+    }
+
+    @PatchMapping(value = Routes.START_RIDE, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<RideDtoResponse> startRide(@PathVariable(value = "id") Long id){
+
+        return ResponseEntity.ok(new RideDtoResponse(rideService.startRide(id)));
+    }
+
+    @PatchMapping(value = Routes.CRASH_RIDE, produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<RideDtoResponse> crashRide(@PathVariable(value = "id") Long id,
+                                                     @RequestBody @Valid MishapDtoRequest mishap){
+
+        return ResponseEntity.ok(new RideDtoResponse(rideService.inCrashRide(id, mishap)));
     }
 }
