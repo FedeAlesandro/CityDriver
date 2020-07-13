@@ -17,6 +17,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +39,13 @@ public class CityServiceTest implements FactoryService {
     @Mock
     CountryRepository countryRepository;
 
+    @Mock
+    RedisTemplate<String, City> redisTemplate;
+
     @BeforeEach
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        cityService = new CityService(cityRepository, countryRepository);
+        cityService = new CityService(cityRepository, countryRepository, redisTemplate);
     }
 
     @AfterEach

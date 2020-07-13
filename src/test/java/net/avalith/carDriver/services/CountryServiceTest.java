@@ -13,6 +13,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +31,13 @@ public class CountryServiceTest {
     @Mock
     CountryRepository countryRepository;
 
+    @Mock
+    RedisTemplate<String, Country> redisTemplate;
+
     @BeforeEach
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        countryService = new CountryService(countryRepository);
+        countryService = new CountryService(countryRepository, redisTemplate);
     }
 
     @AfterEach

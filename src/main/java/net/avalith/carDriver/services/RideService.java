@@ -1,5 +1,9 @@
 package net.avalith.carDriver.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.Mishap;
 import net.avalith.carDriver.models.Point;
@@ -21,11 +25,13 @@ import net.avalith.carDriver.repositories.RideRepository;
 import net.avalith.carDriver.repositories.UserRepository;
 import net.avalith.carDriver.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +40,9 @@ import static net.avalith.carDriver.utils.Constants.NOT_FOUND_POINT;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_RIDE;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_USER;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE;
+import static net.avalith.carDriver.utils.Constants.POINT_KEY;
+import static net.avalith.carDriver.utils.Constants.RIDE_KEY;
+import static net.avalith.carDriver.utils.Constants.VEHICLE_IN_USE;
 
 @Service
 public class RideService {
@@ -51,10 +60,13 @@ public class RideService {
     private UserRepository userRepository;
 
     @Autowired
-    private MishapRepository mishapRepository;
+    private MishapService mishapService;
 
     @Autowired
     private RideLogRepository rideLogRepository;
+
+    @Autowired
+    private RedisTemplate<String, Ride> redisTemplate;
 
     public Ride save(RideDtoRequest ride){
 
@@ -62,6 +74,9 @@ public class RideService {
 
         Vehicle vehicle = vehicleRepository.findByDomain(ride.getVehicleDomain())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE));
+
+        rideRepository.findRidesByVehicle(vehicle.getId())
+            .orElseThrow(() -> new AlreadyExistsException(VEHICLE_IN_USE));
 
         Point point = pointRepository.getByLatAndLng(ridePoint.getLat(), ridePoint.getLng())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_POINT));
@@ -79,12 +94,30 @@ public class RideService {
 
         rideLogRepository.save(new RideLog(rideSaved.getId(), rideSaved.getState()));
 
+        redisTemplate.opsForHash().put(RIDE_KEY, rideSaved.getId(), rideSaved);
+
         return rideSaved;
     }
 
     public List<Ride> getAll(){
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Ride> list = new ArrayList<>();
+        String json = "";
 
-        return rideRepository.findAll();
+        if(redisTemplate.opsForHash().keys(RIDE_KEY).isEmpty()){
+            rideRepository.findAll()
+                    .forEach((Ride ride) -> redisTemplate.opsForHash().put(RIDE_KEY, ride.getId(), ride));
+            redisTemplate.boundHashOps(RIDE_KEY).expire(24L, TimeUnit.HOURS);
+        }
+
+        try {
+            json = objectMapper.writeValueAsString(redisTemplate.opsForHash().values(RIDE_KEY));
+            list = objectMapper.readValue(json, new TypeReference<List<Ride>>(){});
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 
     public Ride update(Long id, RideDtoUpdateRequest ride) {
@@ -117,6 +150,7 @@ public class RideService {
         rideUpdate.setCode(oldRide.getCode());
 
         rideLogRepository.save(new RideLog(id, rideUpdate.getState()));
+        redisTemplate.opsForHash().put(RIDE_KEY, rideUpdate.getId(), rideUpdate);
 
         return rideRepository.save(rideUpdate);
     }
@@ -125,29 +159,35 @@ public class RideService {
         Ride ride = rideRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_RIDE));
 
-        LocalDateTime noPayTime = ride.getStartDate().toInstant()
+        System.out.println(ride.getStartDate());
+        Date date = ride.getStartDate();
+        // todo acomodar esto, sacar el system default
+        LocalDateTime noPayTime = date.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime().minusMinutes(30);
 
         LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
 
-        if (now.isBefore(noPayTime) || now.isEqual(noPayTime))
-        {
-            ride.setPrice(0d);
-            ride.setState(RideState.CANCELLED);
-        } else{
-            if(ride.getState().equals(RideState.RESERVED)){
-                Instant endDate = ride.getStartDate()
-                        .toInstant()
-                        .plusSeconds(3600);
+        if(!ride.getState().equals(RideState.CANCELLED) || !ride.getState().equals(RideState.FINISHED)){
+            if (now.isBefore(noPayTime) || now.isEqual(noPayTime))
+            {
+                ride.setPrice(0d);
+                ride.setState(RideState.CANCELLED);
+            } else{
+                if(ride.getState().equals(RideState.RESERVED)){
+                    Instant endDate = ride.getStartDate()
+                            .toInstant()
+                            .plusSeconds(3600);
 
-                ride.setPrice(getPrice(TariffType.HOUR.getValue(TariffType.HOUR), ride.getVehicle().getCategoryVehicles(), ride.getStartDate(), Date.from(endDate)));
+                    ride.setPrice(getPrice(TariffType.HOUR.getValue(TariffType.HOUR), ride.getVehicle().getCategoryVehicles(), ride.getStartDate(), Date.from(endDate)));
+                }
+
+                ride.setState(RideState.FINISHED);
             }
-
-            ride.setState(RideState.FINISHED);
+            rideLogRepository.save(new RideLog(id, ride.getState()));
         }
-        rideLogRepository.save(new RideLog(id, ride.getState()));
 
+        redisTemplate.opsForHash().put(RIDE_KEY, ride.getId(), ride);
         return rideRepository.save(ride);
     }
 
@@ -157,6 +197,8 @@ public class RideService {
 
         ride.setState(RideState.IN_RIDE);
         rideLogRepository.save(new RideLog(ride.getId(), ride.getState()));
+
+        redisTemplate.opsForHash().put(RIDE_KEY, ride.getId(), ride);
 
         return rideRepository.save(ride);
     }
@@ -172,7 +214,9 @@ public class RideService {
 
         rideLogRepository.save(new RideLog(ride.getId(), ride.getState()));
 
-        mishapRepository.save(mishap);
+        mishapService.save(mishap, id);
+
+        redisTemplate.opsForHash().put(RIDE_KEY, ride.getId(), ride);
 
         return rideRepository.save(ride);
     }

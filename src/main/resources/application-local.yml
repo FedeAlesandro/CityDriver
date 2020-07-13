@@ -8,6 +8,12 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+  jackson:
+    time-zone: GMT-3
+    date-format: yyyy-MM-dd HH:mm:ss
+  mvc:
+    locale: es
+    locale-resolver: fixed
 
 flyway:
   enabled: true
@@ -17,8 +23,3 @@ flyway:
   sql-migration-suffixes: .sql
   baseline-on-migrate: true
   sql-migration-prefix: V
-
-api:
-  key:
-    name: API_KEY
-    value: fgfd1sdfg1513153&%&4@£dfsafsd32

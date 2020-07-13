@@ -16,13 +16,13 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static net.avalith.carDriver.utils.Constants.LICENSE_ALREADY_EXISTS;
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_LICENSE;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_LICENSE_USER;
 import static org.mockito.Mockito.when;
 
@@ -37,10 +37,13 @@ public class LicenseServiceTest {
     @Mock
     UserRepository userRepository;
 
+    @Mock
+    RedisTemplate<String, License> redisTemplate;
+
     @BeforeEach
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        licenseService = new LicenseService(licenseRepository, userRepository);
+        licenseService = new LicenseService(licenseRepository, userRepository, redisTemplate);
     }
 
     @AfterEach

@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 
@@ -27,7 +28,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "vehicle_models")
-public class VehicleModels {
+public class VehicleModels implements Serializable {
 
     @Id
     @Column(name = "id_vehicle_model")

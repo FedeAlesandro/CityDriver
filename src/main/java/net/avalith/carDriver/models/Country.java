@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Data
@@ -20,7 +21,7 @@ import java.sql.Timestamp;
 @Table(name = "countries")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Country {
+public class Country implements Serializable {
 
     @Id
     @Column(name = "id_country")

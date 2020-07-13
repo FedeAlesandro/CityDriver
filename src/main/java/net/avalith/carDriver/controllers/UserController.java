@@ -54,7 +54,7 @@ public class UserController {
         return ResponseEntity.ok(userResponses);
     }
 
-    @DeleteMapping(value = Routes.USER_DELETE, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @DeleteMapping(value = Routes.USER_DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<DeleteResponseDto> delete(@PathVariable(value = "dni") String dni){
         userService.delete(dni);
 

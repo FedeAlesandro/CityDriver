@@ -16,6 +16,8 @@ import java.util.Date;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class RideDtoResponse {
 
+    private Long id;
+
     private Date startDate;
 
     private Date endDate;
@@ -35,6 +37,7 @@ public class RideDtoResponse {
     private String userDni;
 
     public RideDtoResponse(Ride ride) {
+        this.id = ride.getId();
         this.startDate = ride.getStartDate();
         this.endDate = ride.getEndDate();
         this.state = ride.getState();
