@@ -1,5 +1,6 @@
 package net.avalith.carDriver.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,9 +45,11 @@ public class Ride implements Serializable {
     private Long id;
 
     @Column(name = "start_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
 
     @Column(name = "end_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
     @Enumerated(EnumType.STRING)

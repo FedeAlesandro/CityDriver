@@ -1,5 +1,6 @@
 package net.avalith.carDriver.models.dtos.responses;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class LicenseDtoResponse {
 
     private String number;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date expirationDate;
 
     private Boolean validated;
