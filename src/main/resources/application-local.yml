@@ -10,7 +10,7 @@ spring:
     show-sql: true
   jackson:
     time-zone: GMT-3
-    date-format: yyyy-MM-dd HH:mm:ss
+    date-format: yyyy-MM-dd #todo Preguntarle a Mati que onda lo de hora
   mvc:
     locale: es
     locale-resolver: fixed

@@ -43,6 +43,10 @@ public class CityService {
     private final RedisTemplate<String, City> redisTemplate;
 
     public City save(CityDto city){
+
+        city.setCountryName(city.getCountryName().toLowerCase());
+        city.setName(city.getName().toLowerCase());
+
         Country country = countryRepository.findByName(city.getCountryName())
             .orElseThrow(() -> new NotFoundException(NOT_FOUND_COUNTRY));
 
@@ -77,6 +81,9 @@ public class CityService {
     }
 
     public City update(String name, CityDto city) {
+        city.setCountryName(city.getCountryName().toLowerCase());
+        city.setName(city.getName().toLowerCase());
+
         City oldCity = cityRepository.findByName(name.replace("-", " "))
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_CITY));
 
