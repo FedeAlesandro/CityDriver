@@ -41,6 +41,7 @@ public class PointService {
     private final RedisTemplate<String, Point> redisTemplate;
 
     public Point save(PointDtoRequest point){
+        point.setCityName(point.getCityName().toLowerCase());
 
         City city = cityRepository.findByName(point.getCityName())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_CITY));
@@ -84,6 +85,8 @@ public class PointService {
         if(!point.getLat().equals(oldPoint.getLat()) && !point.getLng().equals(oldPoint.getLng()))
             if(pointRepository.getByLatAndLng(point.getLat(), point.getLng()).isPresent())
                 throw new AlreadyExistsException(POINT_ALREADY_EXISTS);
+
+        point.setCityName(point.getCityName().toLowerCase());
 
         City city = cityRepository.findByName(point.getCityName())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_CITY));
