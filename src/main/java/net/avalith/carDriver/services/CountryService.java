@@ -31,6 +31,7 @@ public class CountryService {
     private final RedisTemplate<String, Country> redisTemplate;
 
     public Country save(Country country){
+        country.setName(country.getName().toLowerCase());
 
         if(countryRepository.findByName(country.getName()).isPresent())
             throw new AlreadyExistsException(COUNTRY_ALREADY_EXISTS);
@@ -65,6 +66,8 @@ public class CountryService {
     public Country update(String name, Country country) {
         Country oldCountry = countryRepository.findByName(name.replace("-", " "))
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_COUNTRY));
+
+        country.setName(country.getName().toLowerCase());
 
         if(!country.getName().equals(oldCountry.getName()))
             if(countryRepository.findByName(country.getName()).isPresent())

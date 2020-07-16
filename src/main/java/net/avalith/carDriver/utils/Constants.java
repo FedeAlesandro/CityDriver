@@ -27,6 +27,12 @@ public class Constants {
 
     public static final String VEHICLE_IN_USE = "This vehicle is already in use in other ride";
 
+    public static final String VEHICLE_NOT_IN_RIDE = "This vehicle is not in ride";
+
+    public static final String VEHICLE_IN_RIDE = "This vehicle has already started the ride";
+
+    public static final String RIDE_ENDED = "This ride has already ended";
+
     public static final String POINT_ALREADY_EXISTS = "This point already exists";
 
     public static final String CITY_ALREADY_EXISTS = "This city already exists";

@@ -3,7 +3,7 @@ package net.avalith.carDriver.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.avalith.carDriver.exceptions.AlreadyExistsException;
+import net.avalith.carDriver.exceptions.InvalidRequestException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.Mishap;
 import net.avalith.carDriver.models.Point;
@@ -18,7 +18,6 @@ import net.avalith.carDriver.models.dtos.requests.RideDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.RideDtoUpdateRequest;
 import net.avalith.carDriver.models.enums.RideState;
 import net.avalith.carDriver.models.enums.TariffType;
-import net.avalith.carDriver.repositories.MishapRepository;
 import net.avalith.carDriver.repositories.PointRepository;
 import net.avalith.carDriver.repositories.RideLogRepository;
 import net.avalith.carDriver.repositories.RideRepository;
@@ -28,9 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,9 +39,11 @@ import static net.avalith.carDriver.utils.Constants.NOT_FOUND_POINT;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_RIDE;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_USER;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE;
-import static net.avalith.carDriver.utils.Constants.POINT_KEY;
+import static net.avalith.carDriver.utils.Constants.RIDE_ENDED;
 import static net.avalith.carDriver.utils.Constants.RIDE_KEY;
+import static net.avalith.carDriver.utils.Constants.VEHICLE_IN_RIDE;
 import static net.avalith.carDriver.utils.Constants.VEHICLE_IN_USE;
+import static net.avalith.carDriver.utils.Constants.VEHICLE_NOT_IN_RIDE;
 
 @Service
 public class RideService {
@@ -75,8 +76,8 @@ public class RideService {
         Vehicle vehicle = vehicleRepository.findByDomain(ride.getVehicleDomain())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VEHICLE));
 
-        rideRepository.findRidesByVehicle(vehicle.getId())
-            .orElseThrow(() -> new AlreadyExistsException(VEHICLE_IN_USE));
+        if(rideRepository.findRidesByVehicle(vehicle.getId()).isPresent())
+            throw new InvalidRequestException(VEHICLE_IN_USE);
 
         Point point = pointRepository.getByLatAndLng(ridePoint.getLat(), ridePoint.getLng())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_POINT));
@@ -161,31 +162,32 @@ public class RideService {
 
         System.out.println(ride.getStartDate());
         Date date = ride.getStartDate();
-        // todo acomodar esto, sacar el system default
-        LocalDateTime noPayTime = date.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime().minusMinutes(30);
 
-        LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
+        LocalDateTime noPayTime = new Timestamp(date.getTime())
+                .toLocalDateTime()
+                .minusMinutes(30);
 
-        if(!ride.getState().equals(RideState.CANCELLED) || !ride.getState().equals(RideState.FINISHED)){
-            if (now.isBefore(noPayTime) || now.isEqual(noPayTime))
-            {
-                ride.setPrice(0d);
-                ride.setState(RideState.CANCELLED);
-            } else{
-                if(ride.getState().equals(RideState.RESERVED)){
-                    Instant endDate = ride.getStartDate()
-                            .toInstant()
-                            .plusSeconds(3600);
+        LocalDateTime now = LocalDateTime.now();
 
-                    ride.setPrice(getPrice(TariffType.HOUR.getValue(TariffType.HOUR), ride.getVehicle().getCategoryVehicles(), ride.getStartDate(), Date.from(endDate)));
-                }
+        if(ride.getState().equals(RideState.CANCELLED) || ride.getState().equals(RideState.FINISHED))
+            throw new InvalidRequestException(RIDE_ENDED);
 
-                ride.setState(RideState.FINISHED);
+        if (now.isBefore(noPayTime) || now.isEqual(noPayTime))
+        {
+            ride.setPrice(0d);
+            ride.setState(RideState.CANCELLED);
+        } else{
+            if(ride.getState().equals(RideState.RESERVED)){
+                Instant endDate = ride.getStartDate()
+                        .toInstant()
+                        .plusSeconds(3600);
+
+                ride.setPrice(getPrice(TariffType.HOUR.getValue(TariffType.HOUR), ride.getVehicle().getCategoryVehicles(), ride.getStartDate(), Date.from(endDate)));
             }
-            rideLogRepository.save(new RideLog(id, ride.getState()));
+
+            ride.setState(RideState.FINISHED);
         }
+        rideLogRepository.save(new RideLog(id, ride.getState()));
 
         redisTemplate.opsForHash().put(RIDE_KEY, ride.getId(), ride);
         return rideRepository.save(ride);
@@ -194,6 +196,9 @@ public class RideService {
     public Ride startRide(Long id){
         Ride ride = rideRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_RIDE));
+
+        if(!ride.getState().equals(RideState.RESERVED))
+            throw new InvalidRequestException(VEHICLE_IN_RIDE);
 
         ride.setState(RideState.IN_RIDE);
         rideLogRepository.save(new RideLog(ride.getId(), ride.getState()));
@@ -206,6 +211,9 @@ public class RideService {
     public Ride inCrashRide(Long id, MishapDtoRequest mishapRequest){
         Ride ride = rideRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_RIDE));
+
+        if(!ride.getState().equals(RideState.IN_RIDE))
+            throw new InvalidRequestException(VEHICLE_NOT_IN_RIDE);
 
         Mishap mishap = new Mishap(mishapRequest);
         mishap.setRide(ride);
