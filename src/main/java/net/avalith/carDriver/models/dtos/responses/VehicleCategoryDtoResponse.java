@@ -3,12 +3,13 @@ package net.avalith.carDriver.models.dtos.responses;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.VehicleCategory;
+import net.avalith.carDriver.models.enums.VehicleCategoryEnum;
 
 @Data
 @NoArgsConstructor
 public class VehicleCategoryDtoResponse {
 
-    private String name;
+    private VehicleCategoryEnum name;
 
     private Double priceHour;
 

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.Vehicle;
 import net.avalith.carDriver.models.enums.Colors;
+import net.avalith.carDriver.models.enums.VehicleCategoryEnum;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public class VehicleDtoResponse {
 
     private String  nameProvider;
 
-    private String  nameCategory;
+    private VehicleCategoryEnum nameCategory;
 
     public VehicleDtoResponse(Vehicle vehicle){
         this.domain = vehicle.getDomain();
