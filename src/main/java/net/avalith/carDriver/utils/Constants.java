@@ -25,6 +25,14 @@ public class Constants {
 
     public static final String NOT_FOUND_RIDE = "Ride not found";
 
+    public static final String VEHICLE_IN_USE = "This vehicle is already in use in other ride";
+
+    public static final String VEHICLE_NOT_IN_RIDE = "This vehicle is not in ride";
+
+    public static final String VEHICLE_IN_RIDE = "This vehicle has already started the ride";
+
+    public static final String RIDE_ENDED = "This ride has already ended";
+
     public static final String POINT_ALREADY_EXISTS = "This point already exists";
 
     public static final String CITY_ALREADY_EXISTS = "This city already exists";
@@ -48,4 +56,16 @@ public class Constants {
     public static final String DELETED_VEHICLE = "Deleted VECHICLE with NAME = %s";
 
     public static final String DELETED_PROVIDER = "Deleted PROVIDER with NAME = %s";
+
+    public static final String CITY_KEY = "city";
+
+    public static final String COUNTRY_KEY = "country";
+
+    public static final String LICENSE_KEY = "license";
+
+    public static final String POINT_KEY = "point";
+
+    public static final String RIDE_KEY = "ride";
+
+    public static final String USER_KEY = "user";
 }

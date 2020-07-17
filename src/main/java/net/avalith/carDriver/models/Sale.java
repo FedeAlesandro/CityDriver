@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Data
@@ -22,7 +23,7 @@ import java.sql.Timestamp;
 @Table(name = "sales")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Sale {
+public class Sale implements Serializable {
 
     @Id
     @Column(name = "id_sale")

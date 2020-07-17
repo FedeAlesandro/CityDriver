@@ -34,7 +34,7 @@ public class ProviderController {
     private ProviderService providerService;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<ProviderDtoResponse>>getAll(@RequestHeader(value = "API_KEY", required = false) String apiKey){
+    public ResponseEntity<List<ProviderDtoResponse>>getAll(/*@RequestHeader(value = "API_KEY", required = false) String apiKey*/){
 
         List<Provider> listProviders = providerService.getAll();
         if (listProviders.isEmpty()){
@@ -47,19 +47,19 @@ public class ProviderController {
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ProviderDtoResponse> save(@RequestHeader(value = "API_KEY", required = false) String apiKey, @RequestBody @Valid ProviderDtoRequest provider){
+    public ResponseEntity<ProviderDtoResponse> save(/*@RequestHeader(value = "API_KEY", required = false) String apiKey, */@RequestBody @Valid ProviderDtoRequest provider){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProviderDtoResponse(providerService.save(provider)));
     }
 
     @PutMapping(value = Routes.PROVIDER_UPDATE, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ProviderDtoResponse> update(@RequestHeader(value = "API_KEY", required = false) String apiKey, @PathVariable("name") String name, @RequestBody ProviderDtoRequest provider){
+    public ResponseEntity<ProviderDtoResponse> update(/*@RequestHeader(value = "API_KEY", required = false) String apiKey, */@PathVariable("name") String name, @RequestBody ProviderDtoRequest provider){
 
         return ResponseEntity.ok(new ProviderDtoResponse(providerService.update(name, provider)));
     }
 
     @DeleteMapping(value = Routes.PROVIDER_DELETE, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<DeleteResponseDto> delete(@RequestHeader(value = "API_KEY", required = false) String apiKey, @PathVariable("name") String name){
+    public ResponseEntity<DeleteResponseDto> delete(/*@RequestHeader(value = "API_KEY", required = false) String apiKey, */@PathVariable("name") String name){
         providerService.deleteProvider(name);
 
         return ResponseEntity.ok(new DeleteResponseDto(String.format(DELETED_PROVIDER, name)));

@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Data
@@ -22,7 +23,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "vehicle_categories")
-public class VehicleCategory {
+public class VehicleCategory implements Serializable {
 
     @Id
     @Column(name = "id_category_vehicle")

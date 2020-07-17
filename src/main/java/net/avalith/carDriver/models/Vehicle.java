@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Data
 @Entity
@@ -25,7 +26,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "vehicles")
-public class Vehicle {
+public class Vehicle implements Serializable {
 
     @Id
     @Column(name = "id_vehicle")
@@ -76,5 +77,12 @@ public class Vehicle {
         vehicle.setVehicleModels(vehicleModels);
         vehicle.setCategoryVehicles(category_vehicles);
         return vehicle;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "id=" + id +
+                '}';
     }
 }

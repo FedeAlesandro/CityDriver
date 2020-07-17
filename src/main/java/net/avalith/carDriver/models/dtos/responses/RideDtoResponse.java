@@ -1,5 +1,6 @@
 package net.avalith.carDriver.models.dtos.responses;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
@@ -16,8 +17,12 @@ import java.util.Date;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class RideDtoResponse {
 
+    private Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
     private RideState state;
@@ -35,6 +40,7 @@ public class RideDtoResponse {
     private String userDni;
 
     public RideDtoResponse(Ride ride) {
+        this.id = ride.getId();
         this.startDate = ride.getStartDate();
         this.endDate = ride.getEndDate();
         this.state = ride.getState();

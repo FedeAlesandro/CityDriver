@@ -1,10 +1,13 @@
 package net.avalith.carDriver.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import net.avalith.carDriver.models.dtos.requests.RideDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.RideDtoUpdateRequest;
 import net.avalith.carDriver.models.enums.RideState;
@@ -24,6 +27,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -33,7 +37,7 @@ import java.util.Date;
 @Table(name = "rides")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ride {
+public class Ride implements Serializable {
 
     @Id
     @Column(name = "id_ride")
@@ -41,9 +45,11 @@ public class Ride {
     private Long id;
 
     @Column(name = "start_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
 
     @Column(name = "end_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
     @Enumerated(EnumType.STRING)
@@ -68,17 +74,14 @@ public class Ride {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_vehicle", referencedColumnName = "id_vehicle")
-    @JsonIgnore
     private Vehicle vehicle;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_origin_point", referencedColumnName = "id_point")
-    @JsonIgnore
     private Point originPoint;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_destination_point", referencedColumnName = "id_point")
-    @JsonIgnore
     private Point destinationPoint;
 
     @OneToOne
@@ -87,6 +90,7 @@ public class Ride {
 
     public Ride (RideDtoRequest rideDto, Vehicle vehicle, Point point, User user){
         startDate = rideDto.getStartDate();
+        endDate = rideDto.getEndDate();
         state = RideState.RESERVED;
         tariffType = rideDto.getTariffType();
         this.vehicle = vehicle;
@@ -102,5 +106,12 @@ public class Ride {
         this.originPoint = originPoint;
         this.destinationPoint = destinationPoint;
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Ride{" +
+                "id=" + id +
+                '}';
     }
 }

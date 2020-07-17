@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -24,7 +25,7 @@ import java.util.Date;
 @Table(name = "licenses")
 @NoArgsConstructor
 @AllArgsConstructor
-public class License {
+public class License implements Serializable {
 
     @Id
     @Column(name = "id_license")
