@@ -6,6 +6,7 @@ import net.avalith.carDriver.models.dtos.responses.BrandDtoResponse;
 import net.avalith.carDriver.services.BrandService;
 import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +40,7 @@ public class BrandController {
                     .collect(Collectors.toList());
 
             return ResponseEntity.ok(listBrandsResponse);
-        }
+    }
     }
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<BrandDtoResponse> save(@RequestBody @Valid BrandDtoRequest brand){

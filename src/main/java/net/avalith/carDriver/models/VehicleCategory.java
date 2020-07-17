@@ -5,11 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.dtos.requests.VehicleCategoryDtoRequest;
+import net.avalith.carDriver.models.enums.VehicleCategoryEnum;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,8 +33,8 @@ public class VehicleCategory implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private VehicleCategoryEnum name;
 
     @Column(name = "is_active")
     private Boolean isActive;

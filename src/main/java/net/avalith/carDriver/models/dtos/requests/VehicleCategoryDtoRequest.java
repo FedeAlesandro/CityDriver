@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.avalith.carDriver.models.enums.VehicleCategoryEnum;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,8 +16,8 @@ import javax.validation.constraints.NotNull;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class VehicleCategoryDtoRequest {
 
-    @NotBlank(message = "The name is required")
-    private String name;
+    @NotNull(message = "The name category type is required")
+    private VehicleCategoryEnum name;
 
     @NotNull(message = "The price for hour is required")
     private Double priceHour;
