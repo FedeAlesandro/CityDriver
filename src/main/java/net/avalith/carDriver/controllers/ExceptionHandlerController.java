@@ -1,6 +1,7 @@
 package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
+import net.avalith.carDriver.exceptions.InvalidLicenseException;
 import net.avalith.carDriver.exceptions.InvalidRequestException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.dtos.responses.ErrorResponseDto;
@@ -60,6 +61,16 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(InvalidRequestException.class)
     public ResponseEntity<ErrorResponseDto> handleInvalidRequestException(InvalidRequestException exception){
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponseDto.builder()
+                        .message(exception.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(InvalidLicenseException.class)
+    public ResponseEntity<ErrorResponseDto> handleInvalidLicenseException(InvalidLicenseException exception){
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

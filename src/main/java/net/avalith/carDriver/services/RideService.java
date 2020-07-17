@@ -3,6 +3,7 @@ package net.avalith.carDriver.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.avalith.carDriver.exceptions.InvalidLicenseException;
 import net.avalith.carDriver.exceptions.InvalidRequestException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.Mishap;
@@ -35,15 +36,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_POINT;
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_RIDE;
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_USER;
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE;
-import static net.avalith.carDriver.utils.Constants.RIDE_ENDED;
-import static net.avalith.carDriver.utils.Constants.RIDE_KEY;
-import static net.avalith.carDriver.utils.Constants.VEHICLE_IN_RIDE;
-import static net.avalith.carDriver.utils.Constants.VEHICLE_IN_USE;
-import static net.avalith.carDriver.utils.Constants.VEHICLE_NOT_IN_RIDE;
+import static net.avalith.carDriver.utils.Constants.*;
 
 @Service
 public class RideService {
@@ -84,6 +77,9 @@ public class RideService {
 
         User user = userRepository.getByDni(ride.getUserDni())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER));
+
+        if(!user.getLicense().getValidated())
+            throw new InvalidLicenseException(INVALID_LICENSE);
 
         Ride rideSaved = new Ride(ride, vehicle, point, user);
 

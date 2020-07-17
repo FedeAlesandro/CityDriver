@@ -52,6 +52,7 @@ public class License implements Serializable {
 
     public License (LicenseDtoRequest license){
         this.number = license.getNumber();
+        this.expirationDate = license.getExpirationDate();
     }
 
     public License (String number){

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
-import net.avalith.carDriver.models.Country;
 import net.avalith.carDriver.models.License;
 import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequest;
 import net.avalith.carDriver.repositories.LicenseRepository;
@@ -15,15 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static net.avalith.carDriver.utils.Constants.COUNTRY_KEY;
-import static net.avalith.carDriver.utils.Constants.LICENSE_ALREADY_EXISTS;
-import static net.avalith.carDriver.utils.Constants.LICENSE_KEY;
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_LICENSE;
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_LICENSE_USER;
+import static net.avalith.carDriver.utils.Constants.*;
 
 @Repository
 @AllArgsConstructor
@@ -46,7 +43,14 @@ public class LicenseService {
         userRepository.getByDni(license.getNumber())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_LICENSE_USER));
 
-        License newLicense = licenseRepository.save(new License(license));;
+        License newLicense = new License(license);
+
+        LocalDateTime expirationDate = new Timestamp(license.getExpirationDate().getTime())
+                .toLocalDateTime();
+
+        newLicense.setValidated(expirationDate.isBefore(LocalDateTime.now().minusDays(15L)));
+
+        newLicense = licenseRepository.save(newLicense);
         redisTemplate.opsForHash().put(LICENSE_KEY, newLicense.getId(), newLicense);
 
         return newLicense;
