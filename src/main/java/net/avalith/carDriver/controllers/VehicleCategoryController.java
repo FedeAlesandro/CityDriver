@@ -4,6 +4,7 @@ import net.avalith.carDriver.models.VehicleCategory;
 import net.avalith.carDriver.models.dtos.requests.VehicleCategoryDtoRequest;
 import net.avalith.carDriver.models.dtos.responses.DeleteResponseDto;
 import net.avalith.carDriver.models.dtos.responses.VehicleCategoryDtoResponse;
+import net.avalith.carDriver.models.enums.VehicleCategoryEnum;
 import net.avalith.carDriver.services.VehicleCategoryService;
 import net.avalith.carDriver.utils.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +54,9 @@ public class VehicleCategoryController {
     }
 
     @PutMapping(value = Routes.VEHICLE_CATEGORY_UPDATE, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<VehicleCategoryDtoResponse> update(@PathVariable String name, @RequestBody @Valid VehicleCategoryDtoRequest vehicleCategoryDtoRequest){
+    public ResponseEntity<VehicleCategoryDtoResponse> update(@PathVariable VehicleCategoryEnum name, @RequestBody @Valid VehicleCategoryDtoRequest vehicleCategoryDtoRequest){
 
-        return ResponseEntity.ok( new VehicleCategoryDtoResponse(vehicleCategoryService.update(vehicleCategoryDtoRequest, name.replace("-", " "))));
+        return ResponseEntity.ok( new VehicleCategoryDtoResponse(vehicleCategoryService.update(vehicleCategoryDtoRequest, name)));
     }
 
     @DeleteMapping(value = Routes.VEHICLE_CATEGORY_DELETE, consumes = {MediaType.APPLICATION_JSON_VALUE})

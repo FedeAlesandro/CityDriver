@@ -3,6 +3,7 @@ package net.avalith.carDriver.services;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.VehicleCategory;
 import net.avalith.carDriver.models.dtos.requests.VehicleCategoryDtoRequest;
+import net.avalith.carDriver.models.enums.VehicleCategoryEnum;
 import net.avalith.carDriver.repositories.VehicleCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class VehicleCategoryService {
         }
     }
 
-    public VehicleCategory update(VehicleCategoryDtoRequest vehicleCategoryDtoRequest, String name){
+    public VehicleCategory update(VehicleCategoryDtoRequest vehicleCategoryDtoRequest, VehicleCategoryEnum name){
         VehicleCategory auxVehi = vehicleCategoryRepository.findByName(name)
                 .orElseThrow(()-> new NotFoundException(NOT_FOUND_VEHICLE_CATEGORY));
 

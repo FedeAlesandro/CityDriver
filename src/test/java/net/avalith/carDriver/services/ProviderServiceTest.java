@@ -101,7 +101,7 @@ public class ProviderServiceTest implements FactoryService {
             Provider provider = new Provider(providerDtoRequest);
 
             when(mockProviderRepository.findByName("toyota")).thenReturn(Optional.of(createProvider()));
-            when(mockProviderRepository.save(Provider.fromDtoRequest(createProvider(),providerDtoRequest))).thenReturn(provider);
+            when(mockProviderRepository.save(new Provider(providerDtoRequest))).thenReturn(provider);
 
             assertEquals(provider,providerService.update("toyota",providerDtoRequest));
         }

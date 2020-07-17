@@ -19,7 +19,7 @@ import static net.avalith.carDriver.utils.Constants.PROVIDER_ALREADY_EXISTS;
 public class ProviderService {
 
     @Autowired
-    private ProviderRepository providerRepository;
+    private final ProviderRepository providerRepository;
 
     public void deleteProvider(String name){
         if(providerRepository.delete(name.replace("-"," ")) < 1)
@@ -27,10 +27,10 @@ public class ProviderService {
     }
 
     public Provider update(String name, ProviderDtoRequest provider){
-        Provider provider1 = providerRepository.findByName(name.replace("-"," "))
+        providerRepository.findByName(name.replace("-"," "))
             .orElseThrow(()-> new NotFoundException(NOT_FOUND_PROVIDER));
 
-        return  providerRepository.save(Provider.fromDtoRequest(provider1, provider));
+        return  providerRepository.save(new Provider(provider));
     }
     public List<Provider> getAll(){
         

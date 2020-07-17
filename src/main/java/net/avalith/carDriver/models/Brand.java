@@ -59,4 +59,11 @@ public class Brand implements Serializable {
     public Brand(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Brand{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

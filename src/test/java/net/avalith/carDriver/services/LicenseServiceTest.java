@@ -40,10 +40,13 @@ public class LicenseServiceTest {
     @Mock
     RedisTemplate<String, License> redisTemplate;
 
+    @Mock
+    RedisTemplate<String, User> redisTemplateUser;
+
     @BeforeEach
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        licenseService = new LicenseService(licenseRepository, userRepository, redisTemplate);
+        licenseService = new LicenseService(licenseRepository, userRepository, redisTemplate, redisTemplateUser);
     }
 
     @AfterEach

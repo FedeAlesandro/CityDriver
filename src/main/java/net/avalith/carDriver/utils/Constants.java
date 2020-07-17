@@ -70,4 +70,6 @@ public class Constants {
     public static final String RIDE_KEY = "ride";
 
     public static final String USER_KEY = "user";
+
+    public static final String SALE_KEY = "sale";
 }

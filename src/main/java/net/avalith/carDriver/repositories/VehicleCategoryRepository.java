@@ -1,6 +1,7 @@
 package net.avalith.carDriver.repositories;
 
 import net.avalith.carDriver.models.VehicleCategory;
+import net.avalith.carDriver.models.enums.VehicleCategoryEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface VehicleCategoryRepository extends JpaRepository<VehicleCategory,Long> {
-    Optional<VehicleCategory> findByName(String name);
+    Optional<VehicleCategory> findByName(VehicleCategoryEnum name);
 
     @Query(value = "select * from vehicle_categories where is_active = true", nativeQuery = true)
     List<VehicleCategory> getAllActive();

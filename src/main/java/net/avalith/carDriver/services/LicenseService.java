@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.License;
+import net.avalith.carDriver.models.User;
 import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequestUpdate;
 import net.avalith.carDriver.repositories.LicenseRepository;
@@ -36,12 +37,15 @@ public class LicenseService {
     @Autowired
     private final RedisTemplate<String, License> redisTemplate;
 
+    @Autowired
+    private RedisTemplate<String, User> redisTemplateUser;
+
     public License save(LicenseDtoRequest license){
 
         if(licenseRepository.findByNumber(license.getNumber()).isPresent())
                 throw new AlreadyExistsException(LICENSE_ALREADY_EXISTS);
 
-        userRepository.getByDni(license.getNumber())
+        User user = userRepository.getByDni(license.getNumber())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_LICENSE_USER));
 
         License newLicense = new License(license);
@@ -49,9 +53,13 @@ public class LicenseService {
         LocalDateTime expirationDate = new Timestamp(license.getExpirationDate().getTime())
                 .toLocalDateTime();
 
-        newLicense.setValidated(expirationDate.isBefore(LocalDateTime.now().minusDays(15L)));
+        newLicense.setValidated(expirationDate.isAfter(LocalDateTime.now().plusDays(15L)));
 
         newLicense = licenseRepository.save(newLicense);
+        user.setLicense(newLicense);
+        user = userRepository.save(user);
+        redisTemplateUser.opsForHash().put(USER_KEY, user.getId(), user);
+
         redisTemplate.opsForHash().put(LICENSE_KEY, newLicense.getId(), newLicense);
 
         return newLicense;
@@ -82,12 +90,21 @@ public class LicenseService {
         License oldLicense = licenseRepository.findByNumber(number)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_LICENSE));
 
+        User user = userRepository.getByDni(oldLicense.getNumber())
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_LICENSE_USER));
+
         oldLicense.setExpirationDate(license.getExpirationDate());
 
         LocalDateTime expirationDate = new Timestamp(oldLicense.getExpirationDate().getTime())
                 .toLocalDateTime();
 
-        oldLicense.setValidated(expirationDate.isBefore(LocalDateTime.now().minusDays(15L)));
+        oldLicense.setValidated(expirationDate.isAfter(LocalDateTime.now().plusDays(15L)));
+
+        user.setLicense(oldLicense);
+        user = userRepository.save(user);
+
+        redisTemplate.opsForHash().put(LICENSE_KEY, oldLicense.getId(), oldLicense);
+        redisTemplateUser.opsForHash().put(USER_KEY, user.getId(), user);
 
         return licenseRepository.save(oldLicense);
     }

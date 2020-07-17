@@ -40,4 +40,9 @@ public class Sale implements Serializable {
     @OneToOne
     @JoinColumn(name = "id_ride", referencedColumnName = "id_ride")
     private Ride ride;
+
+    public Sale(Double profit, Long idRide) {
+        this.profit = profit;
+        this.ride = Ride.builder().id(idRide).build();
+    }
 }
