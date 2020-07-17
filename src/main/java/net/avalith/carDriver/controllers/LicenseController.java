@@ -2,6 +2,7 @@ package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.License;
 import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequest;
+import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequestUpdate;
 import net.avalith.carDriver.models.dtos.responses.LicenseDtoResponse;
 import net.avalith.carDriver.services.LicenseService;
 import net.avalith.carDriver.utils.Routes;
@@ -48,9 +49,9 @@ public class LicenseController {
         return ResponseEntity.ok(licenseResponses);
     }
 
-/*    @PutMapping(value = Routes.LICENSE_UPDATE, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<LicenseDtoResponse> update(@PathVariable(value = "number") String number, @RequestBody @Valid LicenseDtoRequest license){
+    @PutMapping(value = Routes.LICENSE_UPDATE, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<LicenseDtoResponse> updateExpirationDate(@PathVariable(value = "number") String number, @RequestBody @Valid LicenseDtoRequestUpdate license){
 
-        return ResponseEntity.ok(new LicenseDtoResponse(licenseService.update(number, license)));
-    }*/
+        return ResponseEntity.ok(new LicenseDtoResponse(licenseService.updateExpirationDate(number, license)));
+    }
 }

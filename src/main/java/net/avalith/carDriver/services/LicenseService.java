@@ -8,6 +8,7 @@ import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.License;
 import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequest;
+import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequestUpdate;
 import net.avalith.carDriver.repositories.LicenseRepository;
 import net.avalith.carDriver.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,23 +77,18 @@ public class LicenseService {
 
         return list;
     }
-/*
-    public License update(String number, LicenseDtoRequest license) {
+
+    public License updateExpirationDate(String number, LicenseDtoRequestUpdate license) {
         License oldLicense = licenseRepository.findByNumber(number)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_LICENSE));
 
-        if(!license.getNumber().equals(oldLicense.getNumber()))
-            if(licenseRepository.findByNumber(license.getNumber()).isPresent())
-                throw new AlreadyExistsException(LICENSE_ALREADY_EXISTS);
+        oldLicense.setExpirationDate(license.getExpirationDate());
 
-        userRepository.getByDni(license.getNumber())
-                .orElseThrow(() -> new NotFoundException(NOT_FOUND_LICENSE_USER));
+        LocalDateTime expirationDate = new Timestamp(oldLicense.getExpirationDate().getTime())
+                .toLocalDateTime();
 
-        License licenseUpdate = new License(license);
-        licenseUpdate.setId(oldLicense.getId());
-        licenseUpdate.setExpirationDate(oldLicense.getExpirationDate());
-        licenseUpdate.setValidated(oldLicense.getValidated());
+        oldLicense.setValidated(expirationDate.isBefore(LocalDateTime.now().minusDays(15L)));
 
-        return licenseRepository.save(licenseUpdate);
-    }*/
+        return licenseRepository.save(oldLicense);
+    }
 }
