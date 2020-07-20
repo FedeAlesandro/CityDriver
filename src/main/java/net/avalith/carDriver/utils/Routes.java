@@ -43,8 +43,5 @@ public class Routes {
 
     public static final String MISHAP = "/mishaps";
 
-
-
-
-
+    public static final String SALES = "/sales";
 }

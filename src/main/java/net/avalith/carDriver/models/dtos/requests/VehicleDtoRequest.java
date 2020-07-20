@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.enums.Colors;
+import net.avalith.carDriver.models.enums.VehicleCategoryEnum;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -27,9 +28,9 @@ public class VehicleDtoRequest {
     private String nameModel;
 
     @NotBlank(message = "The name provider is required")
-    private String  nameProvider;
+    private String nameProvider;
 
-    @NotBlank(message = "The name category is required")
-    private String  nameCategory;
+    @NotNull(message = "The name category is required")
+    private VehicleCategoryEnum nameCategory;
 
 }

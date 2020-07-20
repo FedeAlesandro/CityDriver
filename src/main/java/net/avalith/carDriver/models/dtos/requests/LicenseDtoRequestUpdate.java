@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.avalith.carDriver.models.License;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -13,15 +12,12 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class LicenseDtoRequest {
-
-    @NotBlank(message = "The license number is required")
-    private String number;
+public class LicenseDtoRequestUpdate {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date expirationDate;
 
-    public LicenseDtoRequest(String number) {
-        this.number = number;
+    public LicenseDtoRequestUpdate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }

@@ -57,6 +57,8 @@ public class Constants {
 
     public static final String DELETED_PROVIDER = "Deleted PROVIDER with NAME = %s";
 
+    public static final String INVALID_LICENSE = "The license is expired";
+
     public static final String CITY_KEY = "city";
 
     public static final String COUNTRY_KEY = "country";
@@ -68,4 +70,6 @@ public class Constants {
     public static final String RIDE_KEY = "ride";
 
     public static final String USER_KEY = "user";
+
+    public static final String SALE_KEY = "sale";
 }

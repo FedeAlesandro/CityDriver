@@ -79,12 +79,4 @@ public class Provider implements Serializable {
         this.commission = providerDtoRequest.getCommission();
         this.isActive = Boolean.TRUE;
     }
-    public static Provider fromDtoRequest (Provider provider, ProviderDtoRequest providerDtoRequest){
-        provider.setName(providerDtoRequest.getName());
-        provider.setBusinessName(providerDtoRequest.getBusinessName());
-        provider.setEmail(providerDtoRequest.getEmail());
-        provider.setPhone(providerDtoRequest.getPhone());
-        provider.setCommission(providerDtoRequest.getCommission());
-        return provider;
-    }
 }

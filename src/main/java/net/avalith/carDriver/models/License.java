@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequest;
+import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequestUpdate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -52,6 +53,7 @@ public class License implements Serializable {
 
     public License (LicenseDtoRequest license){
         this.number = license.getNumber();
+        this.expirationDate = license.getExpirationDate();
     }
 
     public License (String number){

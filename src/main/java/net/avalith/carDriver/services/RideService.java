@@ -3,26 +3,17 @@ package net.avalith.carDriver.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.avalith.carDriver.exceptions.InvalidLicenseException;
 import net.avalith.carDriver.exceptions.InvalidRequestException;
 import net.avalith.carDriver.exceptions.NotFoundException;
-import net.avalith.carDriver.models.Mishap;
-import net.avalith.carDriver.models.Point;
-import net.avalith.carDriver.models.Ride;
-import net.avalith.carDriver.models.RideLog;
-import net.avalith.carDriver.models.User;
-import net.avalith.carDriver.models.Vehicle;
-import net.avalith.carDriver.models.VehicleCategory;
+import net.avalith.carDriver.models.*;
 import net.avalith.carDriver.models.dtos.RidePointDto;
 import net.avalith.carDriver.models.dtos.requests.MishapDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.RideDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.RideDtoUpdateRequest;
 import net.avalith.carDriver.models.enums.RideState;
 import net.avalith.carDriver.models.enums.TariffType;
-import net.avalith.carDriver.repositories.PointRepository;
-import net.avalith.carDriver.repositories.RideLogRepository;
-import net.avalith.carDriver.repositories.RideRepository;
-import net.avalith.carDriver.repositories.UserRepository;
-import net.avalith.carDriver.repositories.VehicleRepository;
+import net.avalith.carDriver.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -35,15 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_POINT;
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_RIDE;
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_USER;
-import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE;
-import static net.avalith.carDriver.utils.Constants.RIDE_ENDED;
-import static net.avalith.carDriver.utils.Constants.RIDE_KEY;
-import static net.avalith.carDriver.utils.Constants.VEHICLE_IN_RIDE;
-import static net.avalith.carDriver.utils.Constants.VEHICLE_IN_USE;
-import static net.avalith.carDriver.utils.Constants.VEHICLE_NOT_IN_RIDE;
+import static net.avalith.carDriver.utils.Constants.*;
 
 @Service
 public class RideService {
@@ -59,6 +42,9 @@ public class RideService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private SalesRepository salesRepository;
 
     @Autowired
     private MishapService mishapService;
@@ -84,6 +70,9 @@ public class RideService {
 
         User user = userRepository.getByDni(ride.getUserDni())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER));
+
+        if(!user.getLicense().getValidated())
+            throw new InvalidLicenseException(INVALID_LICENSE);
 
         Ride rideSaved = new Ride(ride, vehicle, point, user);
 
@@ -187,9 +176,13 @@ public class RideService {
 
             ride.setState(RideState.FINISHED);
         }
-        rideLogRepository.save(new RideLog(id, ride.getState()));
 
+        Double profit = ride.getPrice() * ride.getVehicle().getProvider().getCommission();
+
+        rideLogRepository.save(new RideLog(id, ride.getState()));
+        salesRepository.save(new Sale(profit, ride.getId()));
         redisTemplate.opsForHash().put(RIDE_KEY, ride.getId(), ride);
+
         return rideRepository.save(ride);
     }
 
