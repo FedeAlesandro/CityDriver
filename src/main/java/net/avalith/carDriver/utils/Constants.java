@@ -49,6 +49,8 @@ public class Constants {
 
     public static final String VEHICLE_MODEL_ALREADY_EXISTS = "This Vehicle Model already exists";
 
+    public static final String VEHICLE_CATEGORY_ALREADY_EXISTS = "This Vehicle Category already exists";
+
     public static final String DELETED_USER = "Deleted user with dni = %s";
 
     public static final String DELETED_VEHICLE_CATEGORY = "Deleted VECHICLE MODEL with NAME = %s";
