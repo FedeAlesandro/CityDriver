@@ -48,14 +48,7 @@ public class LicenseService {
         User user = userRepository.getByDni(license.getNumber())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_LICENSE_USER));
 
-        License newLicense = new License(license);
-
-        LocalDateTime expirationDate = new Timestamp(license.getExpirationDate().getTime())
-                .toLocalDateTime();
-
-        newLicense.setValidated(expirationDate.isAfter(LocalDateTime.now().plusDays(15L)));
-
-        newLicense = licenseRepository.save(newLicense);
+        License newLicense = licenseRepository.save(new License(license));
         user.setLicense(newLicense);
         user = userRepository.save(user);
         redisTemplateUser.opsForHash().put(USER_KEY, user.getId(), user);
@@ -93,13 +86,6 @@ public class LicenseService {
         User user = userRepository.getByDni(oldLicense.getNumber())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_LICENSE_USER));
 
-        oldLicense.setExpirationDate(license.getExpirationDate());
-
-        LocalDateTime expirationDate = new Timestamp(oldLicense.getExpirationDate().getTime())
-                .toLocalDateTime();
-
-        oldLicense.setValidated(expirationDate.isAfter(LocalDateTime.now().plusDays(15L)));
-
         user.setLicense(oldLicense);
         user = userRepository.save(user);
 
@@ -107,5 +93,19 @@ public class LicenseService {
         redisTemplateUser.opsForHash().put(USER_KEY, user.getId(), user);
 
         return licenseRepository.save(oldLicense);
+    }
+
+    public License saveValidated(License license){
+        User user = userRepository.getByDni(license.getNumber())
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_LICENSE_USER));
+
+        License newLicense = licenseRepository.save(license);
+        user.setLicense(newLicense);
+        user = userRepository.save(user);
+        redisTemplateUser.opsForHash().put(USER_KEY, user.getId(), user);
+
+        redisTemplate.opsForHash().put(LICENSE_KEY, newLicense.getId(), newLicense);
+
+        return newLicense;
     }
 }

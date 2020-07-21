@@ -16,6 +16,7 @@ import net.avalith.carDriver.models.enums.TariffType;
 import net.avalith.carDriver.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -42,6 +43,9 @@ public class RideService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private LicenseService licenseService;
 
     @Autowired
     private SalesRepository salesRepository;
@@ -71,7 +75,18 @@ public class RideService {
         User user = userRepository.getByDni(ride.getUserDni())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_USER));
 
-        if(!user.getLicense().getValidated())
+        License license = user.getLicense();
+
+        LocalDateTime expirationDate = new Timestamp(license.getExpirationDate().getTime())
+                .toLocalDateTime();
+
+        LocalDateTime endDate = new Timestamp(ride.getEndDate().getTime())
+            .toLocalDateTime().plusDays(15L);
+
+        license.setValidated(expirationDate.isAfter(endDate));
+        licenseService.saveValidated(license);
+
+        if(!license.getValidated())
             throw new InvalidLicenseException(INVALID_LICENSE);
 
         Ride rideSaved = new Ride(ride, vehicle, point, user);
@@ -249,5 +264,27 @@ public class RideService {
         }
 
         return 0d;
+    }
+
+    @Scheduled(cron = "0 15 10 15 * ?")
+    private void ridePosition(){
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Ride> list = new ArrayList<>();
+        String json = "";
+
+        try {
+            json = objectMapper.writeValueAsString(redisTemplate.opsForHash().values(RIDE_KEY));
+            list = objectMapper.readValue(json, new TypeReference<List<Ride>>(){});
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        
+        list.forEach((Ride ride) ->{
+            if(ride.getState().equals(RideState.IN_RIDE)){
+                // todo aca deberia hacer lo del math random
+                rideLogRepository.save(new RideLog(ride.getId(), ride.getState()));
+
+            }
+        });
     }
 }
