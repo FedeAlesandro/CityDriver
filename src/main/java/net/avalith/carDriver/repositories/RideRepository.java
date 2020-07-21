@@ -21,4 +21,7 @@ public interface RideRepository extends JpaRepository<Ride, Long> {
     @Query(value = "SELECT * FROM rides\n" +
             "WHERE id_vehicle = ?1 AND state != 'FINISHED' AND state != 'CANCELLED' ;", nativeQuery = true)
     Optional<List<Ride>> findRidesByVehicle(Long vehicleId);
+
+     @Query(value = "SELECT * FROM rides WHERE state = 'IN_RIDE' ;", nativeQuery = true)
+    List<Ride> findAllRidesInRide();
 }

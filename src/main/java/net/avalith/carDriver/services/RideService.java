@@ -266,25 +266,16 @@ public class RideService {
         return 0d;
     }
 
-    @Scheduled(cron = "0 15 10 15 * ?")
-    private void ridePosition(){
+    @Scheduled(cron = "0 */15 * ? * *")
+    public void ridePosition(){
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Ride> list = new ArrayList<>();
-        String json = "";
+        List<Ride> list = rideRepository.findAllRidesInRide();
 
-        try {
-            json = objectMapper.writeValueAsString(redisTemplate.opsForHash().values(RIDE_KEY));
-            list = objectMapper.readValue(json, new TypeReference<List<Ride>>(){});
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        
         list.forEach((Ride ride) ->{
-            if(ride.getState().equals(RideState.IN_RIDE)){
-                // todo aca deberia hacer lo del math random
-                rideLogRepository.save(new RideLog(ride.getId(), ride.getState()));
+                Double lat = Math.random()*(90-(-90)+1)+((-90));
+                Double lng = (Math.random()*(180-(-180)+1)+((-180)));
 
-            }
+                rideLogRepository.save(new RideLog(ride.getId(), ride.getState(), lat.toString(), lng.toString()));
         });
     }
 }

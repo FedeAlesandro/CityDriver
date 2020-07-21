@@ -85,6 +85,7 @@ public class LicenseService {
 
         User user = userRepository.getByDni(oldLicense.getNumber())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_LICENSE_USER));
+        oldLicense.setExpirationDate(license.getExpirationDate());
 
         user.setLicense(oldLicense);
         user = userRepository.save(user);
