@@ -1,5 +1,6 @@
 package net.avalith.carDriver.services;
 
+import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.VehicleCategory;
 import net.avalith.carDriver.models.dtos.requests.VehicleCategoryDtoRequest;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE_CATEGORY;
+import static net.avalith.carDriver.utils.Constants.VEHICLE_CATEGORY_ALREADY_EXISTS;
+import static net.avalith.carDriver.utils.Constants.VEHICLE_MODEL_ALREADY_EXISTS;
 
 @Service
 public class VehicleCategoryService {
@@ -23,6 +26,8 @@ public class VehicleCategoryService {
     }
 
     public VehicleCategory save(VehicleCategoryDtoRequest vehicleCategory){
+        if(vehicleCategoryRepository.findByName(vehicleCategory.getName()).isPresent())
+            throw new AlreadyExistsException(VEHICLE_CATEGORY_ALREADY_EXISTS);
 
         return vehicleCategoryRepository.save(new VehicleCategory(vehicleCategory));
     }
@@ -33,6 +38,10 @@ public class VehicleCategoryService {
     }
 
     public VehicleCategory update(VehicleCategoryDtoRequest vehicleCategoryDtoRequest, VehicleCategoryEnum name){
+
+        if(vehicleCategoryRepository.findByName(vehicleCategoryDtoRequest.getName()).isPresent())
+            throw new AlreadyExistsException(VEHICLE_CATEGORY_ALREADY_EXISTS);
+
         VehicleCategory auxVehi = vehicleCategoryRepository.findByName(name)
                 .orElseThrow(()-> new NotFoundException(NOT_FOUND_VEHICLE_CATEGORY));
 
