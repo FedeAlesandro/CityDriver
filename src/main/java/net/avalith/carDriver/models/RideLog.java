@@ -32,6 +32,12 @@ public class RideLog {
     @Enumerated(EnumType.STRING)
     private RideState state;
 
+    @Column(name = "lat")
+    private String lat;
+
+    @Column(name = "lng")
+    private String lng;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private Timestamp createdAt;
@@ -39,5 +45,12 @@ public class RideLog {
     public RideLog(Long idRide, RideState state){
         this.idRide = idRide;
         this.state = state;
+    }
+
+    public RideLog(Long idRide, RideState state, String lat, String lng){
+        this.idRide = idRide;
+        this.state = state;
+        this.lat = lat;
+        this.lng = lng;
     }
 }

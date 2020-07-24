@@ -3,7 +3,6 @@ package net.avalith.carDriver.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.avalith.carDriver.models.City;
 import net.avalith.carDriver.models.Sale;
 import net.avalith.carDriver.repositories.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static net.avalith.carDriver.utils.Constants.CITY_KEY;
 import static net.avalith.carDriver.utils.Constants.SALE_KEY;
 
 @Service

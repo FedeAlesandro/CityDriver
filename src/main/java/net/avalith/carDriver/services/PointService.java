@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.models.City;
-import net.avalith.carDriver.models.License;
 import net.avalith.carDriver.models.Point;
 import net.avalith.carDriver.models.dtos.requests.PointDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.PointDtoUpdateRequest;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static net.avalith.carDriver.utils.Constants.LICENSE_KEY;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_CITY;
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_POINT;
 import static net.avalith.carDriver.utils.Constants.POINT_ALREADY_EXISTS;

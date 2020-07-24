@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.Mishap;
-import net.avalith.carDriver.models.Ride;
 
 @Data
 @NoArgsConstructor

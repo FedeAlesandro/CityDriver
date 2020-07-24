@@ -1,6 +1,5 @@
 package net.avalith.carDriver.controllers;
 
-
 import net.avalith.carDriver.models.Mishap;
 import net.avalith.carDriver.models.dtos.responses.MishapDtoResponse;
 import net.avalith.carDriver.services.MishapService;

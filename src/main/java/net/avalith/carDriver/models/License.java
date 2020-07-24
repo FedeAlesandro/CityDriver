@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequest;
-import net.avalith.carDriver.models.dtos.requests.LicenseDtoRequestUpdate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

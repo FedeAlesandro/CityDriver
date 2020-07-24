@@ -4,7 +4,6 @@ import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
 import net.avalith.carDriver.factoryService.FactoryService;
 import net.avalith.carDriver.models.City;
-import net.avalith.carDriver.models.Country;
 import net.avalith.carDriver.models.Point;
 import net.avalith.carDriver.models.dtos.requests.PointDtoRequest;
 import net.avalith.carDriver.repositories.CityRepository;

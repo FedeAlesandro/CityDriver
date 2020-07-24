@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.avalith.carDriver.exceptions.AlreadyExistsException;
 import net.avalith.carDriver.exceptions.NotFoundException;
-import net.avalith.carDriver.models.Ride;
 import net.avalith.carDriver.models.User;
 import net.avalith.carDriver.models.dtos.requests.UserDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.UserDtoUpdateRequest;
@@ -21,7 +20,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static net.avalith.carDriver.utils.Constants.NOT_FOUND_USER;
-import static net.avalith.carDriver.utils.Constants.RIDE_KEY;
 import static net.avalith.carDriver.utils.Constants.USER_ALREADY_EXISTS;
 import static net.avalith.carDriver.utils.Constants.USER_KEY;
 
