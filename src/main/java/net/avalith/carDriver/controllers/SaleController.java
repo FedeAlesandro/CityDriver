@@ -1,8 +1,6 @@
 package net.avalith.carDriver.controllers;
 
-import net.avalith.carDriver.models.City;
 import net.avalith.carDriver.models.Sale;
-import net.avalith.carDriver.models.dtos.CityDto;
 import net.avalith.carDriver.models.dtos.responses.SaleDtoResponse;
 import net.avalith.carDriver.services.SaleService;
 import net.avalith.carDriver.utils.Routes;

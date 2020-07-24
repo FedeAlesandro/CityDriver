@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.avalith.carDriver.models.License;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;

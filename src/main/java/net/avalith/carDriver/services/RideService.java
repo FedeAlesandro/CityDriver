@@ -6,14 +6,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.avalith.carDriver.exceptions.InvalidLicenseException;
 import net.avalith.carDriver.exceptions.InvalidRequestException;
 import net.avalith.carDriver.exceptions.NotFoundException;
-import net.avalith.carDriver.models.*;
+import net.avalith.carDriver.models.License;
+import net.avalith.carDriver.models.Mishap;
+import net.avalith.carDriver.models.Point;
+import net.avalith.carDriver.models.Ride;
+import net.avalith.carDriver.models.RideLog;
+import net.avalith.carDriver.models.Sale;
+import net.avalith.carDriver.models.User;
+import net.avalith.carDriver.models.Vehicle;
+import net.avalith.carDriver.models.VehicleCategory;
 import net.avalith.carDriver.models.dtos.RidePointDto;
+import net.avalith.carDriver.models.dtos.requests.DestinationPointDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.MishapDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.RideDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.RideDtoUpdateRequest;
 import net.avalith.carDriver.models.enums.RideState;
 import net.avalith.carDriver.models.enums.TariffType;
-import net.avalith.carDriver.repositories.*;
+import net.avalith.carDriver.repositories.PointRepository;
+import net.avalith.carDriver.repositories.RideLogRepository;
+import net.avalith.carDriver.repositories.RideRepository;
+import net.avalith.carDriver.repositories.SalesRepository;
+import net.avalith.carDriver.repositories.UserRepository;
+import net.avalith.carDriver.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -27,7 +41,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static net.avalith.carDriver.utils.Constants.*;
+import static net.avalith.carDriver.utils.Constants.INVALID_LICENSE;
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_POINT;
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_RIDE;
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_USER;
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_VEHICLE;
+import static net.avalith.carDriver.utils.Constants.POINT_KEY;
+import static net.avalith.carDriver.utils.Constants.RIDE_ENDED;
+import static net.avalith.carDriver.utils.Constants.RIDE_KEY;
+import static net.avalith.carDriver.utils.Constants.VEHICLE_IN_RIDE;
+import static net.avalith.carDriver.utils.Constants.VEHICLE_IN_USE;
+import static net.avalith.carDriver.utils.Constants.VEHICLE_NOT_IN_RIDE;
+
 
 @Service
 public class RideService {
@@ -58,6 +83,9 @@ public class RideService {
 
     @Autowired
     private RedisTemplate<String, Ride> redisTemplate;
+
+    @Autowired
+    private RedisTemplate<String, Point> redisTemplatePoint;
 
     public Ride save(RideDtoRequest ride){
 
@@ -160,9 +188,18 @@ public class RideService {
         return rideRepository.save(rideUpdate);
     }
 
-    public Ride endRide(Long id){
+    public Ride endRide(Long id, DestinationPointDtoRequest destinationRequest){
         Ride ride = rideRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_RIDE));
+
+        Point destinationPoint = pointRepository.getByLatAndLng(destinationRequest.getLat(), destinationRequest.getLng())
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_POINT));
+
+        destinationPoint.setIsDestination(true);
+        destinationPoint = pointRepository.save(destinationPoint);
+        redisTemplatePoint.opsForHash().put(POINT_KEY, destinationPoint.getId(), destinationPoint);
+
+        ride.setDestinationPoint(destinationPoint);
 
         System.out.println(ride.getStartDate());
         Date date = ride.getStartDate();
@@ -273,7 +310,7 @@ public class RideService {
 
         list.forEach((Ride ride) ->{
                 Double lat = Math.random()*(90-(-90)+1)+((-90));
-                Double lng = (Math.random()*(180-(-180)+1)+((-180)));
+                Double lng = Math.random()*(180-(-180)+1)+((-180));
 
                 rideLogRepository.save(new RideLog(ride.getId(), ride.getState(), lat.toString(), lng.toString()));
         });

@@ -12,17 +12,12 @@ import net.avalith.carDriver.models.dtos.CityDto;
 import net.avalith.carDriver.repositories.CityRepository;
 import net.avalith.carDriver.repositories.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static net.avalith.carDriver.utils.Constants.CITY_ALREADY_EXISTS;
 import static net.avalith.carDriver.utils.Constants.CITY_KEY;

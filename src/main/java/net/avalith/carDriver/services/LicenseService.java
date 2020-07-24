@@ -16,13 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static net.avalith.carDriver.utils.Constants.*;
+import static net.avalith.carDriver.utils.Constants.LICENSE_ALREADY_EXISTS;
+import static net.avalith.carDriver.utils.Constants.LICENSE_KEY;
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_LICENSE;
+import static net.avalith.carDriver.utils.Constants.NOT_FOUND_LICENSE_USER;
+import static net.avalith.carDriver.utils.Constants.USER_KEY;
 
 @Repository
 @AllArgsConstructor

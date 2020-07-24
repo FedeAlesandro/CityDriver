@@ -1,6 +1,7 @@
 package net.avalith.carDriver.controllers;
 
 import net.avalith.carDriver.models.Ride;
+import net.avalith.carDriver.models.dtos.requests.DestinationPointDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.MishapDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.RideDtoRequest;
 import net.avalith.carDriver.models.dtos.requests.RideDtoUpdateRequest;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,9 +60,10 @@ public class RideController {
     }
 
     @PatchMapping(value = Routes.END_RIDE, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<RideDtoResponse> endRide(@PathVariable(value = "id") Long id){
+    public ResponseEntity<RideDtoResponse> endRide(@PathVariable(value = "id") Long id,
+                                                   @RequestBody @Valid DestinationPointDtoRequest destinationPoint){
 
-        return ResponseEntity.ok(new RideDtoResponse(rideService.endRide(id)));
+        return ResponseEntity.ok(new RideDtoResponse(rideService.endRide(id, destinationPoint)));
     }
 
     @PatchMapping(value = Routes.START_RIDE, produces = {MediaType.APPLICATION_JSON_VALUE})
